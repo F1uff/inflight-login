@@ -1,0 +1,418 @@
+/* CombinedRegistrationForm specific styles */
+
+.combined-form-container {
+  width: 100vw;
+  max-width: none;
+  margin: 0;
+  padding: 39px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  padding: 52px 65px;
+  margin: 0 39px 39px 39px;
+  width: calc(100% - 78px);  /* Account for left and right margins */
+  max-width: none;
+}
+
+.form-section-header {
+  font-size: 21px;
+  font-weight: bold;
+  margin-bottom: 23px;
+  color: #0066cc;
+  padding-left: 3px;
+  border-bottom: 3px solid #0066cc;
+  padding-bottom: 7px;
+  display: block;
+  visibility: visible;
+  text-decoration: none !important;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+/* Form row layout adjustments */
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 15px;
+  align-items: flex-start;
+  position: relative; /* Enable absolute positioning */
+}
+
+/* Add this to fix the large gap */
+.form-row:has(label:contains("PROVINCE")), 
+.form-row:has(label:contains("HOUSE NO.")) {
+  margin-bottom: 0 !important;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Specific field size adjustments */
+.form-group.region-field,
+.form-group.barangay-field {
+  flex: 1;
+  min-width: 330px;
+  max-width: 380px;
+}
+
+.form-group.province-field,
+.form-group.city-field {
+  flex: 1;
+  min-width: 330px;
+  max-width: 380px;
+}
+
+.form-group.house-no-field {
+  flex: 4.0;
+  min-width: 540px;
+  max-width: 800px;
+  margin-right: 156px; /* Make room for the zip field */
+}
+
+/* Zip field positioning */
+.form-group.zip-field {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+/* Barangay field - keep its original position */
+.form-group.barangay-field {
+  flex: 1;
+  min-width: 320px;
+  max-width: 380px;
+  position: static; /* Ensure normal flow */
+}
+
+/* Phone number fields */
+.form-group.tel-field {
+  flex: 1;
+  min-width: 330px;
+}
+
+.phone-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.phone-inputs .area-code {
+  width: 100px !important;
+  flex: 0 0 100px;
+}
+
+.phone-inputs .phone-number {
+  flex: 1;
+}
+
+/* Common select and input styling */
+.form-control,
+select.form-control {
+  width: 100%;
+  height: 35px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+/* Select arrow styling */
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 16px;
+  padding-right: 32px;
+}
+
+/* Adjust full-width form groups */
+.form-group.full-width {
+  width: 100%;
+  flex: 0 0 100%;
+  margin-bottom: 20px;
+}
+
+/* Business Address label spacing */
+.business-address-label {
+  margin-bottom: 15px;
+}
+
+/* Form group base styling */
+.form-group {
+  margin-bottom: 20px;
+  min-width: 180px; /* Reduced from 200px */
+}
+
+/* Fix for Address fields spacing */
+.form-row:has([placeholder="0000"]) .form-group,
+.form-row:has(label:contains("CITY")) .form-group,
+.form-row:has(label:contains("PROVINCE")) .form-group {
+  margin-bottom: 0;
+}
+
+/* Zip code specific styling */
+.form-group:has(label:contains("Zip Code")) {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+}
+
+.form-group:has(label:contains("Zip Code")) input.form-control {
+  width: 100px !important;
+  min-width: 100px !important;
+  flex: 0 0 100px !important;
+}
+
+/* Remove phone-inputs specific styling since we no longer need it */
+.phone-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.area-code {
+  width: 100px !important;
+}
+
+.phone-number {
+  flex: 1;
+}
+
+/* Form controls base styling */
+.form-control, 
+select.form-control,
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  height: 49px;
+  padding: 10px 21px;
+  font-size: 18px;
+  line-height: 1.5;
+  width: 100%;
+}
+
+/* Dropdown styling */
+select.form-control, select.location-select {
+  text-align: center;
+  text-align-last: center;
+  height: 38px !important;
+  padding: 8px 12px !important;
+  appearance: menulist !important;
+  -webkit-appearance: menulist !important;
+  -moz-appearance: menulist !important;
+  background-clip: padding-box !important;
+}
+
+/* Error states */
+.error-input {
+  border-color: #dc3545 !important;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Required field indicator */
+.required {
+  color: red;
+  margin-left: 3px;
+}
+
+/* Field notes */
+.field-note {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .combined-form-container {
+    padding: 20px 0;
+  }
+
+  .form-container {
+    margin: 0 20px 20px 20px;
+    padding: 30px 20px;
+    width: calc(100% - 40px);
+  }
+
+  .form-row {
+    margin: 0 -15px 20px -15px;
+  }
+
+  .form-row > .form-group {
+    padding: 0 15px;
+    min-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .form-group.barangay-field,
+  .form-group.house-no-field,
+  .form-group.zip-field,
+  .form-group.tel-field {
+    min-width: 100%;
+    flex: 0 0 100%;
+  }
+
+  .phone-inputs {
+    flex-wrap: nowrap;
+  }
+
+  .phone-inputs .area-code {
+    width: 80px;
+    flex: 0 0 80px;
+  }
+
+  .phone-inputs .phone-number {
+    flex: 1;
+    min-width: 140px;
+  }
+}
+
+/* For Firefox text alignment in dropdowns */
+@-moz-document url-prefix() { 
+  select {
+    text-align: center !important;
+  }
+}
+
+/* Adjust zip code input width */
+.form-group input[type="text"][value="zipCode"],
+.form-group input[name="zipCode"],
+input.form-control[placeholder*="Zip"],
+.form-group input.form-control[value*="zipCode"] {
+  width: 156px;
+  min-width: 156px;
+  flex: 0 0 156px;
+}
+
+/* Zip code input specific styling */
+input[type="text"].zip-input {
+  width: 120px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.radio-column {
+  flex: 1;
+  min-width: 200px;
+}
+
+.radio-option {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-option.with-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.others-container {
+  margin-top: 5px;
+}
+
+.others-input {
+  width: 100%;
+  height: 35px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  font-size: 14px;
+  background-color: #fff;
+  box-sizing: border-box;
+  min-width: 400px; /* Match the width of input boxes below */
+}
+
+.others-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Style for the establishment and year input boxes for consistency */
+.form-group input[type="text"] {
+  width: 100%;
+  height: 35px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.business-type-container {
+  display: flex;
+  gap: 100px;
+  margin-top: 10px;
+}
+
+.business-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.radio-option input[type="radio"] {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+}
+
+.radio-option label {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Others section specific styling */
+.others-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: -120px;
+  margin-top: -4px;
+}
+
+.others-line .radio-option {
+  flex-shrink: 0;
+  min-width: fit-content;
+  margin-bottom: 0;
+}
+
+.others-input-wrapper {
+  flex: 1;
+  width: 100%;
+}

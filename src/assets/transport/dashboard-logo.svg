@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background -->
+  <rect width="40" height="40" fill="#222222" rx="2" ry="2"/>
+  
+  <!-- Transport icon - stylized car/bus -->
+  <path d="M8 18 h24 v8 h-4 v4 h-4 v-4 h-8 v4 h-4 v-4 h-4 v-8 z" fill="#0078d7"/>
+  <path d="M10 20 h20 v4 h-20 z" fill="#ffffff"/>
+  <circle cx="14" cy="24" r="2" fill="#222222"/>
+  <circle cx="26" cy="24" r="2" fill="#222222"/>
+  
+  <!-- Dashboard element -->
+  <path d="M5 10 h30 v2 h-30 z" fill="#ffffff"/>
+  <path d="M5 14 h20 v2 h-20 z" fill="#ffffff"/>
+  
+  <!-- Text element representing data -->
+  <rect x="28" y="10" width="7" height="6" fill="#0078d7"/>
+</svg>

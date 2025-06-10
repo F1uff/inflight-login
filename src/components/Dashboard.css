@@ -1,0 +1,519 @@
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.account-created-modal {
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  width: 350px;
+  max-width: 90vw;
+  padding: 36px 28px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.modal-icon {
+  margin-bottom: 18px;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.modal-message {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.modal-login-btn {
+  width: 100%;
+  background: #2196f3;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 0;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(33,150,243,0.08);
+  transition: background 0.2s;
+}
+.modal-login-btn:hover {
+  background: #1976d2;
+}
+
+.modal-link-btn {
+  background: none;
+  border: none;
+  color: #2196f3;
+  text-decoration: underline;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+/* Dashboard Styles */
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+/* Dashboard Header */
+/*
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #000000;
+  color: white;
+  padding: 0 20px;
+  height: 45px;
+  width: 100%;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.tim-logo {
+  width: 50px;
+  height: 30px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100"><path fill="%230033a0" d="M10,10 L190,10 L150,90 L50,90 Z"/><path fill="%2300a0e4" d="M60,30 C90,10 150,50 130,80 C90,60 30,60 60,30 Z"/><path fill="white" d="M70,40 C90,30 120,50 110,65 C80,55 50,55 70,40 Z"/></svg>');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 20px;
+}
+*/
+
+.dashboard-title {
+  font-weight: bold;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-link {
+  color: white;
+  text-decoration: none;
+  margin-left: 25px;
+  font-size: 12px;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 12px;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+  width: 260px;
+  background-color: white;
+  padding: 15px 10px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #999;
+  border-radius: 10px;
+}
+
+.profile-pic {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #0047ab;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  background-color: #f2f2f2;
+}
+
+.user-profile h3 {
+  font-size: 18px;
+  margin: 8px 0;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.user-role {
+  font-size: 14px;
+  color: #333;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.nav-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin: 0;
+  gap: 8px;
+  width: 100%;
+}
+
+.nav-item {
+  padding: 10px 12px;
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 10px;
+  color: #000;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: left;
+  margin: 0;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  transition: background-color 0.2s;
+  box-sizing: border-box;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+}
+
+.nav-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.nav-text {
+  flex: 1;
+}
+
+.nav-item.active {
+  background-color: #b8e2f2;
+  color: #000;
+  border: 1px solid #999;
+}
+
+.nav-item:hover:not(.active) {
+  background-color: #f0f0f0;
+}
+
+/* Main Content */
+.dashboard-content {
+  flex: 1;
+  padding: 10px 20px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+/* Dashboard Stats Container */
+.dashboard-header {
+  margin-bottom: 8px;
+}
+
+.dashboard-header h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.dashboard-stats-container {
+  margin-bottom: 15px;
+}
+
+/* DashboardStats Component Styling */
+.dashboard-stats {
+  background-color: #e9e9e9;
+  border-radius: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.category-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.category-icon {
+  margin-right: 8px;
+  background-color: #333;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-title {
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.stat-cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.stat-card {
+  background-color: white;
+  padding: 10px;
+  width: 90px;
+  height: 75px;
+  text-align: center;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin: 0 5px;
+  border: none;
+}
+
+.stat-card.highlighted {
+  border: 2px solid #1976d2;
+  box-shadow: none;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+.airlines-section, .travel-section {
+  flex: 0.5;
+}
+
+/* Chart */
+.chart-container {
+  background-color: white;
+  border-radius: 0;
+  padding: 10px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+/* Remove chart header and controls as they're not in the image */
+
+.chart-months {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.chart-month {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  color: #333;
+  font-weight: bold;
+}
+
+.chart {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.chart-bar {
+  flex: 1;
+  height: 100px;
+  background-color: #4da6ff;
+  transition: height 0.3s;
+  position: relative;
+  margin: 0 3px;
+}
+
+/* Remove hover effects and tooltips that aren't in the reference image */
+
+/* Remove loading overlay and spinner that don't appear in the reference image */
+
+/* Right Sidebar */
+.dashboard-right-sidebar {
+  width: 220px;
+  background-color: #333;
+  margin-left: 5px;
+  border-left: 1px solid #444;
+}
+
+.section-title {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.right-sidebar-title {
+  background-color: #ffcc00;
+  color: #000;
+  text-align: center;
+  padding: 8px 10px;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.notification-content {
+  padding: 15px;
+  min-height: 200px;
+}
+
+.inbox-content {
+  padding: 15px;
+}
+
+.inbox-item {
+  display: flex;
+  align-items: center;
+  background-color: #444;
+  padding: 8px 10px;
+  border-radius: 0;
+  margin-bottom: 8px;
+}
+
+.company-logo {
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.company-info {
+  flex: 1;
+}
+
+.company-name {
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 3px;
+}
+
+.company-message {
+  font-size: 9px;
+  color: #ccc;
+}
+
+/* Icons */
+.registered-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23333" d="M16,13C15.71,13 15.38,13 15.03,13.05C16.19,13.89 17,15 17,16.5V19H23V16.5C23,14.17 18.33,13 16,13M8,13C5.67,13 1,14.17 1,16.5V19H15V16.5C15,14.17 10.33,13 8,13M8,11A3,3 0 0,0 11,8A3,3 0 0,0 8,5A3,3 0 0,0 5,8A3,3 0 0,0 8,11M16,11A3,3 0 0,0 19,8A3,3 0 0,0 16,5A3,3 0 0,0 13,8A3,3 0 0,0 16,11Z" /></svg>');
+}
+
+.transportation-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23333" d="M18,18.5A1.5,1.5 0 0,1 16.5,17A1.5,1.5 0 0,1 18,15.5A1.5,1.5 0 0,1 19.5,17A1.5,1.5 0 0,1 18,18.5M19.5,9.5L21.46,12H17V9.5M6,18.5A1.5,1.5 0 0,1 4.5,17A1.5,1.5 0 0,1 6,15.5A1.5,1.5 0 0,1 7.5,17A1.5,1.5 0 0,1 6,18.5M20,8H17V4H3C1.89,4 1,4.89 1,6V17H3A3,3 0 0,0 6,20A3,3 0 0,0 9,17H15A3,3 0 0,0 18,20A3,3 0 0,0 21,17H23V12L20,8Z" /></svg>');
+}
+
+.hotel-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23333" d="M19,7H11V14H3V5H1V20H3V17H21V20H23V11A4,4 0 0,0 19,7M7,13A3,3 0 0,0 10,10A3,3 0 0,0 7,7A3,3 0 0,0 4,10A3,3 0 0,0 7,13Z" /></svg>');
+}
+
+.airline-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23333" d="M21,16V14L13,9V3.5A1.5,1.5 0 0,0 11.5,2A1.5,1.5 0 0,0 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z" /></svg>');
+}
+
+.travel-icon {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23333" d="M17.9,17.39C17.64,16.59 16.89,16 16,16H15V13A1,1 0 0,0 14,12H8V10H10A1,1 0 0,0 11,9V7H13A2,2 0 0,0 15,5V4.59C17.93,5.77 20,8.64 20,12C20,14.08 19.2,15.97 17.9,17.39M11,19.93C7.05,19.44 4,16.08 4,12C4,11.38 4.08,10.78 4.21,10.21L9,15V16A2,2 0 0,0 11,18M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>');
+}

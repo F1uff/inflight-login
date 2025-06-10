@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="130" viewBox="0 0 130 130">
+  <circle cx="65" cy="65" r="65" fill="#00E5FF"/>
+  <!-- Shadow Layer -->
+  <path d="M42,55 L75,80 L108,55 L108,95 L42,95 Z" fill="#00A5B5"/>
+  <!-- Envelope Foreground -->
+  <rect x="32" y="45" width="66" height="40" rx="2" ry="2" fill="#FFFFFF"/>
+  <path d="M32,45l33,25l33,-25" 
+        stroke="#FFFFFF" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>
