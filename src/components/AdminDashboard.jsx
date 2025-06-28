@@ -5,6 +5,8 @@ import inflightLogo from '../assets/inflight-menu-logo.png';
 import AdminNotificationPage from './AdminNotificationPage';
 import ConnectionStatus from './ConnectionStatus';
 import apiService from '../services/api';
+import { Icons } from '../data/icons';
+import { hotelSuppliersList, landTransferSuppliersList, accountsData, userData, suppliersStats } from '../data/sampleData';
 
 // Navigation and UI icons
 const Icons = {
@@ -106,13 +108,7 @@ const userData = {
   role: 'ADMIN'
 };
 
-// Portfolio card counts
-const supplierData = {
-  hotel: 1970,
-  transfer: 45,
-  airline: 7,
-  travelOperator: 200
-};
+// Portfolio card counts - now using API data from portfolioCounts state
 
 // Sample supplier lists
 const hotelSuppliersList = [
@@ -2365,7 +2361,7 @@ const AdminDashboard = () => {
                     </div>
                     <span className="card-label">HOTEL</span>
                   </div>
-                  <div className="card-value">{supplierData.hotel}</div>
+                  <div className="card-value">{portfolioCounts.hotel || 0}</div>
                 </div>
               </div>
                               {/* Transfer */}
@@ -2378,7 +2374,7 @@ const AdminDashboard = () => {
                     </div>
                     <span className="card-label">TRANSFER</span>
                   </div>
-                  <div className="card-value">{supplierData.transfer}</div>
+                  <div className="card-value">{portfolioCounts.transfer || 0}</div>
                 </div>
               </div>
                               {/* Airline */}
@@ -2391,7 +2387,7 @@ const AdminDashboard = () => {
                     </div>
                     <span className="card-label">AIRLINE</span>
                   </div>
-                  <div className="card-value">{supplierData.airline}</div>
+                  <div className="card-value">{portfolioCounts.airline || 0}</div>
                 </div>
               </div>
                               {/* Travel Operator */}
@@ -2404,7 +2400,7 @@ const AdminDashboard = () => {
                     </div>
                     <span className="card-label">TRAVEL OPERATOR</span>
                   </div>
-                  <div className="card-value">{supplierData.travelOperator}</div>
+                  <div className="card-value">{portfolioCounts.travelOperator || 0}</div>
                 </div>
               </div>
             </div>
