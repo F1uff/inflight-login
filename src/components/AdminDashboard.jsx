@@ -5,7 +5,7 @@ import inflightLogo from '../assets/inflight-menu-logo.png';
 import AdminNotificationPage from './AdminNotificationPage';
 import ConnectionStatus from './ConnectionStatus';
 import apiService from '../services/api';
-import { Icons } from '../data/icons';
+import { Icons } from '../data/icons.jsx';
 import { hotelSuppliersList, landTransferSuppliersList, accountsData, userData, accountsStats } from '../data/sampleData';
 
 // Icons imported from ../data/icons.js
