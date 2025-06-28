@@ -147,6 +147,13 @@ export const userData = {
   role: 'ADMIN'
 };
 
+// Accounts statistics
+export const accountsStats = {
+  allEmployees: 11,
+  active: 8,
+  pending: 3
+};
+
 // Suppliers page statistics
 export const suppliersStats = {
   accredited: { value: 1970, color: '#2196F3' },
