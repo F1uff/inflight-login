@@ -1,37 +1,40 @@
-const { initializeDatabase } = require('../config/database');
+const { getDatabaseType } = require('../config/database');
+const { initPostgreSQL } = require('./init-postgresql');
 
-// Legacy SQLite functions (keep for backward compatibility)
+// Legacy SQLite functions for backward compatibility
 const sqlite3 = require('sqlite3').verbose();
 const fs = require('fs');
+const path = require('path');
 
 const DB_PATH = process.env.DB_PATH || './data/admin_dashboard.db';
 
-// Ensure data directory exists
-const dataDir = require('path').dirname(DB_PATH);
-if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-}
-
-// Create database connection
-function createConnection() {
-    return new sqlite3.Database(DB_PATH, (err) => {
-        if (err) {
-            console.error('Error opening database:', err);
-            throw err;
-        }
-    });
-}
-
-// Initialize database with tables
 async function initDatabase() {
+    const dbType = getDatabaseType();
+    
+    console.log(`🔄 Initializing ${dbType.toUpperCase()} database...`);
+    
+    try {
+        if (dbType === 'postgresql') {
+            await initPostgreSQL();
+        } else {
+            await initSQLiteDatabase();
+        }
+        
+        console.log(`✅ ${dbType.toUpperCase()} database initialization completed successfully`);
+        
+    } catch (error) {
+        console.error(`❌ ${dbType.toUpperCase()} database initialization failed:`, error.message);
+        throw error;
+    }
+}
+
+async function initSQLiteDatabase() {
     return new Promise((resolve, reject) => {
         const db = createConnection();
         
         db.serialize(() => {
-            // Enable foreign keys
             db.run("PRAGMA foreign_keys = ON");
             
-            // Users table
             db.run(`
                 CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +53,6 @@ async function initDatabase() {
                 )
             `);
             
-            // Companies table
             db.run(`
                 CREATE TABLE IF NOT EXISTS companies (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -67,7 +69,6 @@ async function initDatabase() {
                 )
             `);
             
-            // Suppliers table
             db.run(`
                 CREATE TABLE IF NOT EXISTS suppliers (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -92,7 +93,6 @@ async function initDatabase() {
                 )
             `);
             
-            // Dashboard metrics table
             db.run(`
                 CREATE TABLE IF NOT EXISTS dashboard_metrics (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -109,7 +109,6 @@ async function initDatabase() {
                 )
             `);
             
-            // System health table
             db.run(`
                 CREATE TABLE IF NOT EXISTS system_health (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -122,7 +121,6 @@ async function initDatabase() {
                 )
             `);
             
-            // Bookings table (simplified)
             db.run(`
                 CREATE TABLE IF NOT EXISTS bookings (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -138,13 +136,12 @@ async function initDatabase() {
                 )
             `);
             
-            // Insert sample data
-            insertSampleData(db);
+            insertSQLiteSampleData(db);
         });
         
         db.close((err) => {
             if (err) {
-                console.error('Error closing database:', err);
+                console.error('Error closing SQLite database:', err);
                 reject(err);
             } else {
                 resolve();
@@ -153,8 +150,21 @@ async function initDatabase() {
     });
 }
 
-function insertSampleData(db) {
-    // Insert sample dashboard metrics for the last 7 days
+function createConnection() {
+    const dataDir = path.dirname(DB_PATH);
+    if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+    }
+    
+    return new sqlite3.Database(DB_PATH, (err) => {
+        if (err) {
+            console.error('Error opening SQLite database:', err);
+            throw err;
+        }
+    });
+}
+
+function insertSQLiteSampleData(db) {
     const today = new Date();
     for (let i = 0; i < 7; i++) {
         const date = new Date(today);
@@ -168,18 +178,17 @@ function insertSampleData(db) {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
             dateStr,
-            Math.floor(Math.random() * 50 + 20), // 20-70 bookings
-            Math.floor(Math.random() * 40 + 15), // 15-55 completed
-            Math.floor(Math.random() * 5 + 1),   // 1-6 cancelled
-            Math.round((Math.random() * 50000 + 20000) * 100) / 100, // 20k-70k revenue
-            Math.floor(Math.random() * 20 + 10), // 10-30 suppliers
-            Math.floor(Math.random() * 50 + 25), // 25-75 drivers
-            Math.round((Math.random() * 1.5 + 3.5) * 100) / 100, // 3.5-5.0 rating
-            Math.round((Math.random() * 20 + 80) * 100) / 100  // 80-100% satisfaction
+            Math.floor(Math.random() * 50 + 20),
+            Math.floor(Math.random() * 40 + 15),
+            Math.floor(Math.random() * 5 + 1),
+            Math.round((Math.random() * 50000 + 20000) * 100) / 100,
+            Math.floor(Math.random() * 20 + 10),
+            Math.floor(Math.random() * 50 + 25),
+            Math.round((Math.random() * 1.5 + 3.5) * 100) / 100,
+            Math.round((Math.random() * 20 + 80) * 100) / 100
         ]);
     }
     
-    // Insert sample companies
     const companies = [
         ['Metro Manila Transport Co.', 'contact@mmtransport.com', '+63-2-123-4567', '123 EDSA', 'Manila'],
         ['Cebu Logistics Services', 'info@cebulogistics.com', '+63-32-234-5678', '456 Colon St', 'Cebu'],
@@ -193,22 +202,14 @@ function insertSampleData(db) {
         `, company);
     });
     
-    // Insert sample suppliers with diverse types for portfolio count
     const supplierData = [
-        // Hotels
         [1, 'HTL001', 'hotel', 4.5, 1250, 875000.00, 92.5, 'active'],
         [2, 'HTL002', 'hotel', 4.2, 980, 650000.00, 88.3, 'active'],
         [3, 'HTL003', 'hotel', 4.8, 1450, 1200000.00, 95.2, 'active'],
-        
-        // Transfer Services
         [1, 'TRF001', 'transfer', 4.3, 850, 420000.00, 89.5, 'active'],
         [2, 'TRF002', 'transfer', 4.6, 1100, 680000.00, 91.2, 'active'],
-        
-        // Airlines
         [3, 'AIR001', 'airline', 4.1, 2200, 1800000.00, 87.8, 'active'],
         [1, 'AIR002', 'airline', 4.4, 1950, 1650000.00, 90.1, 'active'],
-        
-        // Travel Operators
         [2, 'TRV001', 'travel_operator', 4.7, 1600, 950000.00, 93.4, 'active'],
         [3, 'TRV002', 'travel_operator', 4.2, 1200, 720000.00, 88.9, 'active'],
         [1, 'TRV003', 'travel_operator', 4.5, 1350, 810000.00, 91.7, 'pending']
@@ -223,7 +224,6 @@ function insertSampleData(db) {
         `, supplier);
     });
     
-    // Insert current system health
     db.run(`
         INSERT OR REPLACE INTO system_health (
             overall_health_score, db_response_time, api_response_time, 
@@ -231,7 +231,6 @@ function insertSampleData(db) {
         ) VALUES (95, 12.5, 145.2, 24, 0)
     `);
     
-    // Insert sample bookings
     const bookingStatuses = ['confirmed', 'in_progress', 'completed', 'cancelled'];
     for (let i = 0; i < 20; i++) {
         const date = new Date();
@@ -254,10 +253,17 @@ function insertSampleData(db) {
     }
 }
 
-// Get database connection for use in routes
 function getDatabase() {
-    return createConnection();
+    const dbType = getDatabaseType();
+    
+    if (dbType === 'postgresql') {
+        const { getConnection } = require('../config/database');
+        return getConnection();
+    } else {
+        return createConnection();
+    }
 }
 
 module.exports = initDatabase;
-module.exports.getDatabase = getDatabase; 
+module.exports.getDatabase = getDatabase;
+module.exports.createConnection = createConnection;

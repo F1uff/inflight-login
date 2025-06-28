@@ -109,7 +109,7 @@ app.use('*', (req, res) => {
 });
 
 // Initialize database and start server
-const initDatabase = require('./scripts/init-database');
+const initDatabase = require('./scripts/init-database-unified');
 
 async function startServer() {
     try {
@@ -126,6 +126,7 @@ async function startServer() {
             console.log(`⚙️  Admin API: http://localhost:${PORT}${apiPrefix}/admin`);
             console.log(`❤️  Health Check: http://localhost:${PORT}/health`);
             console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
+            console.log(`💾 Database Type: ${process.env.DATABASE_TYPE || 'sqlite'}`);
         });
     } catch (error) {
         console.error('❌ Failed to start server:', error);
