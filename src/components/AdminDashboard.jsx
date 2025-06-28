@@ -10,6 +10,10 @@ import { hotelSuppliersList, landTransferSuppliersList, accountsData, userData, 
 import SupplierPortfolioSection from './SupplierPortfolioSection';
 import DashboardSuppliersTable from './DashboardSuppliersTable';
 import AccountsSection from './AccountsSection';
+import DocumentsPage from './DocumentsPage';
+import DirPage from './DirPage';
+import ShemsPage from './ShemsPage';
+import IncidentPage from './IncidentPage';
 
 // Icons imported from ../data/icons.js
 
@@ -1210,71 +1214,19 @@ const AdminDashboard = () => {
     }
 
     if (currentView === 'documents') {
-      return (
-        <div className="documents-page-content">
-          <div className="page-header">
-            <h2 className="page-title">DOCUMENTS</h2>
-          </div>
-          <div className="page-content">
-            <div className="empty-state">
-              <div className="empty-icon">{Icons.documents}</div>
-              <h3>No documents available</h3>
-              <p>Document management features will be available here.</p>
-            </div>
-          </div>
-        </div>
-      );
+      return <DocumentsPage />;
     }
 
     if (currentView === 'dir') {
-      return (
-        <div className="dir-page-content">
-          <div className="page-header">
-            <h2 className="page-title">DIR</h2>
-          </div>
-          <div className="page-content">
-            <div className="empty-state">
-              <div className="empty-icon">{Icons.dir}</div>
-              <h3>DIR section</h3>
-              <p>DIR management features will be available here.</p>
-            </div>
-          </div>
-        </div>
-      );
+      return <DirPage />;
     }
 
     if (currentView === 'shems') {
-      return (
-        <div className="shems-page-content">
-          <div className="page-header">
-            <h2 className="page-title">SHE-MS</h2>
-          </div>
-          <div className="page-content">
-            <div className="empty-state">
-              <div className="empty-icon">{Icons.shems}</div>
-              <h3>Safety, Health and Environmental Management</h3>
-              <p>SHE-MS features will be available here.</p>
-            </div>
-          </div>
-        </div>
-      );
+      return <ShemsPage />;
     }
 
     if (currentView === 'incident') {
-      return (
-        <div className="incident-page-content">
-          <div className="page-header">
-            <h2 className="page-title">INCIDENT REPORT</h2>
-          </div>
-          <div className="page-content">
-            <div className="empty-state">
-              <div className="empty-icon">{Icons.incident}</div>
-              <h3>No incident reports</h3>
-              <p>Incident reporting features will be available here.</p>
-            </div>
-          </div>
-        </div>
-      );
+      return <IncidentPage />;
     }
 
     if (currentView === 'monitoring') {
