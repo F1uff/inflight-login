@@ -15,5 +15,23 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
+    // Basic optimizations
+    minify: 'esbuild',
+    target: 'esnext',
+    sourcemap: false,
+    // Increase chunk size warning limit
+    chunkSizeWarningLimit: 1000,
+    // CSS code splitting
+    cssCodeSplit: true
+  },
+  // Development optimizations
+  server: {
+    hmr: true,
+    open: false
+  },
+  // CSS optimizations
+  css: {
+    devSourcemap: false
   }
 })
+

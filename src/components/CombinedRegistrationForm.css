@@ -4,43 +4,56 @@
   width: 100vw;
   max-width: none;
   margin: 0;
-  padding: 39px 0;
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 }
 
 .form-container {
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
-  padding: 52px 65px;
-  margin: 0 39px 39px 39px;
-  width: calc(100% - 78px);  /* Account for left and right margins */
-  max-width: none;
+  background: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #e8eaed !important;
+  padding: 50px 45px !important;
+  margin: 0 0 30px 0 !important;
+  width: calc(100% - 0px) !important;
+  max-width: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .form-section-header {
-  font-size: 21px;
-  font-weight: bold;
-  margin-bottom: 23px;
-  color: #0066cc;
-  padding-left: 3px;
-  border-bottom: 3px solid #0066cc;
-  padding-bottom: 7px;
-  display: block;
-  visibility: visible;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  margin-bottom: 20px !important;
+  color: #2c3e50 !important;
+  padding: 0 !important;
+  border-bottom: 2px solid #007bff !important;
+  padding-bottom: 8px !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   text-decoration: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  background: none !important;
+  z-index: 999 !important;
 }
 
 .info-section {
   margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Form row layout adjustments */
 .form-row {
   display: flex;
-  gap: 20px;
+  gap: 30px;
   margin-bottom: 15px;
   align-items: flex-start;
   position: relative; /* Enable absolute positioning */
@@ -73,10 +86,10 @@
 }
 
 .form-group.house-no-field {
-  flex: 4.0;
-  min-width: 540px;
-  max-width: 800px;
-  margin-right: 156px; /* Make room for the zip field */
+  flex: 5.0;
+  min-width: 650px;
+  max-width: 900px;
+  margin-right: 15px; /* Reduced gap to zip field */
 }
 
 /* Zip field positioning */
@@ -89,7 +102,7 @@
 /* Barangay field - keep its original position */
 .form-group.barangay-field {
   flex: 1;
-  min-width: 320px;
+  min-width: 330px;
   max-width: 380px;
   position: static; /* Ensure normal flow */
 }

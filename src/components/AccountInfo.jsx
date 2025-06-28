@@ -31,7 +31,7 @@ function AccountInfo() {
             </div>
 
             <div className="form-row">
-              <div className="form-group">
+              <div className="for m-group">
                 <label>Region<span className="required">*</span></label>
                 <select className="form-control">
                   <option>- Select -</option>

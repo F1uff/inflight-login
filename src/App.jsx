@@ -18,6 +18,7 @@ import RedPlanetProfile from './components/RedPlanetProfile';
 import RoleBasedRedirect from './components/RoleBasedRedirect';
 import CompanyInformationPage from './components/CompanyInformationPage';
 import LoginCard from './components/LoginCard';
+import SystemPerformancePage from './components/SystemPerformancePage';
 
 // Email icon for login form
 const EmailIcon = () => (
@@ -175,12 +176,13 @@ const AppContent = () => {
   const isUserDashboard = currentPath.includes('/dashboard/user');
   const isRedPlanetProfile = currentPath.includes('/dashboard/user2/profile');
   const isRedPlanetDashboard = currentPath.includes('/dashboard/user2') && !currentPath.includes('/dashboard/user2/profile');
+  const isSystemPerformance = currentPath.includes('/system-performance');
   const isCompanyInfoView = currentPath.includes('/company-info');
   const isLoginOrRegister = currentPath === '/' || currentPath.includes('/register');
   
   return (
     <div className="app-container">
-      {!isAdminDashboard && !isUserDashboard && !isRedPlanetProfile && !isRedPlanetDashboard && (
+      {!isAdminDashboard && !isUserDashboard && !isRedPlanetProfile && !isRedPlanetDashboard && !isSystemPerformance && (
         <Header 
           isDashboard={isDashboard} 
           isCompanyInfoView={isCompanyInfoView} 
@@ -228,7 +230,7 @@ const AppContent = () => {
         />
       )}
 
-      <main className={isAdminDashboard || isUserDashboard || isRedPlanetProfile || isRedPlanetDashboard ? "dashboard-main" : `main-content ${currentPath.includes('/register') ? 'registration-page' : ''}`}>
+      <main className={isAdminDashboard || isUserDashboard || isRedPlanetProfile || isRedPlanetDashboard || isSystemPerformance ? "dashboard-main" : `main-content ${currentPath.includes('/register') ? 'registration-page' : ''}`}>
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<CombinedRegistrationForm />} />
@@ -239,11 +241,12 @@ const AppContent = () => {
           <Route path="/dashboard/user2/profile" element={<RedPlanetProfile />} />
           <Route path="/dashboard/user/profile" element={<UserProfile />} />
           <Route path="/dashboard/user/company-info" element={<UserDashboard companyInfoView={true} />} />
+          <Route path="/system-performance" element={<SystemPerformancePage />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>
 
-      {!isAdminDashboard && !isUserDashboard && !isRedPlanetProfile && !isRedPlanetDashboard && <Footer />}
+      {!isAdminDashboard && !isUserDashboard && !isRedPlanetProfile && !isRedPlanetDashboard && !isSystemPerformance && <Footer />}
     </div>
   );
 };

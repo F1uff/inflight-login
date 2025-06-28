@@ -425,3 +425,61 @@
     border-top: 1px solid #e0e0e0;
   }
 }
+
+/* Status indicators for client dashboard */
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-indicator.active {
+  background-color: #4CAF50;
+}
+
+.status-indicator.pending {
+  background-color: #FFC107;
+}
+
+.status-indicator.inactive {
+  background-color: #F44336;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 20px;
+  transition: background-color 0.2s;
+}
+
+.status-pill:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.status-pill.selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.active {
+  background-color: #4CAF50;
+}
+
+.status-dot.pending {
+  background-color: #FFC107;
+}
+
+.status-dot.inactive {
+  background-color: #F44336;
+}

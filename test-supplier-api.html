@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <h1>Supplier API Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Health Check</h3>
+        <button onclick="testHealthCheck()">Test Health Check</button>
+        <div id="health-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>2. Get Suppliers</h3>
+        <button onclick="testGetSuppliers()">Get All Suppliers</button>
+        <div id="suppliers-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>3. Create New Supplier</h3>
+        <button onclick="testCreateSupplier()">Create Test Supplier</button>
+        <div id="create-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>4. Update Supplier</h3>
+        <input type="number" id="supplier-id" placeholder="Supplier ID" value="1">
+        <button onclick="testUpdateSupplier()">Update Supplier</button>
+        <div id="update-result" class="result"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3001';
+
+        async function testHealthCheck() {
+            const resultDiv = document.getElementById('health-result');
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `✅ Health Check: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Health Check Failed: ${error.message}`;
+            }
+        }
+
+        async function testGetSuppliers() {
+            const resultDiv = document.getElementById('suppliers-result');
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/suppliers`);
+                const data = await response.json();
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `✅ Suppliers Retrieved: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Get Suppliers Failed: ${error.message}`;
+            }
+        }
+
+        async function testCreateSupplier() {
+            const resultDiv = document.getElementById('create-result');
+            
+            const testSupplier = {
+                companyName: "Test Transport Company",
+                companyAddress: "123 Test Street, Test City",
+                contactNumber: "+63-2-555-0123",
+                email: "test@testtransport.com",
+                supplierType: "transport",
+                companyRepresentative: "John Test",
+                designation: "Operations Manager",
+                telNumber: "+63-2-555-0124",
+                breakfastType: "continental",
+                roomQuantity: 50,
+                modeOfPayment: "bank_transfer",
+                creditTerms: "net_30",
+                remarks: "Test supplier created via API"
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/suppliers`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testSupplier)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Supplier Created: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Create Failed: ${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Create Supplier Failed: ${error.message}`;
+            }
+        }
+
+        async function testUpdateSupplier() {
+            const resultDiv = document.getElementById('update-result');
+            const supplierId = document.getElementById('supplier-id').value;
+            
+            const updateData = {
+                companyRepresentative: "Updated Representative",
+                contactNumber: "+63-2-555-9999",
+                email: "updated@testtransport.com",
+                designation: "Senior Manager",
+                telNumber: "+63-2-555-8888",
+                companyAddress: "456 Updated Street, Updated City",
+                breakfastType: "buffet",
+                roomQuantity: 75,
+                modeOfPayment: "credit_card",
+                creditTerms: "net_45",
+                remarks: "Updated via API test"
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/suppliers/${supplierId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updateData)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Supplier Updated: ${JSON.stringify(data, null, 2)}`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = `❌ Update Failed: ${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Update Supplier Failed: ${error.message}`;
+            }
+        }
+
+        // Auto-run health check on page load
+        window.onload = () => {
+            testHealthCheck();
+        };
+    </script>
+</body>
+</html> 

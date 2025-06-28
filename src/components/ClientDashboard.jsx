@@ -102,6 +102,21 @@ const serviceUpdates = [
   }
 ];
 
+// Status Indicators Component - Reused from AdminDashboard
+const StatusIndicator = ({ status, label, isActive, onClick }) => {
+  return (
+    <div 
+      className={`status-pill ${status} ${isActive ? 'selected' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+    >
+      <span className="status-dot"></span>
+      {label}
+    </div>
+  );
+};
+
 // StatCard component for client dashboard metrics
 const StatCard = ({ title, value, icon }) => {
   return (

@@ -178,8 +178,8 @@ body, html, #root {
 .login-card {
   background-color: white;
   padding: 31px 36px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.08);
   width: 468px;
   max-width: 95%;  /* Adjusted to be percentage of parent */
   position: relative;
@@ -283,7 +283,6 @@ body, html, #root {
   max-width: 95vw; /* Adjusted max-width slightly */
   margin-top: 12px; 
   padding: 0 2px; 
-  font-size: 17px; /* Increased from 13px */
   letter-spacing: 0;
   color: #333;
 }
@@ -292,18 +291,23 @@ body, html, #root {
   display: flex;
   align-items: center;
   color: #333333;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0.1px;
+  font-family: Arial, sans-serif;
 }
 
 .remember-me input[type="checkbox"] {
-  margin-right: 7px;
+  margin-right: 6px;
   vertical-align: middle;
-  width: 21px; /* Increased from 16px */
-  height: 21px; /* Increased from 16px */
-  border: 1px solid #000000;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
   appearance: none;
   background-color: white;
   cursor: pointer;
   position: relative;
+  border-radius: 2px;
 }
 
 .remember-me input[type="checkbox"]:checked {
@@ -314,24 +318,27 @@ body, html, #root {
 .remember-me input[type="checkbox"]:checked::after {
   content: '';
   position: absolute;
-  left: 7px;   /* Adjusted for new size (was 5px for 16px box) */
-  top: 3px;   /* Adjusted for new size (was 2px for 16px box) */
-  width: 5px; /* Adjusted for new size (was 4px for 16px box) */
-  height: 12px; /* Adjusted for new size (was 9px for 16px box) */
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
 }
 
 .forgot-password a {
-  color: #555; /* Darker gray for forgot password link */
+  color: #555;
   text-decoration: none;
-  font-size: 18px; /* Increased from 14px */
+  font-size: 14px;
+  font-weight: normal;
   letter-spacing: 0.1px;
+  font-family: Arial, sans-serif;
 }
 
 .forgot-password a:hover {
-  text-decoration: none; /* Removed underline on hover */
+  text-decoration: underline;
+  color: #333;
 }
 
 /* Ensure footer stays at the bottom */
@@ -375,13 +382,13 @@ body, html, #root {
   border: 1px solid #ddd;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 30px;
-  max-width: 800px;
+  max-width: 1050px;
   margin: 0 auto 30px;
   border-radius: 4px;
 }
 
 .combined-form-container {
-  max-width: 850px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -391,6 +398,8 @@ body, html, #root {
 
 .combined-form-container .form-container:last-child {
   margin-bottom: 10px;
+  padding: 5px 15px 15px 15px;
+  max-width: 1100px;
 }
 
 .section-title {
@@ -502,59 +511,139 @@ select.form-control {
 }
 
 .file-types {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  padding: 15px 20px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
 }
 
 .file-type-allowed {
-  color: red;
-  font-size: 12px;
-  margin-bottom: 5px;
+  color: #495057;
+  font-size: 13px;
+  margin-bottom: 8px;
   font-weight: 500;
+  line-height: 1.4;
 }
 
-.upload-row {
+.file-type-allowed:last-child {
+  margin-bottom: 0;
+}
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px 30px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 15px 0;
+}
+
+.upload-item {
   display: flex;
-  margin-bottom: 15px;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 100px;
+  padding: 8px;
 }
 
 .upload-label {
-  flex: 3;
-  font-size: 12px;
+  font-size: 13px;
   color: #333;
-  padding-right: 20px;
+  line-height: 1.4;
+  font-weight: 500;
+  margin-bottom: 8px;
 }
 
 .file-upload {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 15px;
+  min-width: 0;
+}
+
+/* Legacy support for single upload-row (if any remain) */
+.upload-row {
+  display: flex;
+  margin-bottom: 24px;
+  align-items: flex-start;
+  min-height: 46px;
+}
+
+.upload-row .upload-label {
+  flex: 2.5;
+  font-size: 13px;
+  color: #333;
+  padding-right: 28px;
+  line-height: 1.4;
+  padding-top: 12px;
+  font-weight: 500;
+}
+
+.upload-row .file-upload {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+  min-width: 0;
 }
 
 .upload-button {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  padding: 8px 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 10px 16px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-width: 110px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .upload-button:hover {
-  background-color: #e0e0e0;
+  background-color: #e9ecef;
+  border-color: #007bff;
+  color: #007bff;
 }
 
 .file-name {
   color: #666;
   font-size: 14px;
-  max-width: 200px;
+  flex: 1;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-top: 2px;
 }
 
 /* Error styles */
+.upload-item .error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+  width: 100%;
+  font-weight: 500;
+}
+
+.upload-row .error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 6px;
+  display: block;
+  width: 100%;
+  margin-left: calc(2.5 * 100% / 3.5 + 28px);
+  font-weight: 500;
+}
+
 .error-message {
   color: #d32f2f;
   font-size: 12px;
@@ -572,6 +661,30 @@ select.form-control {
 .file-upload.success .file-name {
   color: #2e7d32;
   font-weight: 500;
+}
+
+/* File upload indicators */
+.file-indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.file-indicator.uploaded {
+  background-color: #22c55e;
+  color: white;
+}
+
+.file-indicator.not-uploaded {
+  background-color: #6b7280;
+  color: white;
 }
 
 /* Email Verification Modal */
@@ -688,17 +801,29 @@ select.form-control {
 }
 
 .privacy-section {
-  margin-right: auto;
+  margin-bottom: 25px;
+}
+
+.privacy-section:first-child {
+  margin-bottom: 30px;
 }
 
 .checkbox-group {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 0;
 }
 
 .checkbox-group input[type="checkbox"] {
-  margin-right: 8px;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+.checkbox-group label {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
 }
 
 .privacy-link {
@@ -706,8 +831,12 @@ select.form-control {
   text-decoration: none;
 }
 
+.privacy-link:hover {
+  text-decoration: underline;
+}
+
 .recaptcha-placeholder {
-  margin-top: 5px;
+  margin-top: 10px;
   width: 300px;
   height: 70px;
   background-color: #f9f9f9;
@@ -732,9 +861,10 @@ select.form-control {
 
 .company-form-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 35px;
+  padding-top: 10px;
 }
 
 /* User Dashboard Header Styles */
@@ -962,4 +1092,65 @@ select.form-control {
   align-items: stretch;
   justify-content: flex-start;
   padding: 0;
+}
+
+/* Upload section responsive styles */
+@media (max-width: 768px) {
+  .upload-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .upload-item {
+    gap: 10px;
+  }
+  
+  .upload-label {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  
+  .file-upload {
+    gap: 12px;
+  }
+  
+  .upload-button {
+    min-width: 100px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .file-types {
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  
+  .file-type-allowed {
+    font-size: 12px;
+  }
+  
+  /* Legacy responsive support */
+  .upload-row {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 20px;
+  }
+  
+  .upload-row .upload-label {
+    flex: none;
+    padding-right: 0;
+    padding-top: 0;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+  
+  .upload-row .file-upload {
+    flex: none;
+    gap: 12px;
+  }
+  
+  .upload-row .error-message {
+    margin-left: 0;
+    margin-top: 8px;
+  }
 }

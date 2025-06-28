@@ -37,6 +37,11 @@ const Icons = {
       <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h10l6-6V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
     </svg>
   ),
+  driver: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11L6.5 6.5H17.5L19 11H5z"/>
+    </svg>
+  ),
   dir: (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
@@ -75,11 +80,124 @@ const Icons = {
   )
 };
 
+// Status Indicators Component - Reused from AdminDashboard
+const StatusIndicator = ({ status, label, isActive, onClick }) => {
+  return (
+    <div 
+      className={`status-pill ${status} ${isActive ? 'selected' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+    >
+      <span className="status-dot"></span>
+      {label}
+    </div>
+  );
+};
+
 const UserDashboard = () => {
   const [currentView, setCurrentView] = useState('dashboard');
   const [dataRegistrationExpanded, setDataRegistrationExpanded] = useState(false);
   const [showAddDriverModal, setShowAddDriverModal] = useState(false);
   const [showAddVehicleModal, setShowAddVehicleModal] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  
+  // Sample data for demonstration
+  const [driverData] = useState([
+    {
+      id: 'DRV001',
+      name: 'John Doe',
+      area: 'Metro Manila',
+      contact: '0917-123-4567',
+      nda: 'Submitted',
+      status: 'active'
+    },
+    {
+      id: 'DRV002',
+      name: 'Jane Smith',
+      area: 'Quezon City',
+      contact: '0918-765-4321',
+      nda: 'Pending',
+      status: 'pending'
+    }
+  ]);
+  
+  const [vehicleData] = useState([
+    {
+      id: 'ABC 1234',
+      type: 'Sedan',
+      model: 'Toyota Vios',
+      year: '2022',
+      color: 'White',
+      safety: 'Complete',
+      status: 'active'
+    },
+    {
+      id: 'XYZ 5678',
+      type: 'SUV',
+      model: 'Honda CR-V',
+      year: '2021',
+      color: 'Black',
+      safety: 'Partial',
+      status: 'pending'
+    }
+  ]);
+  
+  const [bookingData] = useState([
+    {
+      voucher: 'TV-001',
+      date: 'May 24, 2023',
+      time: '09:00 AM',
+      passenger: 'Mark Reiner',
+      passengerContact: '0917-152-8222',
+      driver: 'John Doe',
+      driverContact: '0917-123-4567',
+      status: 'active'
+    },
+    {
+      voucher: 'TV-002',
+      date: 'May 25, 2023',
+      time: '10:30 AM',
+      passenger: 'Luigi Morales',
+      passengerContact: '0918-765-4321',
+      driver: 'Jane Smith',
+      driverContact: '0918-765-4321',
+      status: 'pending'
+    }
+  ]);
+  
+  // Sample activity data
+  const [activityData] = useState([
+    {
+      date: 'Jun 12, 2023',
+      type: 'Driver',
+      idName: 'DRV001 - John Doe',
+      action: 'Registration',
+      status: 'active'
+    },
+    {
+      date: 'Jun 11, 2023',
+      type: 'Vehicle',
+      idName: 'ABC 1234 - Toyota Vios',
+      action: 'Registration',
+      status: 'pending'
+    }
+  ]);
+  
+  const [filteredData, setFilteredData] = useState({
+    drivers: driverData,
+    vehicles: vehicleData,
+    bookings: bookingData,
+    activities: activityData
+  });
+  
+  // Search states for each section
+  const [searchTerms, setSearchTerms] = useState({
+    drivers: '',
+    vehicles: '',
+    bookings: '',
+    activities: ''
+  });
   
   // Restore view from session storage
   useEffect(() => {
@@ -141,6 +259,94 @@ const UserDashboard = () => {
   const closeModal = () => {
     setShowAddDriverModal(false);
     setShowAddVehicleModal(false);
+  };
+
+  // Comprehensive search and filter function
+  const applyFilters = (section) => {
+    const originalData = section === 'drivers' ? driverData : 
+                        section === 'vehicles' ? vehicleData : 
+                        section === 'bookings' ? bookingData :
+                        section === 'activities' ? activityData : [];
+
+    let filteredItems = [...originalData];
+
+    // Apply status filter
+    if (selectedStatus) {
+      filteredItems = filteredItems.filter(item => item.status === selectedStatus);
+    }
+
+    // Apply search filter
+    const searchTerm = searchTerms[section]?.toLowerCase() || '';
+    if (searchTerm) {
+      filteredItems = filteredItems.filter(item => {
+        switch(section) {
+          case 'drivers':
+            return (
+              item.driverId?.toLowerCase().includes(searchTerm) ||
+              item.fullName?.toLowerCase().includes(searchTerm) ||
+              item.designationArea?.toLowerCase().includes(searchTerm) ||
+              item.contact?.toLowerCase().includes(searchTerm)
+            );
+          case 'vehicles':
+            return (
+              item.vehicleId?.toLowerCase().includes(searchTerm) ||
+              item.plateNumber?.toLowerCase().includes(searchTerm) ||
+              item.carModel?.toLowerCase().includes(searchTerm) ||
+              item.ownerName?.toLowerCase().includes(searchTerm)
+            );
+          case 'bookings':
+            return (
+              item.id?.toLowerCase().includes(searchTerm) ||
+              item.idName?.toLowerCase().includes(searchTerm) ||
+              item.action?.toLowerCase().includes(searchTerm) ||
+              item.type?.toLowerCase().includes(searchTerm)
+            );
+          case 'activities':
+            return (
+              item.id?.toLowerCase().includes(searchTerm) ||
+              item.idName?.toLowerCase().includes(searchTerm) ||
+              item.action?.toLowerCase().includes(searchTerm) ||
+              item.type?.toLowerCase().includes(searchTerm)
+            );
+          default:
+            return true;
+        }
+      });
+    }
+
+    setFilteredData(prev => ({
+      ...prev,
+      [section]: filteredItems
+    }));
+  };
+
+  // Handle search input changes
+  const handleSearchChange = (section, value) => {
+    setSearchTerms(prev => ({
+      ...prev,
+      [section]: value
+    }));
+    
+    // Apply filters with debouncing
+    setTimeout(() => {
+      applyFilters(section);
+    }, 300);
+  };
+
+  // Filter data based on status
+  const filterByStatus = (status, section) => {
+    if (selectedStatus === status) {
+      // If clicking the same status again, clear the filter
+      setSelectedStatus(null);
+    } else {
+      // Apply new filter
+      setSelectedStatus(status);
+    }
+
+    // Apply all filters after status change
+    setTimeout(() => {
+      applyFilters(section);
+    }, 0);
   };
 
   // Driver modal component
@@ -407,6 +613,10 @@ const UserDashboard = () => {
                     <h3 className="stat-title">Ongoing</h3>
                     <div className="stat-value">0</div>
                   </div>
+                  <div className="stat-box completed-box">
+                    <h3 className="stat-title">Completed</h3>
+                    <div className="stat-value">0</div>
+                  </div>
                   <div className="stat-box total-box active-stat">
                     <h3 className="stat-title">Total Service</h3>
                     <div className="stat-value">0</div>
@@ -418,56 +628,99 @@ const UserDashboard = () => {
                   <div className="bookings-header">
                     <h2 className="bookings-title">BOOKINGS</h2>
                     <div className="status-indicators">
-                      <div className="status-indicator">
-                        <div className="status-dot done-status"></div>
-                        <span>Done Service</span>
-                      </div>
-                      <div className="status-indicator">
-                        <div className="status-dot ongoing-status"></div>
-                        <span>On Going</span>
-                      </div>
-                      <div className="status-indicator">
-                        <div className="status-dot cancelled-status"></div>
-                        <span>Cancelled</span>
-                      </div>
-                      <div className="status-indicator">
-                        <div className="status-dot request-status"></div>
-                        <span>Request</span>
-                      </div>
+                      <StatusIndicator 
+                        status="active" 
+                        label="Completed"
+                        isActive={selectedStatus === 'active'}
+                        onClick={() => filterByStatus('active', 'bookings')}
+                      />
+                      <StatusIndicator 
+                        status="pending" 
+                        label="On Going"
+                        isActive={selectedStatus === 'pending'}
+                        onClick={() => filterByStatus('pending', 'bookings')}
+                      />
+                      <StatusIndicator 
+                        status="inactive" 
+                        label="Cancelled"
+                        isActive={selectedStatus === 'inactive'}
+                        onClick={() => filterByStatus('inactive', 'bookings')}
+                      />
+                      <StatusIndicator 
+                        status="request" 
+                        label="Request"
+                        isActive={selectedStatus === 'request'}
+                        onClick={() => filterByStatus('request', 'bookings')}
+                      />
                     </div>
                   </div>
                   
-                  <div className="booking-filters">
-                    <div className="voucher-selector">
-                      <select className="voucher-select">
+                  <div className="filter-bar">
+                    <div className="filter-controls">
+                      <select className="filter-dropdown">
                         <option>TRAVEL VOUCHER</option>
                       </select>
-                    </div>
-                    <div className="search-container">
-                      <input type="text" placeholder="Enter exact ID" className="id-search" />
-                      <button className="search-btn">
-                        <span className="search-icon">{Icons.search}</span>
-                      </button>
+                      <div className="search-container">
+                        <input 
+                          type="text" 
+                          placeholder="Search bookings..." 
+                          className="id-search" 
+                          value={searchTerms.bookings}
+                          onChange={(e) => handleSearchChange('bookings', e.target.value)}
+                          aria-label="Search bookings"
+                        />
+                        <button className="search-btn" type="button">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                          </svg>
+                        </button>
+                      </div>
                     </div>
                   </div>
                   
                   {/* Bookings Table */}
-                  <div className="bookings-table-wrapper">
-                    <table className="bookings-table">
+                  <div className="data-table-wrapper">
+                    <table className="data-table bookings-table">
                       <thead>
                         <tr>
-                          <th>Travel Voucher</th>
-                          <th>Date of service</th>
-                          <th>Pick up Time</th>
-                          <th>Passenger Name</th>
-                          <th>Contact number</th>
-                          <th>Assigned Driver</th>
-                          <th>Contact number</th>
-                          <th>Status</th>
+                          <th style={{width: '12%'}}>TRAVEL VOUCHER</th>
+                          <th style={{width: '12%'}}>DATE OF SERVICE</th>
+                          <th style={{width: '10%'}}>PICK UP TIME</th>
+                          <th style={{width: '15%'}}>PASSENGER NAME</th>
+                          <th style={{width: '12%'}}>CONTACT NUMBER</th>
+                          <th style={{width: '15%'}}>ASSIGNED DRIVER</th>
+                          <th style={{width: '12%'}}>CONTACT NUMBER</th>
+                          <th style={{width: '12%'}}>STATUS</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {/* Table is empty by default */}
+                        {filteredData.bookings && filteredData.bookings.length > 0 ? (
+                          filteredData.bookings.map((booking, index) => (
+                            <tr key={booking.voucher || `booking-${index}`}>
+                              <td>{booking.voucher}</td>
+                              <td>{booking.date}</td>
+                              <td>{booking.time}</td>
+                              <td>{booking.passenger}</td>
+                              <td>{booking.passengerContact}</td>
+                              <td>{booking.driver}</td>
+                              <td>{booking.driverContact}</td>
+                              <td>
+                                <div className="status-indicator-cell">
+                                  <div className={`account-status-indicator ${booking.status}`}></div>
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan="8" className="empty-table-row">
+                              <div className="status-indicator-cell">
+                                No bookings available
+                              </div>
+                            </td>
+                          </tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -518,120 +771,67 @@ const UserDashboard = () => {
               </div>
             </div>
             
-            {/* Quick Actions Section */}
-            <div className="quick-actions-container">
-              <div className="quick-actions-header">
-                <h2 className="quick-actions-title">QUICK ACTIONS</h2>
-              </div>
-              
-              <div className="quick-actions-grid">
-                <button 
-                  className="quick-action-card"
-                  onClick={() => setCurrentView('enrollmentForm')}
-                >
-                  <div className="quick-action-icon">{Icons.enrollmentForm}</div>
-                  <div className="quick-action-content">
-                    <h3>Enrollment Form</h3>
-                    <p>Register new drivers and vehicles</p>
-                  </div>
-                </button>
-                
-                <button 
-                  className="quick-action-card"
-                  onClick={() => setCurrentView('database')}
-                >
-                  <div className="quick-action-icon">{Icons.database}</div>
-                  <div className="quick-action-content">
-                    <h3>Database</h3>
-                    <p>View all registered data</p>
-                  </div>
-                </button>
-                
-                <button 
-                  className="quick-action-card"
-                  onClick={() => setCurrentView('documentFiles')}
-                >
-                  <div className="quick-action-icon">{Icons.documentFiles}</div>
-                  <div className="quick-action-content">
-                    <h3>Document Files</h3>
-                    <p>Manage uploaded documents</p>
-                  </div>
-                </button>
-                
-                <button className="quick-action-card" onClick={handleAddDriver}>
-                  <div className="quick-action-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                    </svg>
-                  </div>
-                  <div className="quick-action-content">
-                    <h3>Add Driver</h3>
-                    <p>Quick driver registration</p>
-                  </div>
-                </button>
-                
-                <button className="quick-action-card" onClick={handleAddVehicle}>
-                  <div className="quick-action-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                    </svg>
-                  </div>
-                  <div className="quick-action-content">
-                    <h3>Add Vehicle</h3>
-                    <p>Quick vehicle registration</p>
-                  </div>
-                </button>
-                
-                <button 
-                  className="quick-action-card"
-                  onClick={() => setCurrentView('safety')}
-                >
-                  <div className="quick-action-icon">{Icons.safety}</div>
-                  <div className="quick-action-content">
-                    <h3>Safety Reports</h3>
-                    <p>View safety compliance</p>
-                  </div>
-                </button>
-              </div>
-            </div>
-            
             {/* Recent Activity Section */}
             <div className="recent-activity-container">
               <div className="recent-activity-header">
                 <h2 className="recent-activity-title">RECENT ACTIVITY</h2>
                 <div className="activity-status-indicators">
-                  <div className="status-indicator">
-                    <div className="status-dot active-status"></div>
-                    <span>Approved</span>
-                  </div>
-                  <div className="status-indicator">
-                    <div className="status-dot pending-status"></div>
-                    <span>Pending</span>
-                  </div>
-                  <div className="status-indicator">
-                    <div className="status-dot inactive-status"></div>
-                    <span>Rejected</span>
-                  </div>
+                  <StatusIndicator 
+                    status="active" 
+                    label="Approved"
+                    isActive={selectedStatus === 'active'}
+                    onClick={() => filterByStatus('active', 'activities')}
+                  />
+                  <StatusIndicator 
+                    status="pending" 
+                    label="Pending"
+                    isActive={selectedStatus === 'pending'}
+                    onClick={() => filterByStatus('pending', 'activities')}
+                  />
+                  <StatusIndicator 
+                    status="inactive" 
+                    label="Rejected"
+                    isActive={selectedStatus === 'inactive'}
+                    onClick={() => filterByStatus('inactive', 'activities')}
+                  />
                 </div>
               </div>
               
-              <div className="activity-table-wrapper">
-                <table className="activity-table">
+              <div className="data-table-wrapper">
+                <table className="data-table activity-table">
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Type</th>
-                      <th>ID/Name</th>
-                      <th>Action</th>
-                      <th>Status</th>
+                      <th style={{width: '15%'}}>DATE</th>
+                      <th style={{width: '15%'}}>TYPE</th>
+                      <th style={{width: '35%'}}>ID/NAME</th>
+                      <th style={{width: '20%'}}>ACTION</th>
+                      <th style={{width: '15%'}}>STATUS</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td colSpan="5" className="empty-activity">
-                        No recent activity
-                      </td>
-                    </tr>
+                    {filteredData.activities && filteredData.activities.length > 0 ? (
+                      filteredData.activities.map((activity, index) => (
+                        <tr key={`activity-${activity.date}-${activity.type}-${index}`}>
+                          <td>{activity.date}</td>
+                          <td>{activity.type}</td>
+                          <td>{activity.idName}</td>
+                          <td>{activity.action}</td>
+                          <td>
+                            <div className="status-indicator-cell">
+                              <div className={`account-status-indicator ${activity.status}`}></div>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="empty-table-row">
+                          <div className="status-indicator-cell">
+                            No recent activity
+                          </div>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -641,295 +841,468 @@ const UserDashboard = () => {
       
       case 'notification':
         return (
-          <div className="default-content">
-            <div className="service-header-container">
-              <div className="service-title-container">
-                <div className="service-icon">{Icons.notification}</div>
-                <h2 className="service-title">NOTIFICATIONS</h2>
+          <div className="enrollment-content">
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">NOTIFICATIONS</h2>
+                <div className="section-actions">
+                  <button className="action-btn">
+                    <span className="btn-icon">🔔</span>
+                    MARK ALL READ
+                  </button>
+                </div>
               </div>
-            </div>
-            <div style={{ padding: '40px', textAlign: 'center' }}>
-              <h3>Notification Center</h3>
-              <p>No new notifications at this time.</p>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>ALL NOTIFICATIONS</option>
+                    <option>UNREAD</option>
+                    <option>READ</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Search notifications..." 
+                      className="id-search" 
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="data-table-wrapper">
+                <div className="empty-state-container" style={{ padding: '60px 40px', textAlign: 'center' }}>
+                  <div className="empty-state-icon" style={{ fontSize: '48px', marginBottom: '20px', color: '#6c757d' }}>🔔</div>
+                  <h3 style={{ color: '#495057', marginBottom: '10px' }}>No Notifications</h3>
+                  <p style={{ color: '#6c757d', margin: '0' }}>You're all caught up! No new notifications at this time.</p>
+                </div>
+              </div>
             </div>
           </div>
         );
 
       case 'database':
         return (
-          <div className="database-content">
-            {/* Driver Registered Section */}
-            <div className="driver-registered-section">
-              <div className="section-header-db">
-                <h2 className="section-title-db">DRIVER REGISTERED</h2>
-                
-                {/* Driver Statistics Cards in Header */}
-                <div className="header-stats-container">
-                  <div className="header-stat-card">
-                    <div className="header-stat-label">REGULAR DRIVERS</div>
-                    <div className="header-stat-value">5</div>
-                  </div>
-                  <div className="header-stat-card">
-                    <div className="header-stat-label">SUBCON DRIVERS</div>
-                    <div className="header-stat-value">0</div>
-                  </div>
-                  <div className="header-stat-card highlighted">
-                    <div className="header-stat-label">TOTAL DRIVER HANDLED</div>
-                    <div className="header-stat-value">5</div>
-                  </div>
+          <div className="enrollment-content">
+            {/* DRIVER REGISTERED SECTION */}
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">DRIVER REGISTERED</h2>
+                <div className="section-actions">
+                  <button className="action-btn add-driver-btn">
+                    <span className="btn-icon">+</span>
+                    ADD DRIVER
+                  </button>
+                  <button className="action-btn nda-btn">
+                    <span className="btn-icon">📄</span>
+                    DRIVER'S NDA
+                  </button>
                 </div>
               </div>
               
-              <div className="table-section-db">
-                <div className="table-header-db">
-                  <h3 className="table-title-db">DRIVER</h3>
-                  
-                  {/* Radio Button Style Filter Bar */}
-                  <div className="filter-bar">
-                    <div className="radio-status-filters">
-                      <label className="radio-status-item">
-                        <input type="radio" name="driver-status" value="active" defaultChecked />
-                        <span className="radio-indicator"></span>
-                        <span className="radio-label">ACTIVE</span>
-                      </label>
-                      <label className="radio-status-item">
-                        <input type="radio" name="driver-status" value="pending" />
-                        <span className="radio-indicator"></span>
-                        <span className="radio-label">PENDING</span>
-                      </label>
-                      <label className="radio-status-item">
-                        <input type="radio" name="driver-status" value="inactive" />
-                        <span className="radio-indicator"></span>
-                        <span className="radio-label">IN-ACTIVE</span>
-                      </label>
-                    </div>
-                    
-                    <div className="filter-controls">
-                      <select className="filter-dropdown">
-                        <option value="driver-id">DRIVER ID</option>
-                        <option value="license">LICENSE</option>
-                        <option value="name">FULL NAME</option>
-                      </select>
-                      <input 
-                        type="text" 
-                        className="filter-search-input" 
-                        placeholder="Enter exact ID"
-                      />
-                    </div>
+              <div className="status-indicators">
+                <StatusIndicator 
+                  status="active" 
+                  label="Active"
+                  isActive={selectedStatus === 'active'}
+                  onClick={() => filterByStatus('active', 'drivers')}
+                />
+                <StatusIndicator 
+                  status="pending" 
+                  label="Pending"
+                  isActive={selectedStatus === 'pending'}
+                  onClick={() => filterByStatus('pending', 'drivers')}
+                />
+                <StatusIndicator 
+                  status="inactive" 
+                  label="In-active"
+                  isActive={selectedStatus === 'inactive'}
+                  onClick={() => filterByStatus('inactive', 'drivers')}
+                />
+              </div>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>DRIVER ID</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Enter exact ID" 
+                      className="id-search" 
+                      value={searchTerms.drivers}
+                      onChange={(e) => handleSearchChange('drivers', e.target.value)}
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
                   </div>
                 </div>
-                
-                <div className="data-table-wrapper-db">
-                  <table className="data-table-db">
+              </div>
+              <div className="data-table-wrapper">
+                <table className="data-table drivers-table">
                     <thead>
                       <tr>
-                        <th>Driver ID<br/>(Driver License)</th>
-                        <th>Full Name</th>
-                        <th>Designation Area</th>
-                        <th>Contact number</th>
-                        <th>Driver's NDA</th>
-                        <th>Status</th>
-                        <th>Edit details</th>
+                      <th style={{width: '20%'}}>DRIVER ID (DRIVER LICENSE)</th>
+                      <th style={{width: '18%'}}>FULL NAME</th>
+                      <th style={{width: '18%'}}>DESIGNATION AREA</th>
+                      <th style={{width: '15%'}}>CONTACT NUMBER</th>
+                      <th style={{width: '17%'}}>DRIVER'S NDA</th>
+                      <th style={{width: '12%'}}>STATUS</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <div className="status-indicator-cell">
-                            <div className="table-status-pill active">ACTIVE</div>
-                          </div>
-                        </td>
-                        <td>
-                          <button className="edit-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
+                      {filteredData.drivers && filteredData.drivers.length > 0 ? (
+                        filteredData.drivers.map((driver, index) => (
+                          <tr key={driver.id || `driver-${index}`}>
+                            <td>{driver.id}</td>
+                            <td>{driver.name}</td>
+                            <td>{driver.area}</td>
+                            <td>{driver.contact}</td>
+                            <td>{driver.nda}</td>
+                            <td>
+                              <div className="status-indicator-cell">
+                                <div className={`account-status-indicator ${driver.status}`}></div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6" className="empty-table-row">
+                            <div className="status-indicator-cell">
+                              No drivers registered
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
-            </div>
-
-            {/* Vehicle Registered Section */}
-            <div className="vehicle-registered-section">
-              <div className="section-header-db">
-                <h2 className="section-title-db">VEHICLE REGISTERED</h2>
-                
-                {/* Vehicle Statistics Cards in Header */}
-                <div className="header-stats-container">
-                  <div className="header-stat-card">
-                    <div className="header-stat-label">COMPANY OWN</div>
-                    <div className="header-stat-value">5</div>
-                  </div>
-                  <div className="header-stat-card">
-                    <div className="header-stat-label">SUBCON VECHICLE</div>
-                    <div className="header-stat-value">2</div>
-                  </div>
-                  <div className="header-stat-card highlighted">
-                    <div className="header-stat-label">TOTAL VEHICLE HANDLED</div>
-                    <div className="header-stat-value">7</div>
-                  </div>
+            {/* VEHICLE REGISTERED SECTION */}
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">VEHICLE REGISTERED</h2>
+                <div className="section-actions">
+                  <button className="action-btn add-vehicle-btn">
+                    <span className="btn-icon">+</span>
+                    ADD VEHICLE
+                  </button>
                 </div>
               </div>
               
-              <div className="table-section-db">
-                <div className="table-header-db">
-                  <h3 className="table-title-db">VEHICLE</h3>
-                  
-                  {/* Radio Button Style Filter Bar */}
-                  <div className="filter-bar">
-                    <div className="radio-status-filters">
-                      <label className="radio-status-item">
-                        <input type="radio" name="vehicle-status" value="active" defaultChecked />
-                        <span className="radio-indicator"></span>
-                        <span className="radio-label">ACTIVE</span>
-                      </label>
-                      <label className="radio-status-item">
-                        <input type="radio" name="vehicle-status" value="pending" />
-                        <span className="radio-indicator"></span>
-                        <span className="radio-label">PENDING</span>
-                      </label>
-                      <label className="radio-status-item">
-                        <input type="radio" name="vehicle-status" value="inactive" />
-                        <span className="radio-indicator"></span>
-                        <span className="radio-label">IN-ACTIVE</span>
-                      </label>
-                    </div>
-                    
-                    <div className="filter-controls">
-                      <select className="filter-dropdown">
-                        <option value="vehicle-id">VEHICLE ID</option>
-                        <option value="plate">PLATE NUMBER</option>
-                        <option value="model">CAR MODEL</option>
-                      </select>
-                      <input 
-                        type="text" 
-                        className="filter-search-input" 
-                        placeholder="Enter exact ID"
-                      />
-                    </div>
+              <div className="status-indicators">
+                <StatusIndicator 
+                  status="active" 
+                  label="Active"
+                  isActive={selectedStatus === 'active'}
+                  onClick={() => filterByStatus('active', 'vehicles')}
+                />
+                <StatusIndicator 
+                  status="pending" 
+                  label="Pending"
+                  isActive={selectedStatus === 'pending'}
+                  onClick={() => filterByStatus('pending', 'vehicles')}
+                />
+                <StatusIndicator 
+                  status="inactive" 
+                  label="In-active"
+                  isActive={selectedStatus === 'inactive'}
+                  onClick={() => filterByStatus('inactive', 'vehicles')}
+                />
+              </div>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>PLATE NUMBER</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Enter exact ID" 
+                      className="id-search" 
+                      value={searchTerms.vehicles}
+                      onChange={(e) => handleSearchChange('vehicles', e.target.value)}
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
                   </div>
                 </div>
-                
-                <div className="data-table-wrapper-db">
-                  <table className="data-table-db">
+              </div>
+              <div className="data-table-wrapper">
+                <table className="data-table vehicles-table">
                     <thead>
                       <tr>
-                        <th>Vehicle ID<br/>(Plate Number)</th>
-                        <th>Car Type</th>
-                        <th>Car Model</th>
-                        <th>Year Model</th>
-                        <th>Color</th>
-                        <th>Safety features</th>
-                        <th>Status</th>
-                        <th>Edit details</th>
+                      <th style={{width: '18%'}}>VEHICLE ID (PLATE NUMBER)</th>
+                      <th style={{width: '12%'}}>CAR TYPE</th>
+                      <th style={{width: '18%'}}>CAR MODEL</th>
+                      <th style={{width: '12%'}}>YEAR MODEL</th>
+                      <th style={{width: '10%'}}>COLOR</th>
+                      <th style={{width: '18%'}}>SAFETY FEATURES</th>
+                      <th style={{width: '12%'}}>STATUS</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                          <div className="status-indicator-cell">
-                            <div className="table-status-pill pending">PENDING</div>
-                          </div>
-                        </td>
-                        <td>
-                          <button className="edit-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                              <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                            </svg>
-                          </button>
-                        </td>
-                      </tr>
+                      {filteredData.vehicles && filteredData.vehicles.length > 0 ? (
+                        filteredData.vehicles.map((vehicle, index) => (
+                          <tr key={vehicle.id || `vehicle-${index}`}>
+                            <td>{vehicle.id}</td>
+                            <td>{vehicle.type}</td>
+                            <td>{vehicle.model}</td>
+                            <td>{vehicle.year}</td>
+                            <td>{vehicle.color}</td>
+                            <td>{vehicle.safety}</td>
+                            <td>
+                              <div className="status-indicator-cell">
+                                <div className={`account-status-indicator ${vehicle.status}`}></div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="7" className="empty-table-row">
+                            <div className="status-indicator-cell">
+                              No vehicles registered
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
-            </div>
-            
-            {/* Modals */}
-            {showAddDriverModal && <AddDriverModal />}
-            {showAddVehicleModal && <AddVehicleModal />}
           </div>
         );
 
       case 'documentFiles':
         return (
-          <div className="default-content">
-            <div className="service-header-container">
-              <div className="service-title-container">
-                <div className="service-icon">{Icons.documentFiles}</div>
-                <h2 className="service-title">DOCUMENT FILES</h2>
+          <div className="enrollment-content">
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">DOCUMENT FILES</h2>
+                <div className="section-actions">
+                  <button className="action-btn">
+                    <span className="btn-icon">📁</span>
+                    UPLOAD DOCUMENT
+                  </button>
+                  <button className="action-btn">
+                    <span className="btn-icon">📊</span>
+                    GENERATE REPORT
+                  </button>
+                </div>
               </div>
-            </div>
-            <div style={{ padding: '40px', textAlign: 'center' }}>
-              <h3>Document Management</h3>
-              <p>Access and manage all uploaded documents.</p>
-              <p>Document management functionality coming soon...</p>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>ALL DOCUMENTS</option>
+                    <option>BUSINESS PERMITS</option>
+                    <option>CERTIFICATES</option>
+                    <option>INVOICES</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Search documents..." 
+                      className="id-search" 
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="data-table-wrapper">
+                <div className="empty-state-container" style={{ padding: '60px 40px', textAlign: 'center' }}>
+                  <div className="empty-state-icon" style={{ fontSize: '48px', marginBottom: '20px', color: '#6c757d' }}>📁</div>
+                  <h3 style={{ color: '#495057', marginBottom: '10px' }}>Document Management</h3>
+                  <p style={{ color: '#6c757d', margin: '0 0 10px 0' }}>Access and manage all uploaded documents.</p>
+                  <p style={{ color: '#6c757d', margin: '0', fontSize: '14px' }}>Document management functionality coming soon...</p>
+                </div>
+              </div>
             </div>
           </div>
         );
 
       case 'dir':
         return (
-          <div className="default-content">
-            <div className="service-header-container">
-              <div className="service-title-container">
-                <div className="service-icon">{Icons.dir}</div>
-                <h2 className="service-title">DIR</h2>
+          <div className="enrollment-content">
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">DATA INTEGRITY & REPORTING</h2>
+                <div className="section-actions">
+                  <button className="action-btn">
+                    <span className="btn-icon">📊</span>
+                    GENERATE REPORT
+                  </button>
+                  <button className="action-btn">
+                    <span className="btn-icon">🔍</span>
+                    RUN AUDIT
+                  </button>
+                </div>
               </div>
-            </div>
-            <div style={{ padding: '40px', textAlign: 'center' }}>
-              <h3>Data Integrity & Reporting</h3>
-              <p>Access data integrity reports and analytics.</p>
-              <p>DIR functionality coming soon...</p>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>ALL REPORTS</option>
+                    <option>DATA INTEGRITY</option>
+                    <option>AUDIT LOGS</option>
+                    <option>ANALYTICS</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Search reports..." 
+                      className="id-search" 
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="data-table-wrapper">
+                <div className="empty-state-container" style={{ padding: '60px 40px', textAlign: 'center' }}>
+                  <div className="empty-state-icon" style={{ fontSize: '48px', marginBottom: '20px', color: '#6c757d' }}>📊</div>
+                  <h3 style={{ color: '#495057', marginBottom: '10px' }}>Data Integrity & Reporting</h3>
+                  <p style={{ color: '#6c757d', margin: '0 0 10px 0' }}>Access data integrity reports and analytics.</p>
+                  <p style={{ color: '#6c757d', margin: '0', fontSize: '14px' }}>DIR functionality coming soon...</p>
+                </div>
+              </div>
             </div>
           </div>
         );
 
       case 'safety':
         return (
-          <div className="default-content">
-            <div className="service-header-container">
-              <div className="service-title-container">
-                <div className="service-icon">{Icons.safety}</div>
-                <h2 className="service-title">SHE-MS</h2>
+          <div className="enrollment-content">
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">SAFETY, HEALTH & ENVIRONMENT</h2>
+                <div className="section-actions">
+                  <button className="action-btn">
+                    <span className="btn-icon">🛡️</span>
+                    SAFETY AUDIT
+                  </button>
+                  <button className="action-btn">
+                    <span className="btn-icon">📋</span>
+                    COMPLIANCE CHECK
+                  </button>
+                </div>
               </div>
-            </div>
-            <div style={{ padding: '40px', textAlign: 'center' }}>
-              <h3>Safety, Health & Environment Management System</h3>
-              <p>Monitor safety compliance and health standards.</p>
-              <p>SHE-MS functionality coming soon...</p>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>ALL RECORDS</option>
+                    <option>SAFETY INCIDENTS</option>
+                    <option>HEALTH RECORDS</option>
+                    <option>ENVIRONMENT</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Search safety records..." 
+                      className="id-search" 
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="data-table-wrapper">
+                <div className="empty-state-container" style={{ padding: '60px 40px', textAlign: 'center' }}>
+                  <div className="empty-state-icon" style={{ fontSize: '48px', marginBottom: '20px', color: '#6c757d' }}>🛡️</div>
+                  <h3 style={{ color: '#495057', marginBottom: '10px' }}>Safety, Health & Environment Management System</h3>
+                  <p style={{ color: '#6c757d', margin: '0 0 10px 0' }}>Monitor safety compliance and health standards.</p>
+                  <p style={{ color: '#6c757d', margin: '0', fontSize: '14px' }}>SHE-MS functionality coming soon...</p>
+                </div>
+              </div>
             </div>
           </div>
         );
 
       case 'incident':
         return (
-          <div className="default-content">
-            <div className="service-header-container">
-              <div className="service-title-container">
-                <div className="service-icon">{Icons.incident}</div>
-                <h2 className="service-title">INCIDENT REPORT</h2>
+          <div className="enrollment-content">
+            <div className="data-section">
+              <div className="section-header">
+                <h2 className="section-title">INCIDENT REPORT</h2>
+                <div className="section-actions">
+                  <button className="action-btn">
+                    <span className="btn-icon">⚠️</span>
+                    REPORT INCIDENT
+                  </button>
+                  <button className="action-btn">
+                    <span className="btn-icon">📊</span>
+                    VIEW ANALYTICS
+                  </button>
+                </div>
               </div>
-            </div>
-            <div style={{ padding: '40px', textAlign: 'center' }}>
-              <h3>Incident Reporting System</h3>
-              <p>Report and track safety incidents and accidents.</p>
-              <p>Incident reporting functionality coming soon...</p>
+              
+              <div className="filter-bar">
+                <div className="filter-controls">
+                  <select className="filter-dropdown">
+                    <option>ALL INCIDENTS</option>
+                    <option>ACCIDENTS</option>
+                    <option>NEAR MISSES</option>
+                    <option>RESOLVED</option>
+                  </select>
+                  <div className="search-container">
+                    <input 
+                      type="text" 
+                      placeholder="Search incidents..." 
+                      className="id-search" 
+                    />
+                    <button className="search-btn" type="button">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="data-table-wrapper">
+                <div className="empty-state-container" style={{ padding: '60px 40px', textAlign: 'center' }}>
+                  <div className="empty-state-icon" style={{ fontSize: '48px', marginBottom: '20px', color: '#6c757d' }}>⚠️</div>
+                  <h3 style={{ color: '#495057', marginBottom: '10px' }}>Incident Reporting System</h3>
+                  <p style={{ color: '#6c757d', margin: '0 0 10px 0' }}>Report and track safety incidents and accidents.</p>
+                  <p style={{ color: '#6c757d', margin: '0', fontSize: '14px' }}>Incident reporting functionality coming soon...</p>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -955,29 +1328,48 @@ const UserDashboard = () => {
               
               <div className="table-section">
                 <div className="table-header">
-                  <h3 className="table-title">DRIVER</h3>
                   <div className="status-indicators">
-                    <div className="status-indicator">
-                      <div className="status-dot active-dot"></div>
-                      <span>Active</span>
-                    </div>
-                    <div className="status-indicator">
-                      <div className="status-dot pending-dot"></div>
-                      <span>Pending</span>
-                    </div>
-                    <div className="status-indicator">
-                      <div className="status-dot inactive-dot"></div>
-                      <span>In-active</span>
-                    </div>
+                    <StatusIndicator 
+                      status="active" 
+                      label="Active"
+                      isActive={selectedStatus === 'active'}
+                      onClick={() => filterByStatus('active', 'drivers')}
+                    />
+                    <StatusIndicator 
+                      status="pending" 
+                      label="Pending"
+                      isActive={selectedStatus === 'pending'}
+                      onClick={() => filterByStatus('pending', 'drivers')}
+                    />
+                    <StatusIndicator 
+                      status="inactive" 
+                      label="In-active"
+                      isActive={selectedStatus === 'inactive'}
+                      onClick={() => filterByStatus('inactive', 'drivers')}
+                    />
                   </div>
-                  <div className="table-controls">
-                    <select className="control-select">
+                </div>
+                
+                <div className="filter-bar">
+                  <div className="filter-controls">
+                    <select className="filter-dropdown">
                       <option>DRIVER ID</option>
                     </select>
-                    <input type="text" placeholder="Enter exact ID" className="control-input" />
-                    <button className="control-btn">
-                      <span className="search-icon">{Icons.search}</span>
-                    </button>
+                    <div className="search-container">
+                      <input 
+                        type="text" 
+                        placeholder="Enter exact ID" 
+                        className="id-search" 
+                        value={searchTerms.drivers}
+                        onChange={(e) => handleSearchChange('drivers', e.target.value)}
+                      />
+                      <button className="search-btn" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -994,13 +1386,30 @@ const UserDashboard = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td colSpan="6" className="empty-table-row">
-                          <div className="status-indicator-cell">
-                            <div className="table-status-pill active">ACTIVE</div>
-                          </div>
-                        </td>
-                      </tr>
+                      {filteredData.drivers && filteredData.drivers.length > 0 ? (
+                        filteredData.drivers.map((driver, index) => (
+                          <tr key={driver.id || `driver-${index}`}>
+                            <td>{driver.id}</td>
+                            <td>{driver.name}</td>
+                            <td>{driver.area}</td>
+                            <td>{driver.contact}</td>
+                            <td>{driver.nda}</td>
+                            <td>
+                              <div className="status-indicator-cell">
+                                <div className={`account-status-indicator ${driver.status}`}></div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6" className="empty-table-row">
+                            <div className="status-indicator-cell">
+                              <div className="table-status-pill active">No drivers registered</div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -1021,29 +1430,48 @@ const UserDashboard = () => {
               
               <div className="table-section">
                 <div className="table-header">
-                  <h3 className="table-title">VEHICLE</h3>
                   <div className="status-indicators">
-                    <div className="status-indicator">
-                      <div className="status-dot active-dot"></div>
-                      <span>Active</span>
-                    </div>
-                    <div className="status-indicator">
-                      <div className="status-dot pending-dot"></div>
-                      <span>Pending</span>
-                    </div>
-                    <div className="status-indicator">
-                      <div className="status-dot inactive-dot"></div>
-                      <span>In-active</span>
-                    </div>
+                    <StatusIndicator 
+                      status="active" 
+                      label="Active"
+                      isActive={selectedStatus === 'active'}
+                      onClick={() => filterByStatus('active', 'vehicles')}
+                    />
+                    <StatusIndicator 
+                      status="pending" 
+                      label="Pending"
+                      isActive={selectedStatus === 'pending'}
+                      onClick={() => filterByStatus('pending', 'vehicles')}
+                    />
+                    <StatusIndicator 
+                      status="inactive" 
+                      label="In-active"
+                      isActive={selectedStatus === 'inactive'}
+                      onClick={() => filterByStatus('inactive', 'vehicles')}
+                    />
                   </div>
-                  <div className="table-controls">
-                    <select className="control-select">
+                </div>
+                
+                <div className="filter-bar">
+                  <div className="filter-controls">
+                    <select className="filter-dropdown">
                       <option>PLATE NUMBER</option>
                     </select>
-                    <input type="text" placeholder="Enter exact ID" className="control-input" />
-                    <button className="control-btn">
-                      <span className="search-icon">{Icons.search}</span>
-                    </button>
+                    <div className="search-container">
+                      <input 
+                        type="text" 
+                        placeholder="Enter exact ID" 
+                        className="id-search" 
+                        value={searchTerms.vehicles}
+                        onChange={(e) => handleSearchChange('vehicles', e.target.value)}
+                      />
+                      <button className="search-btn" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
                 
@@ -1061,18 +1489,37 @@ const UserDashboard = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td colSpan="7" className="empty-table-row">
-                          <div className="status-indicator-cell">
-                            <div className="table-status-pill pending">PENDING</div>
-                          </div>
-                        </td>
-                      </tr>
+                      {filteredData.vehicles && filteredData.vehicles.length > 0 ? (
+                        filteredData.vehicles.map((vehicle, index) => (
+                          <tr key={vehicle.id || `vehicle-${index}`}>
+                            <td>{vehicle.id}</td>
+                            <td>{vehicle.type}</td>
+                            <td>{vehicle.model}</td>
+                            <td>{vehicle.year}</td>
+                            <td>{vehicle.color}</td>
+                            <td>{vehicle.safety}</td>
+                            <td>
+                              <div className="status-indicator-cell">
+                                <div className={`account-status-indicator ${vehicle.status}`}></div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="7" className="empty-table-row">
+                            <div className="status-indicator-cell">
+                              <div className="table-status-pill pending">No vehicles registered</div>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
             </div>
+            
             
             {/* Modals */}
             {showAddDriverModal && <AddDriverModal />}
@@ -1209,7 +1656,7 @@ const UserDashboard = () => {
         </aside>
         
         {/* Main Content */}
-        <div className="user-content">
+        <div className={`user-content ${currentView === 'dashboard' ? 'dashboard-view' : ''}`}>
           <div className="user-dashboard-content">
             <div className="user-dashboard-main-content">
               {renderMainContent()}

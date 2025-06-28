@@ -113,11 +113,109 @@ const hotelServiceStats = {
   totalService: 34
 };
 
+// Status Indicators Component - Reused from AdminDashboard
+const StatusIndicator = ({ status, label, isActive, onClick }) => {
+  return (
+    <div 
+      className={`status-pill ${status} ${isActive ? 'selected' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+    >
+      <span className="status-dot"></span>
+      {label}
+    </div>
+  );
+};
+
+// New modern status pill component for the updated design
+const StatusPill = ({ status, label, isActive, onClick }) => {
+  return (
+    <div 
+      className={`modern-status-pill ${status} ${isActive ? 'selected' : ''}`}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+    >
+      <span className="status-dot"></span>
+      {label}
+    </div>
+  );
+};
+
+// Function to render interactive status pill based on status type
+const renderStatusPill = (status, handleClick, selectedStatus, inTable = false) => {
+  let label = '';
+  let statusClass = '';
+  
+  switch(status) {
+    case 'checkout':
+      label = 'CHECK-OUT';
+      statusClass = 'checkout';
+      break;
+    case 'checkin':
+      label = 'CHECK-IN';
+      statusClass = 'checkin';
+      break;
+    case 'cancelled':
+      label = 'CANCELLED';
+      statusClass = 'cancelled';
+      break;
+    case 'request':
+      label = 'REQUEST / PENCIL BOOK';
+      statusClass = 'request';
+      break;
+    case 'ongoing':
+      label = 'ONGOING';
+      statusClass = 'checkin';
+      break;
+    default:
+      label = status.toUpperCase();
+      statusClass = status;
+  }
+  
+  const isActive = selectedStatus === status;
+  
+  if (handleClick) {
+    const handlePillClick = (e) => {
+      // Stop event propagation if pill is in a table row
+      if (inTable) {
+        e.stopPropagation();
+      }
+      handleClick(status);
+    };
+    
+    return (
+      <div 
+        key={`status-pill-${status}`} 
+        className={`modern-status-pill ${statusClass} ${isActive ? 'selected' : ''}`}
+        onClick={handlePillClick}
+        role="button"
+        tabIndex={0}
+      >
+        <span className="status-dot"></span>
+        {label}
+      </div>
+    );
+  }
+  
+  return (
+    <div key={`status-pill-${status}`} className={`modern-status-pill ${statusClass}`}>
+      <span className="status-dot"></span>
+      {label}
+    </div>
+  );
+};
+
 const HotelDashboard = () => {
   // UI state management
   const [currentView, setCurrentView] = useState('dashboard');
   const [isFormSubmissionExpanded, setIsFormSubmissionExpanded] = useState(false);
   const [expandedRowId, setExpandedRowId] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  
+  // Search functionality
+  const [searchTerm, setSearchTerm] = useState('');
   
   const navigate = useNavigate();
   
@@ -138,6 +236,39 @@ const HotelDashboard = () => {
   // Expand/collapse booking details row
   const toggleRowExpansion = (id) => {
     setExpandedRowId(expandedRowId === id ? null : id);
+  };
+  
+  // Handle status pill click
+  const handleStatusClick = (status) => {
+    console.log('Status clicked:', status);
+    console.log('Current selected status:', selectedStatus);
+    
+    // If the same status is clicked again, toggle it off
+    const newStatus = selectedStatus === status ? null : status;
+    console.log('Setting new status to:', newStatus);
+    
+    setSelectedStatus(newStatus);
+  };
+  
+  // Filter bookings based on selected status and search term
+  const filteredBookings = hotelBookingData.filter(booking => {
+    // Apply status filter
+    const statusMatch = !selectedStatus || booking.status === selectedStatus;
+    
+    // Apply search filter
+    const searchMatch = !searchTerm || 
+      booking.hotelVoucher?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.hotelName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.guestName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.contactNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.branch?.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    return statusMatch && searchMatch;
+  });
+
+  // Handle search input changes
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
   };
 
   // Render different content based on selected navigation item
@@ -186,24 +317,13 @@ const HotelDashboard = () => {
             <div className="hotel-bookings-container">
               <div className="hotel-bookings-header">
                 <h2 className="hotel-bookings-title">BOOKINGS</h2>
-                <div className="hotel-status-indicators">
-                  <div className="hotel-status-indicator">
-                    <div className="hotel-status-dot hotel-checkout-status"></div>
-                    <span>Check-out</span>
                   </div>
-                  <div className="hotel-status-indicator">
-                    <div className="hotel-status-dot hotel-checkin-status"></div>
-                    <span>Check-in</span>
-                  </div>
-                  <div className="hotel-status-indicator">
-                    <div className="hotel-status-dot hotel-cancelled-status"></div>
-                    <span>Cancelled</span>
-                  </div>
-                  <div className="hotel-status-indicator">
-                    <div className="hotel-status-dot hotel-request-status"></div>
-                    <span>Request / Pencil book</span>
-                  </div>
-                </div>
+              
+              <div className="hotel-status-filters">
+                {renderStatusPill('checkout', handleStatusClick, selectedStatus)}
+                {renderStatusPill('checkin', handleStatusClick, selectedStatus)}
+                {renderStatusPill('cancelled', handleStatusClick, selectedStatus)}
+                {renderStatusPill('request', handleStatusClick, selectedStatus)}
               </div>
               
               <div className="hotel-booking-filters">
@@ -213,7 +333,13 @@ const HotelDashboard = () => {
                   </select>
                 </div>
                 <div className="hotel-search-container">
-                  <input type="text" placeholder="Enter exact ID" className="hotel-id-search" />
+                  <input 
+                    type="text" 
+                    placeholder="Search hotels..." 
+                    className="hotel-id-search" 
+                    value={searchTerm}
+                    onChange={(e) => handleSearchChange(e.target.value)}
+                  />
                   <button className="hotel-search-btn">
                     <span className="hotel-search-icon">{HotelIcons.search}</span>
                   </button>
@@ -237,24 +363,21 @@ const HotelDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {hotelBookingData.map((booking) => (
+                    {filteredBookings.map((booking) => (
                       <React.Fragment key={booking.id}>
-                        <tr 
-                          className={`hotel-booking-row ${expandedRowId === booking.id ? 'expanded' : ''}`}
-                          onClick={() => toggleRowExpansion(booking.id)}
-                        >
-                          <td className="expand-icon">
-                            <span>{expandedRowId === booking.id ? '∨' : '>'}</span>
+                        <tr className={`hotel-booking-row ${expandedRowId === booking.id ? 'expanded' : ''}`}>
+                          <td className="expand-icon" onClick={() => toggleRowExpansion(booking.id)}>
+                            <span></span>
                           </td>
-                          <td>{booking.hotelVoucher}</td>
-                          <td>{booking.hotelReference}</td>
-                          <td style={{ whiteSpace: 'pre-line' }}>{booking.coveredDate}</td>
-                          <td>{booking.guestName}</td>
-                          <td>{booking.contactNumber}</td>
-                          <td>{booking.noOfStay}</td>
-                          <td>{booking.branch}</td>
-                          <td>
-                            <div className={`hotel-status-indicator ${booking.status}`}></div>
+                          <td onClick={() => toggleRowExpansion(booking.id)}>{booking.hotelVoucher}</td>
+                          <td onClick={() => toggleRowExpansion(booking.id)}>{booking.hotelReference}</td>
+                          <td onClick={() => toggleRowExpansion(booking.id)} style={{ whiteSpace: 'pre-line' }}>{booking.coveredDate}</td>
+                          <td onClick={() => toggleRowExpansion(booking.id)}>{booking.guestName}</td>
+                          <td onClick={() => toggleRowExpansion(booking.id)}>{booking.contactNumber}</td>
+                          <td onClick={() => toggleRowExpansion(booking.id)}>{booking.noOfStay}</td>
+                          <td onClick={() => toggleRowExpansion(booking.id)}>{booking.branch}</td>
+                          <td className="status-cell">
+                            {renderStatusPill(booking.status, handleStatusClick, selectedStatus, true)}
                           </td>
                         </tr>
                         {expandedRowId === booking.id && (
@@ -293,6 +416,13 @@ const HotelDashboard = () => {
                         )}
                       </React.Fragment>
                     ))}
+                    {filteredBookings.length === 0 && (
+                      <tr>
+                        <td colSpan="9" className="empty-table-row">
+                          No bookings found for the selected filter
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -352,7 +482,13 @@ const HotelDashboard = () => {
                   <select className="hotel-id-dropdown">
                     <option>HOTEL ID</option>
                   </select>
-                  <input type="text" placeholder="Enter exact ID" className="property-search-input" />
+                  <input 
+                  type="text" 
+                  placeholder="Search properties..." 
+                  className="property-search-input" 
+                  value={searchTerm}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                />
                   <button className="property-search-btn">
                     <span className="search-icon">{HotelIcons.search}</span>
                   </button>
@@ -477,7 +613,7 @@ const HotelDashboard = () => {
                   <tbody>
                     <tr>
                       <td>
-                        <span className="hotel-expand-icon">&gt;</span>
+                        <span className="hotel-expand-icon">▶</span>
                         HTL01
                       </td>
                       <td>Red Planet BGC</td>
@@ -494,7 +630,7 @@ const HotelDashboard = () => {
                     </tr>
                     <tr>
                       <td>
-                        <span className="hotel-expand-icon">&gt;</span>
+                        <span className="hotel-expand-icon">▶</span>
                         HTL02
                       </td>
                       <td>Red Planet Amorsolo</td>
@@ -511,7 +647,8 @@ const HotelDashboard = () => {
                     </tr>
                     <tr>
                       <td>
-                        V HTL03
+                        <span className="hotel-expand-icon">▼</span>
+                        HTL03
                       </td>
                       <td>Red Planet Clark</td>
                       <td>167</td>
@@ -662,6 +799,118 @@ const HotelDashboard = () => {
                       {/* Empty table */}
                     </tbody>
                 </table>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'documentFiles':
+        return (
+          <div className="hotel-default-content">
+            <div className="hotel-service-header-container">
+              <div className="hotel-service-title-container">
+                <div className="hotel-service-icon">{HotelIcons.documentFiles}</div>
+                <h2 className="hotel-service-title">DOCUMENT FILES</h2>
+              </div>
+            </div>
+            <div style={{ padding: '40px', textAlign: 'center' }}>
+              <h3>Document Files Management</h3>
+              <p>Upload, manage and organize your document files here.</p>
+              <div style={{ marginTop: '20px' }}>
+                <button style={{ 
+                  padding: '12px 24px', 
+                  backgroundColor: '#4f46e5', 
+                  color: 'white', 
+                  border: 'none', 
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}>
+                  Upload Documents
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'dir':
+        return (
+          <div className="hotel-default-content">
+            <div className="hotel-service-header-container">
+              <div className="hotel-service-title-container">
+                <div className="hotel-service-icon">{HotelIcons.dir}</div>
+                <h2 className="hotel-service-title">DIR</h2>
+              </div>
+            </div>
+            <div style={{ padding: '40px', textAlign: 'center' }}>
+              <h3>DIR Management</h3>
+              <p>Manage your DIR (Document Information Records) here.</p>
+              <div style={{ marginTop: '20px' }}>
+                <button style={{ 
+                  padding: '12px 24px', 
+                  backgroundColor: '#4f46e5', 
+                  color: 'white', 
+                  border: 'none', 
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}>
+                  Create New DIR
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'safety':
+        return (
+          <div className="hotel-default-content">
+            <div className="hotel-service-header-container">
+              <div className="hotel-service-title-container">
+                <div className="hotel-service-icon">{HotelIcons.safety}</div>
+                <h2 className="hotel-service-title">SHE-MS</h2>
+              </div>
+            </div>
+            <div style={{ padding: '40px', textAlign: 'center' }}>
+              <h3>Safety, Health & Environment Management System</h3>
+              <p>Monitor and manage safety protocols and compliance.</p>
+              <div style={{ marginTop: '20px' }}>
+                <button style={{ 
+                  padding: '12px 24px', 
+                  backgroundColor: '#4f46e5', 
+                  color: 'white', 
+                  border: 'none', 
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}>
+                  View Safety Reports
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 'incident':
+        return (
+          <div className="hotel-default-content">
+            <div className="hotel-service-header-container">
+              <div className="hotel-service-title-container">
+                <div className="hotel-service-icon">{HotelIcons.incident}</div>
+                <h2 className="hotel-service-title">INCIDENT REPORT</h2>
+              </div>
+            </div>
+            <div style={{ padding: '40px', textAlign: 'center' }}>
+              <h3>Incident Report Management</h3>
+              <p>Report, track and manage incidents and safety concerns.</p>
+              <div style={{ marginTop: '20px' }}>
+                <button style={{ 
+                  padding: '12px 24px', 
+                  backgroundColor: '#dc2626', 
+                  color: 'white', 
+                  border: 'none', 
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}>
+                  Report Incident
+                </button>
               </div>
             </div>
           </div>

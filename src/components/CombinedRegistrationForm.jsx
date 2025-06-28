@@ -11,25 +11,26 @@ import {
 
 // Required document uploads for registration
 const uploadRequirements = [
+
   { 
-    id: 'dot-certificate', 
-    label: 'Scanned copy of the Valid and Updated Department of Tourism (DOT) Accreditation Certificate',
+    id: 'business-permit', 
+    label: 'Scanned copy of Updated Business Permit',
     accept: '.pdf,.png,.jpg,.jpeg'
   },
   { 
-    id: 'representative-photo', 
-    label: 'Clear copy of one (1) ID photo of Permanent Representative (preferably 2x2 size)',
-    accept: '.png,.jpg,.jpeg'
-  },
-  { 
-    id: 'employment-certificate', 
-    label: 'Scanned and signed Certificate of Employment of authorized representatives / Scanned copy of any Government-issued document indicating the Owner\'s Name (i.e. Mayor\'s Permit, DTI Certificate, etc.)',
+    id: 'bir-2303', 
+    label: 'Scanned copy of BIR 2303',
     accept: '.pdf,.png,.jpg,.jpeg'
   },
   { 
-    id: 'alt-representative-photo', 
-    label: 'Clear copy of one (1) ID photo of Alternate Representative (preferably 2x2 size)',
-    accept: '.png,.jpg,.jpeg'
+    id: 'dti-certificate', 
+    label: 'Scanned copy of DTI Certificate',
+    accept: '.pdf,.png,.jpg,.jpeg'
+  },
+  { 
+    id: 'dot-applicable', 
+    label: 'Scanned copy of DOT (if applicable)',
+    accept: '.pdf,.png,.jpg,.jpeg'
   }
 ];
 
@@ -46,6 +47,7 @@ function CombinedRegistrationForm() {
   const [zipCode, setZipCode] = useState('');
   const [areaCode, setAreaCode] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
   
   // Company Information state
   const [businessType, setBusinessType] = useState('Travel and Tour Agency');
@@ -53,6 +55,14 @@ function CombinedRegistrationForm() {
   const [yearEstablished, setYearEstablished] = useState('');
   const [files, setFiles] = useState({});
   const [fileNames, setFileNames] = useState({});
+  
+  // File upload status tracking
+  const [uploadedFiles, setUploadedFiles] = useState({
+    'business-permit': false,
+    'bir-2303': false,
+    'dti-certificate': false,
+    'dot-applicable': false
+  });
   
   // Common state
   const [errors, setErrors] = useState({});
@@ -66,10 +76,11 @@ function CombinedRegistrationForm() {
   
   // Refs for file inputs
   const fileInputRefs = {
-    'dot-certificate': useRef(null),
-    'representative-photo': useRef(null),
-    'employment-certificate': useRef(null),
-    'alt-representative-photo': useRef(null)
+
+    'business-permit': useRef(null),
+    'bir-2303': useRef(null),
+    'dti-certificate': useRef(null),
+    'dot-applicable': useRef(null)
   };
   
   // Additional state
@@ -161,6 +172,12 @@ function CombinedRegistrationForm() {
         ...prev,
         [id]: file.name
       }));
+      
+      // Update uploaded files status
+      setUploadedFiles(prev => ({
+        ...prev,
+        [id]: true
+      }));
     }
   };
   
@@ -172,9 +189,9 @@ function CombinedRegistrationForm() {
   // Handle Others input change
   const handleOthersInputChange = (e) => {
     setOthersValue(e.target.value);
-    // You might want to combine the "Others" with the specific value
-    if (businessType === "Others") {
-      setBusinessType(`Others - ${e.target.value}`);
+    // Automatically select "Others" radio button when user starts typing
+    if (e.target.value.trim() && businessType !== "Others") {
+      setBusinessType("Others");
     }
   };
   
@@ -210,7 +227,11 @@ function CombinedRegistrationForm() {
     }
     
     if (!areaCode.trim() || !phoneNumber.trim()) {
-      newErrors.phone = 'Complete contact number is required';
+      newErrors.phone = 'Complete office telephone number is required';
+    }
+    
+    if (!contactNumber.trim()) {
+      newErrors.contactNumber = 'Office contact number is required';
     }
     
     // Validate Company Information
@@ -251,8 +272,9 @@ function CombinedRegistrationForm() {
           street,
           zipCode
         },
-        contactNumber: `${areaCode}-${phoneNumber}`,
-        businessType,
+        officePhone: `${areaCode}-${phoneNumber}`,
+        contactNumber: contactNumber,
+        businessType: businessType === "Others" ? `Others - ${othersValue}` : businessType,
         establishmentName,
         yearEstablished,
         files
@@ -451,8 +473,8 @@ function CombinedRegistrationForm() {
                   type="text" 
                   className={`form-control ${errors.contactNumber ? 'error-input' : ''}`}
                   placeholder="Contact Number" 
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  value={contactNumber}
+                  onChange={(e) => setContactNumber(e.target.value)}
                   required
                 />
                 {errors.contactNumber && (
@@ -561,10 +583,9 @@ function CombinedRegistrationForm() {
                       <input 
                         type="text" 
                         className="others-input"
-                        placeholder=""
+                        placeholder="Please specify..."
                         value={othersValue}
                         onChange={handleOthersInputChange}
-                        disabled={businessType !== "Others"}
                       />
                     </div>
                   </div>
@@ -595,9 +616,12 @@ function CombinedRegistrationForm() {
                   onChange={(e) => setYearEstablished(e.target.value)}
                 />
               </div>
+              </div>
             </div>
           </div>
           
+        {/* Upload Requirements Section */}
+        <div className="form-container">
           <h2 className="form-section-header">Upload Requirements</h2>
           
           <div className="info-section">
@@ -607,15 +631,19 @@ function CombinedRegistrationForm() {
               <div className="file-type-allowed">Max File Size: 2MB</div>
             </div>
             
+            <div className="upload-grid">
             {uploadRequirements.map(item => (
-              <div className="upload-row" key={item.id}>
+                <div className="upload-item" key={item.id}>
                 <div className="upload-label">
                   {item.label}
-                  {(item.id === 'dot-certificate' || item.id === 'representative-photo' || item.id === 'employment-certificate') && (
+                    {(item.id === 'dot-certificate' || item.id === 'representative-photo' || item.id === 'employment-certificate' || item.id === 'business-permit' || item.id === 'bir-2303' || item.id === 'dti-certificate' || item.id === 'dot-applicable') && (
                     <span className="required">*</span>
                   )}
                 </div>
                 <div className="file-upload">
+                    <div className={`file-indicator ${uploadedFiles[item.id] ? 'uploaded' : 'not-uploaded'}`}>
+                      {uploadedFiles[item.id] ? '✓' : '✕'}
+                    </div>
                   <input
                     type="file"
                     ref={fileInputRefs[item.id]}
@@ -633,12 +661,55 @@ function CombinedRegistrationForm() {
                   <span className="file-name">
                     {fileNames[item.id] || 'No file chosen'}
                   </span>
+                  </div>
                   {errors[item.id] && (
                     <div className="error-message">{errors[item.id]}</div>
                   )}
                 </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* Privacy Policy and CAPTCHA Section */}
+        <div className="form-container">
+          <h2 className="form-section-header">Privacy & Verification</h2>
+          
+          <div className="info-section">
+            <div className="privacy-section">
+              <div className="checkbox-group">
+                <input type="checkbox" id="privacy-policy" required />
+                <label htmlFor="privacy-policy">
+                  I have read and agree to the <a href="#" className="privacy-link">Privacy Policy</a>
+                </label>
               </div>
-            ))}
+            </div>
+            
+            <div className="privacy-section">
+              <label>Prove you're not a robot<span className="required">*</span></label>
+              <div className="recaptcha-placeholder">
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '10px 15px',
+                  border: '1px solid #ddd',
+                  borderRadius: '3px',
+                  backgroundColor: '#f9f9f9',
+                  width: '300px',
+                  height: '70px'
+                }}>
+                  <input type="checkbox" id="captcha-checkbox" required />
+                  <label htmlFor="captcha-checkbox" style={{ fontSize: '14px', fontWeight: 'normal' }}>
+                    I'm not a robot
+                  </label>
+                  <div style={{ marginLeft: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '10px', color: '#666' }}>
+                    <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>reCAPTCHA</div>
+                    <div>Privacy - Terms</div>
+                  </div>
+                </div>
+              </div>
+            </div>
             
             <div className="form-footer company-form-footer">
               <button type="submit" className="register-button">REGISTER</button>
