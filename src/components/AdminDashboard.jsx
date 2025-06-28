@@ -16,6 +16,10 @@ import ShemsPage from './ShemsPage';
 import IncidentPage from './IncidentPage';
 import SuppliersPageContent from './SuppliersPageContent';
 import MonitoringPageContent from './MonitoringPageContent';
+import { useFilterAndSearch } from '../hooks/useFilterAndSearch';
+import { useSupplierManagement } from '../hooks/useSupplierManagement';
+import AddSupplierModal from './AddSupplierModal';
+import InboxModal from './InboxModal';
 
 // Icons imported from ../data/icons.js
 
