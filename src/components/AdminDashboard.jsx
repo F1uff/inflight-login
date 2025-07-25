@@ -627,9 +627,9 @@ const AdminDashboard = () => {
 
   const getTableHeaders = () => {
     if (uiState.selectedSupplierType === 'hotels') {
-      return ['', 'Location', 'Company Name', 'Contracted Rates', 'Corporate Rates', 'Validity', 'Remarks', 'Status'];
+      return ['', 'Location', 'Company Name', 'Contracted Rates', 'Corporate Rates', 'Accreditation', 'Status'];
     } else {
-      return ['', 'Location', 'Company Name', 'Company Address', 'Tariff Rates', 'Validity', 'Remarks', 'Status'];
+      return ['', 'Location', 'Company Name', 'Company Address', 'Tariff Rates', 'Accreditation', 'Status'];
     }
   };
 
@@ -640,7 +640,6 @@ const AdminDashboard = () => {
         supplier.company?.name || 'N/A',
         'TBD', // contracted rates
         'TBD', // corporate rates
-        'TBD', // validity
         `Rating: ${supplier.rating}/5.0` || 'N/A'
       ];
     } else {
@@ -649,7 +648,6 @@ const AdminDashboard = () => {
         supplier.company?.name || 'N/A',
         supplier.company?.address || 'N/A',
         'TBD', // tariff rates
-        'TBD', // validity
         `Rating: ${supplier.rating}/5.0` || 'N/A'
       ];
     }
