@@ -41,7 +41,10 @@ export const useSupplierManagement = (onSupplierUpdated) => {
       designation: '',
       modeOfPayment: '',
       creditTerms: '',
-      remarks: ''
+      remarks: '',
+      contractedRatesDate: '',
+      corporateRatesDate: '',
+      accreditation: ''
     });
   }, []);
 
