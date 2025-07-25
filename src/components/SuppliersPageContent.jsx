@@ -719,9 +719,35 @@ const SuppliersPageContent = ({
                     <td className="expand-icon">
                       <span>{expandedRowId === supplier.id ? '▼' : '▶'}</span>
                     </td>
-                    {getTableRowData(supplier).map((data, index) => (
-                      <td key={index}>{data}</td>
-                    ))}
+                    {getTableRowData(supplier).map((data, index) => {
+                      // Check if this is a rates column for hotels and we're editing
+                      if (selectedSupplierType === 'hotels' && editingSupplier === supplier.id) {
+                        if (index === 2) { // Contracted Rates column
+                          return (
+                            <td key={index}>
+                              <input 
+                                type="date" 
+                                value={supplierFormData.contractedRatesDate || ''}
+                                onChange={(e) => handleFormChange('contractedRatesDate', e.target.value)}
+                                className="date-input"
+                              />
+                            </td>
+                          );
+                        } else if (index === 3) { // Corporate Rates column
+                          return (
+                            <td key={index}>
+                              <input 
+                                type="date" 
+                                value={supplierFormData.corporateRatesDate || ''}
+                                onChange={(e) => handleFormChange('corporateRatesDate', e.target.value)}
+                                className="date-input"
+                              />
+                            </td>
+                          );
+                        }
+                      }
+                      return <td key={index}>{data}</td>;
+                    })}
                     <td className="status-column">
                       <div className={`account-status-indicator ${supplier.accountStatus || 'pending'}`}></div>
                     </td>

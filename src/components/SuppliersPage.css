@@ -932,4 +932,26 @@
     padding: 6px 4px;
     font-size: 12px;
   }
+}
+
+/* Date input styles for table */
+.date-input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.date-input:hover {
+  border-color: #9ca3af;
 } 

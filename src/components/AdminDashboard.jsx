@@ -638,8 +638,8 @@ const AdminDashboard = () => {
       return [
         supplier.location || supplier.company?.city || 'N/A',
         supplier.company?.name || 'N/A',
-        'TBD', // contracted rates
-        'TBD', // corporate rates
+        supplier.contractedRatesDate || 'Add Date', // contracted rates date
+        supplier.corporateRatesDate || 'Add Date', // corporate rates date
         `Rating: ${supplier.rating}/5.0` || 'N/A'
       ];
     } else {
