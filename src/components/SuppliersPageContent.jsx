@@ -216,7 +216,7 @@ const SuppliersPageContent = ({
                             <div className="form-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                             <button 
                               className="save-btn"
-                              onClick={handleSaveSupplier}
+                              onClick={() => handleSaveSupplier(selectedSupplierType)}
                               disabled={savingSupplier}
                                 style={{ 
                                   backgroundColor: '#28a745', 
