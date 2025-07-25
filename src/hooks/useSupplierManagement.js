@@ -75,7 +75,9 @@ export const useSupplierManagement = (onSupplierUpdated) => {
           roomQuantity: supplierFormData.roomQuantity,
           modeOfPayment: supplierFormData.modeOfPayment,
           creditTerms: supplierFormData.creditTerms,
-          remarks: supplierFormData.remarks
+          remarks: supplierFormData.remarks,
+          contractedRatesDate: supplierFormData.contractedRatesDate,
+          corporateRatesDate: supplierFormData.corporateRatesDate
         };
 
         console.log('Creating new supplier:', newSupplierData);

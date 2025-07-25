@@ -200,8 +200,24 @@ const SuppliersPageContent = ({
                         className="inline-input"
                       />
                     </td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td>
+                      <input 
+                        type="date" 
+                        value={supplierFormData.contractedRatesDate || ''}
+                        onChange={(e) => handleFormChange('contractedRatesDate', e.target.value)}
+                        className="date-input"
+                        placeholder="Add Date"
+                      />
+                    </td>
+                    <td>
+                      <input 
+                        type="date" 
+                        value={supplierFormData.corporateRatesDate || ''}
+                        onChange={(e) => handleFormChange('corporateRatesDate', e.target.value)}
+                        className="date-input"
+                        placeholder="Add Date"
+                      />
+                    </td>
                     <td>New Entry</td>
                     <td className="status-column">
                       <div className="account-status-indicator pending"></div>
