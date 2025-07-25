@@ -185,9 +185,9 @@ const SuppliersPageContent = ({
                     <td>
                       <input 
                         type="text" 
-                        value={supplierFormData.companyName || ''} 
-                        onChange={(e) => handleFormChange('companyName', e.target.value)}
-                        placeholder="Enter company name"
+                        value={supplierFormData.location || ''} 
+                        onChange={(e) => handleFormChange('location', e.target.value)}
+                        placeholder="Enter location"
                         className="inline-input"
                       />
                     </td>

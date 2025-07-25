@@ -359,6 +359,7 @@ router.post('/', async (req, res) => {
     try {
         const pool = getConnection();
         const {
+            location,
             companyName,
             companyAddress,
             contactNumber,
@@ -398,7 +399,7 @@ router.post('/', async (req, res) => {
             RETURNING id
         `;
 
-        const companyResult = await pool.query(createCompanyQuery, [companyName, email, contactNumber, companyAddress, companyAddress]);
+        const companyResult = await pool.query(createCompanyQuery, [companyName, email, contactNumber, companyAddress, location || companyAddress]);
         const companyId = companyResult.rows[0].id;
         
         // Generate supplier code
@@ -516,6 +517,7 @@ router.put('/:id', async (req, res) => {
         const pool = getConnection();
         const supplierId = req.params.id;
         const {
+            location,
             companyRepresentative,
             designation,
             telNumber,
@@ -557,21 +559,23 @@ router.put('/:id', async (req, res) => {
         const companyId = supplierResult.rows[0].company_id;
 
         // Update company fields if provided
-        if (contactNumber || email || companyAddress) {
+        if (contactNumber || email || companyAddress || location) {
             const companyUpdateQuery = `
                 UPDATE companies 
                 SET 
                     phone = COALESCE($1, phone),
                     email = COALESCE($2, email),
                     address_line1 = COALESCE($3, address_line1),
+                    city = COALESCE($4, city),
                     updated_at = CURRENT_TIMESTAMP
-                WHERE id = $4
+                WHERE id = $5
             `;
             
             await pool.query(companyUpdateQuery, [
                 contactNumber || null,
                 email || null,
                 companyAddress || null,
+                location || null,
                 companyId
             ]);
         }

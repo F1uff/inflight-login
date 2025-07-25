@@ -11,6 +11,7 @@ export const useSupplierManagement = (onSupplierUpdated) => {
   const handleEditSupplier = useCallback((supplier) => {
     setEditingSupplier(supplier.id);
     setSupplierFormData({
+      location: supplier.location || '',
       companyName: supplier.company?.name || '',
       companyAddress: supplier.company?.address || '',
       contactNumber: supplier.company?.phone || '',
@@ -30,6 +31,7 @@ export const useSupplierManagement = (onSupplierUpdated) => {
     setIsAddingNew(true);
     setEditingSupplier('new');
     setSupplierFormData({
+      location: '',
       companyName: '',
       companyAddress: '',
       contactNumber: '',
@@ -61,6 +63,7 @@ export const useSupplierManagement = (onSupplierUpdated) => {
       if (isAddingNew) {
         // Create new supplier
         const newSupplierData = {
+          location: supplierFormData.location,
           companyName: supplierFormData.companyName,
           companyAddress: supplierFormData.companyAddress,
           contactNumber: supplierFormData.contactNumber,
@@ -88,6 +91,7 @@ export const useSupplierManagement = (onSupplierUpdated) => {
       } else {
         // Update existing supplier
         const updateData = {
+          location: supplierFormData.location,
           companyRepresentative: supplierFormData.companyRepresentative,
           contactNumber: supplierFormData.contactNumber,
           email: supplierFormData.email,
