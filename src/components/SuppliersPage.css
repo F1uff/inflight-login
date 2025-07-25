@@ -954,4 +954,26 @@
 
 .date-input:hover {
   border-color: #9ca3af;
+}
+
+/* Accreditation dropdown styles */
+.accreditation-dropdown {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white;
+  color: #374151;
+  cursor: pointer;
+}
+
+.accreditation-dropdown:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.accreditation-dropdown:hover {
+  border-color: #9ca3af;
 } 

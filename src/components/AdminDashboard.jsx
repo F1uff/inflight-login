@@ -640,7 +640,7 @@ const AdminDashboard = () => {
         supplier.company?.name || 'N/A',
         supplier.contractedRatesDate || 'Add Date', // contracted rates date
         supplier.corporateRatesDate || 'Add Date', // corporate rates date
-        `Rating: ${supplier.rating}/5.0` || 'N/A'
+        supplier.accreditation || 'Select accreditation' // accreditation status
       ];
     } else {
       return [
