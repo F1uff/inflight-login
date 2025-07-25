@@ -287,6 +287,7 @@ const SuppliersPageContent = ({
                                 placeholder="Enter email address"
                               />
                             </div>
+
                           </div>
                               
                               <div className="frontdesk-column">
@@ -638,7 +639,7 @@ const SuppliersPageContent = ({
                               
                               <div className="form-row">
                                 <div className="form-group">
-                                  <label>COMPANY ADDRESS</label>
+                                  <label>ADDRESS</label>
                                   <input 
                                     type="text" 
                                     value={supplierFormData.companyAddress || ''}
