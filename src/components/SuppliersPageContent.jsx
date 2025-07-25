@@ -386,7 +386,7 @@ const SuppliersPageContent = ({
                                   />
                                 </div>
                                 <div className="form-group">
-                                  <label>CONTRACTED RATES</label>
+                                  <label>CONTRACTED RATES DATE</label>
                                   <input 
                                     type="date" 
                                     value={supplierFormData.contractedRatesDate || ''}
@@ -395,7 +395,7 @@ const SuppliersPageContent = ({
                                   />
                                 </div>
                                 <div className="form-group">
-                                  <label>CORPORATE RATES</label>
+                                  <label>CORPORATE RATES DATE</label>
                                   <input 
                                     type="date" 
                                     value={supplierFormData.corporateRatesDate || ''}
