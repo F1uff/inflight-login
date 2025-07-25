@@ -32,7 +32,6 @@ export const useSupplierManagement = (onSupplierUpdated) => {
     setSupplierFormData({
       companyName: '',
       location: '',
-      propertyName: '',
       companyAddress: '',
       contactNumber: '',
       email: '',
@@ -65,7 +64,6 @@ export const useSupplierManagement = (onSupplierUpdated) => {
         const newSupplierData = {
           companyName: supplierFormData.companyName,
           location: supplierFormData.location,
-          propertyName: supplierFormData.propertyName,
           companyAddress: supplierFormData.companyAddress,
           contactNumber: supplierFormData.contactNumber,
           email: supplierFormData.email,
