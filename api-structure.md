@@ -6,414 +6,247 @@
 - **API Version**: v1.0.0
 - **Documentation**: `/api-docs` (Swagger UI)
 - **Health Check**: `/health`
+- **Environment**: Development/Production ready
 
 ## 📋 **API Endpoints Overview**
 
 ### 🔐 **Authentication (`/auth`)**
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `POST` | `/auth/login` | User authentication | ❌ |
-| `POST` | `/auth/register` | User registration | ❌ |
-| `GET` | `/auth/profile` | Get user profile | ✅ |
-| `POST` | `/auth/create-demo-admin` | Create demo admin user | ❌ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `POST` | `/auth/login` | User authentication | ❌ | 5/min |
+| `POST` | `/auth/register` | User registration | ❌ | 3/min |
+| `GET` | `/auth/profile` | Get user profile | ✅ | 60/min |
+| `POST` | `/auth/create-demo-admin` | Create demo admin user | ❌ | 1/hour |
+| `POST` | `/auth/logout` | User logout | ✅ | 60/min |
+| `POST` | `/auth/refresh-token` | Refresh access token | ❌ | 10/min |
+| `POST` | `/auth/forgot-password` | Request password reset | ❌ | 3/hour |
+| `POST` | `/auth/reset-password` | Reset password | ❌ | 3/hour |
+| `POST` | `/auth/verify-email` | Verify email address | ❌ | 5/min |
 
 ### 🏠 **Dashboard (`/dashboard`)**
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/dashboard/overview` | Dashboard overview metrics | ✅ |
-| `GET` | `/dashboard/revenue` | Revenue analytics | ✅ |
-| `GET` | `/dashboard/booking-stats` | Booking statistics | ✅ |
-| `GET` | `/dashboard/top-performers` | Top performing suppliers | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/dashboard/overview` | Dashboard overview metrics | ✅ | 60/min |
+| `GET` | `/dashboard/revenue` | Revenue analytics | ✅ | 60/min |
+| `GET` | `/dashboard/booking-stats` | Booking statistics | ✅ | 60/min |
+| `GET` | `/dashboard/top-performers` | Top performing suppliers | ✅ | 60/min |
+| `GET` | `/dashboard/company-metrics` | Company-specific metrics | ✅ | 60/min |
+| `GET` | `/dashboard/supplier-performance` | Supplier performance data | ✅ | 60/min |
 
 ### 👨‍💼 **Admin (`/admin`)**
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/admin/overview` | Admin dashboard overview | ✅ |
-| `GET` | `/admin/bookings/analytics` | Booking analytics | ✅ |
-| `GET` | `/admin/monitoring/realtime` | Real-time monitoring | ✅ |
-| `GET` | `/admin/users` | Get all users | ✅ |
-| `PUT` | `/admin/users/:id/status` | Update user status | ✅ |
-| `GET` | `/admin/drivers` | Get all drivers | ✅ |
-| `GET` | `/admin/vehicles` | Get all vehicles | ✅ |
-| `GET` | `/admin/bookings` | Get all bookings | ✅ |
-| `GET` | `/admin/activities` | Get system activities | ✅ |
-| `GET` | `/admin/supplier-stats` | Supplier statistics | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/admin/overview` | Admin dashboard overview | ✅ | 60/min |
+| `GET` | `/admin/bookings/analytics` | Booking analytics | ✅ | 60/min |
+| `GET` | `/admin/monitoring/realtime` | Real-time monitoring | ✅ | 60/min |
+| `GET` | `/admin/users` | Get all users | ✅ | 60/min |
+| `PUT` | `/admin/users/:id/status` | Update user status | ✅ | 30/min |
+| `GET` | `/admin/drivers` | Get all drivers | ✅ | 60/min |
+| `GET` | `/admin/vehicles` | Get all vehicles | ✅ | 60/min |
+| `GET` | `/admin/bookings` | Get all bookings | ✅ | 60/min |
+| `GET` | `/admin/activities` | Get system activities | ✅ | 60/min |
+| `GET` | `/admin/supplier-stats` | Supplier statistics | ✅ | 60/min |
+| `GET` | `/admin/companies` | Get all companies | ✅ | 60/min |
+| `PUT` | `/admin/companies/:id/status` | Update company status | ✅ | 30/min |
+| `GET` | `/admin/system-metrics` | System performance metrics | ✅ | 60/min |
+| `GET` | `/admin/audit-logs` | System audit logs | ✅ | 60/min |
 
 ### 🏢 **Suppliers (`/suppliers`)**
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/suppliers/analytics` | Supplier analytics | ✅ |
-| `GET` | `/suppliers` | Get all suppliers | ✅ |
-| `GET` | `/suppliers/portfolio-count` | Portfolio count | ✅ |
-| `GET` | `/suppliers/performance` | Performance metrics | ✅ |
-| `GET` | `/suppliers/:id` | Get supplier by ID | ✅ |
-| `POST` | `/suppliers` | Create new supplier | ✅ |
-| `PUT` | `/suppliers/:id` | Update supplier | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/suppliers/analytics` | Supplier analytics | ✅ | 60/min |
+| `GET` | `/suppliers` | Get all suppliers | ✅ | 60/min |
+| `GET` | `/suppliers/portfolio-count` | Portfolio count | ✅ | 60/min |
+| `GET` | `/suppliers/performance` | Performance metrics | ✅ | 60/min |
+| `GET` | `/suppliers/:id` | Get supplier by ID | ✅ | 60/min |
+| `POST` | `/suppliers` | Create new supplier | ✅ | 30/min |
+| `PUT` | `/suppliers/:id` | Update supplier | ✅ | 30/min |
+| `DELETE` | `/suppliers/:id` | Delete supplier | ✅ | 10/min |
+| `GET` | `/suppliers/:id/reviews` | Get supplier reviews | ✅ | 60/min |
+| `POST` | `/suppliers/:id/reviews` | Add supplier review | ✅ | 10/min |
+| `GET` | `/suppliers/:id/performance` | Get supplier performance | ✅ | 60/min |
+| `GET` | `/suppliers/:id/contracts` | Get supplier contracts | ✅ | 60/min |
 
 ### 👤 **User Dashboard (`/user-dashboard`)**
 
 #### **Drivers Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/drivers` | Get company drivers | ✅ |
-| `POST` | `/user-dashboard/drivers` | Create new driver | ✅ |
-| `POST` | `/user-dashboard/drivers/upload-documents` | Upload driver documents | ✅ |
-| `PUT` | `/user-dashboard/drivers/:id` | Update driver | ✅ |
-| `DELETE` | `/user-dashboard/drivers/:id` | Delete driver | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/drivers` | Get company drivers | ✅ | 60/min |
+| `POST` | `/user-dashboard/drivers` | Create new driver | ✅ | 30/min |
+| `POST` | `/user-dashboard/drivers/upload-documents` | Upload driver documents | ✅ | 10/min |
+| `PUT` | `/user-dashboard/drivers/:id` | Update driver | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/drivers/:id` | Delete driver | ✅ | 10/min |
+| `GET` | `/user-dashboard/drivers/:id/documents` | Get driver documents | ✅ | 60/min |
+| `PUT` | `/user-dashboard/drivers/:id/status` | Update driver status | ✅ | 30/min |
 
 #### **Vehicles Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/vehicles` | Get company vehicles | ✅ |
-| `POST` | `/user-dashboard/vehicles` | Create new vehicle | ✅ |
-| `POST` | `/user-dashboard/vehicles/upload-documents` | Upload vehicle documents | ✅ |
-| `PUT` | `/user-dashboard/vehicles/:id` | Update vehicle | ✅ |
-| `DELETE` | `/user-dashboard/vehicles/:id` | Delete vehicle | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/vehicles` | Get company vehicles | ✅ | 60/min |
+| `POST` | `/user-dashboard/vehicles` | Create new vehicle | ✅ | 30/min |
+| `POST` | `/user-dashboard/vehicles/upload-documents` | Upload vehicle documents | ✅ | 10/min |
+| `PUT` | `/user-dashboard/vehicles/:id` | Update vehicle | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/vehicles/:id` | Delete vehicle | ✅ | 10/min |
+| `GET` | `/user-dashboard/vehicles/:id/documents` | Get vehicle documents | ✅ | 60/min |
+| `PUT` | `/user-dashboard/vehicles/:id/status` | Update vehicle status | ✅ | 30/min |
 
 #### **Bookings Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/bookings` | Get company bookings | ✅ |
-| `POST` | `/user-dashboard/bookings` | Create new booking | ✅ |
-| `GET` | `/user-dashboard/bookings/:id` | Get booking by ID | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id` | Update booking | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id/status` | Update booking status | ✅ |
-| `DELETE` | `/user-dashboard/bookings/:id` | Delete booking | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id/assign-driver` | Assign driver to booking | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id/assign-vehicle` | Assign vehicle to booking | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id/unassign-driver` | Unassign driver from booking | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id/unassign-vehicle` | Unassign vehicle from booking | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/bookings` | Get company bookings | ✅ | 60/min |
+| `POST` | `/user-dashboard/bookings` | Create new booking | ✅ | 30/min |
+| `GET` | `/user-dashboard/bookings/:id` | Get booking by ID | ✅ | 60/min |
+| `PUT` | `/user-dashboard/bookings/:id` | Update booking | ✅ | 30/min |
+| `PUT` | `/user-dashboard/bookings/:id/status` | Update booking status | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/bookings/:id` | Delete booking | ✅ | 10/min |
+| `PUT` | `/user-dashboard/bookings/:id/assign-driver` | Assign driver to booking | ✅ | 30/min |
+| `PUT` | `/user-dashboard/bookings/:id/assign-vehicle` | Assign vehicle to booking | ✅ | 30/min |
+| `PUT` | `/user-dashboard/bookings/:id/unassign-driver` | Unassign driver from booking | ✅ | 30/min |
+| `PUT` | `/user-dashboard/bookings/:id/unassign-vehicle` | Unassign vehicle from booking | ✅ | 30/min |
+| `GET` | `/user-dashboard/bookings/:id/invoice` | Get booking invoice | ✅ | 60/min |
+| `POST` | `/user-dashboard/bookings/:id/payment` | Process booking payment | ✅ | 30/min |
 
 #### **Company Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/company-profile` | Get company profile | ✅ |
-| `PUT` | `/user-dashboard/company-profile` | Update company profile | ✅ |
-| `GET` | `/user-dashboard/users` | Get company users | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/company-profile` | Get company profile | ✅ | 60/min |
+| `PUT` | `/user-dashboard/company-profile` | Update company profile | ✅ | 30/min |
+| `GET` | `/user-dashboard/users` | Get company users | ✅ | 60/min |
+| `POST` | `/user-dashboard/users` | Add company user | ✅ | 30/min |
+| `PUT` | `/user-dashboard/users/:id` | Update company user | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/users/:id` | Remove company user | ✅ | 10/min |
 
 #### **Documents Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/documents` | Get company documents | ✅ |
-| `GET` | `/user-dashboard/documents/:id` | Get document by ID | ✅ |
-| `POST` | `/user-dashboard/documents` | Upload document | ✅ |
-| `PUT` | `/user-dashboard/documents/:id` | Update document | ✅ |
-| `DELETE` | `/user-dashboard/documents/:id` | Delete document | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/documents` | Get company documents | ✅ | 60/min |
+| `GET` | `/user-dashboard/documents/:id` | Get document by ID | ✅ | 60/min |
+| `POST` | `/user-dashboard/documents` | Upload document | ✅ | 10/min |
+| `PUT` | `/user-dashboard/documents/:id` | Update document | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/documents/:id` | Delete document | ✅ | 10/min |
+| `GET` | `/user-dashboard/documents/:id/download` | Download document | ✅ | 60/min |
+| `POST` | `/user-dashboard/documents/bulk-upload` | Bulk upload documents | ✅ | 5/min |
 
 #### **Notifications**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/notifications` | Get user notifications | ✅ |
-| `GET` | `/user-dashboard/notifications/unread-count` | Get unread count | ✅ |
-| `POST` | `/user-dashboard/notifications/mark-read` | Mark notifications as read | ✅ |
-| `DELETE` | `/user-dashboard/notifications/:id` | Delete notification | ✅ |
-| `POST` | `/user-dashboard/notifications/clear-all` | Clear all notifications | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/notifications` | Get user notifications | ✅ | 60/min |
+| `GET` | `/user-dashboard/notifications/unread-count` | Get unread count | ✅ | 60/min |
+| `POST` | `/user-dashboard/notifications/mark-read` | Mark notifications as read | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/notifications/:id` | Delete notification | ✅ | 30/min |
+| `POST` | `/user-dashboard/notifications/clear-all` | Clear all notifications | ✅ | 10/min |
+| `PUT` | `/user-dashboard/notifications/:id/read` | Mark specific notification as read | ✅ | 30/min |
 
 #### **Profile Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/profile` | Get user profile | ✅ |
-| `GET` | `/user-dashboard/profile/preferences` | Get user preferences | ✅ |
-| `PUT` | `/user-dashboard/profile/preferences` | Update user preferences | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/profile` | Get user profile | ✅ | 60/min |
+| `PUT` | `/user-dashboard/profile` | Update user profile | ✅ | 30/min |
+| `GET` | `/user-dashboard/profile/preferences` | Get user preferences | ✅ | 60/min |
+| `PUT` | `/user-dashboard/profile/preferences` | Update user preferences | ✅ | 30/min |
+| `POST` | `/user-dashboard/profile/avatar` | Upload profile avatar | ✅ | 10/min |
+| `DELETE` | `/user-dashboard/profile/avatar` | Remove profile avatar | ✅ | 10/min |
 
 #### **File Management**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/files` | Get user files | ✅ |
-| `POST` | `/user-dashboard/files/upload` | Upload file | ✅ |
-| `GET` | `/user-dashboard/files/:id` | Get file by ID | ✅ |
-| `PUT` | `/user-dashboard/files/:id` | Update file | ✅ |
-| `DELETE` | `/user-dashboard/files/:id` | Delete file | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/files` | Get user files | ✅ | 60/min |
+| `POST` | `/user-dashboard/files/upload` | Upload file | ✅ | 10/min |
+| `GET` | `/user-dashboard/files/:id` | Get file by ID | ✅ | 60/min |
+| `PUT` | `/user-dashboard/files/:id` | Update file | ✅ | 30/min |
+| `DELETE` | `/user-dashboard/files/:id` | Delete file | ✅ | 10/min |
+| `GET` | `/user-dashboard/files/:id/download` | Download file | ✅ | 60/min |
 
 #### **Analytics**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/analytics/dashboard-metrics` | Dashboard metrics | ✅ |
-| `GET` | `/user-dashboard/analytics/performance-kpis` | Performance KPIs | ✅ |
-| `GET` | `/user-dashboard/analytics/revenue` | Revenue analytics | ✅ |
-| `GET` | `/user-dashboard/analytics/summary` | Analytics summary | ✅ |
-| `GET` | `/user-dashboard/analytics/trends` | Trend analysis | ✅ |
-| `GET` | `/user-dashboard/analytics/forecasting` | Forecasting data | ✅ |
-| `GET` | `/user-dashboard/analytics/correlations` | Correlation analysis | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/analytics/dashboard-metrics` | Dashboard metrics | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/performance-kpis` | Performance KPIs | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/revenue` | Revenue analytics | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/summary` | Analytics summary | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/trends` | Trend analysis | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/forecasting` | Forecasting data | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/correlations` | Correlation analysis | ✅ | 60/min |
+| `GET` | `/user-dashboard/analytics/export` | Export analytics data | ✅ | 10/min |
 
 #### **Settings & Payments**
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/user-dashboard/settings` | Get company settings | ✅ |
-| `PUT` | `/user-dashboard/settings` | Update company settings | ✅ |
-| `GET` | `/user-dashboard/payments` | Get payment history | ✅ |
-| `PUT` | `/user-dashboard/bookings/:id/payment` | Update booking payment | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/user-dashboard/settings` | Get company settings | ✅ | 60/min |
+| `PUT` | `/user-dashboard/settings` | Update company settings | ✅ | 30/min |
+| `GET` | `/user-dashboard/payments` | Get payment history | ✅ | 60/min |
+| `PUT` | `/user-dashboard/bookings/:id/payment` | Update booking payment | ✅ | 30/min |
+| `GET` | `/user-dashboard/payments/:id/invoice` | Get payment invoice | ✅ | 60/min |
+| `POST` | `/user-dashboard/payments/process` | Process payment | ✅ | 30/min |
 
 ### 📊 **Monitoring (`/monitoring`)**
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| `GET` | `/monitoring/health` | System health status | ✅ |
-| `GET` | `/monitoring/metrics` | System metrics | ✅ |
-| `POST` | `/monitoring/health/update` | Update health metrics | ✅ |
-| `GET` | `/monitoring/performance` | Performance metrics | ✅ |
-| `GET` | `/monitoring/errors` | Error statistics | ✅ |
-| `GET` | `/monitoring/realtime` | Real-time monitoring | ✅ |
-| `GET` | `/monitoring/trends` | Trend analysis | ✅ |
-| `GET` | `/monitoring/alerts` | System alerts | ✅ |
+| Method | Endpoint | Description | Auth Required | Rate Limit |
+|--------|----------|-------------|---------------|------------|
+| `GET` | `/monitoring/health` | System health status | ✅ | 60/min |
+| `GET` | `/monitoring/metrics` | System metrics | ✅ | 60/min |
+| `POST` | `/monitoring/health/update` | Update health metrics | ✅ | 30/min |
+| `GET` | `/monitoring/performance` | Performance metrics | ✅ | 60/min |
+| `GET` | `/monitoring/errors` | Error statistics | ✅ | 60/min |
+| `GET` | `/monitoring/realtime` | Real-time monitoring | ✅ | 60/min |
+| `GET` | `/monitoring/trends` | Trend analysis | ✅ | 60/min |
+| `GET` | `/monitoring/alerts` | System alerts | ✅ | 60/min |
+| `GET` | `/monitoring/logs` | System logs | ✅ | 60/min |
+| `POST` | `/monitoring/alerts/acknowledge` | Acknowledge alert | ✅ | 30/min |
 
-## 🔧 **Detailed API Specifications**
+## 🔧 **Middleware Stack**
 
-### **Authentication Endpoints**
+### **Security Middleware**
+- **Helmet**: Security headers
+- **CORS**: Cross-origin resource sharing
+- **Rate Limiting**: Configurable per endpoint
+- **Request Validation**: Input sanitization and validation
+- **Authentication**: JWT token verification
+- **Authorization**: Role-based access control
 
-#### **POST /auth/login**
-```json
-{
-  "email": "admin@inflight.com",
-  "password": "password123"
-}
-```
+### **Performance Middleware**
+- **Compression**: Response compression
+- **Caching**: API response caching
+- **Request Logging**: Performance tracking
+- **Error Handling**: Centralized error management
 
-**Response:**
-```json
-{
-  "success": true,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": 1,
-    "email": "admin@inflight.com",
-    "role": "admin",
-    "firstName": "Admin",
-    "lastName": "User"
-  }
-}
-```
-
-#### **POST /auth/register**
-```json
-{
-  "email": "user@example.com",
-  "password": "password123",
-  "firstName": "John",
-  "lastName": "Doe",
-  "phone": "+1234567890",
-  "role": "user",
-  "companyName": "Example Corp"
-}
-```
-
-### **Dashboard Endpoints**
-
-#### **GET /dashboard/overview**
-**Query Parameters:**
-- `timeframe` (optional): "7d", "30d", "90d"
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "metrics": {
-      "totalBookings": 1250,
-      "completedBookings": 1100,
-      "totalRevenue": 125000.50,
-      "activeSuppliers": 45,
-      "activeDrivers": 120
-    },
-    "recentBookings": [],
-    "topSuppliers": []
-  }
-}
-```
-
-### **Admin Endpoints**
-
-#### **GET /admin/overview**
-**Response:**
-```json
-{
-  "success": true,
-  "overview": {
-    "bookings": {
-      "completed": 1100,
-      "pending": 150,
-      "cancelled": 50,
-      "active": 100,
-      "today": 25,
-      "week": 175,
-      "month": 750
-    },
-    "revenue": {
-      "total": 125000.50,
-      "pending": 15000.00,
-      "paid": 110000.50
-    },
-    "companies": {
-      "total": 45,
-      "active": 40,
-      "pending": 3,
-      "inactive": 2
-    },
-    "users": {
-      "total": 120,
-      "active": 115,
-      "admin": 5,
-      "regular": 110
-    }
-  }
-}
-```
-
-### **Suppliers Endpoints**
-
-#### **GET /suppliers**
-**Query Parameters:**
-- `page` (optional): Page number (default: 1)
-- `limit` (optional): Items per page (default: 10)
-- `status` (optional): Filter by status
-
-**Response:**
-```json
-{
-  "suppliers": [
-    {
-      "id": 1,
-      "supplier_code": "SUP001",
-      "supplier_type": "transport",
-      "overall_rating": 4.5,
-      "total_trips_completed": 150,
-      "total_revenue_generated": 25000.00,
-      "account_status": "active"
-    }
-  ],
-  "pagination": {
-    "page": 1,
-    "limit": 10,
-    "total": 45,
-    "pages": 5
-  }
-}
-```
-
-### **User Dashboard Endpoints**
-
-#### **GET /user-dashboard/drivers**
-**Query Parameters:**
-- `page` (optional): Page number
-- `limit` (optional): Items per page
-- `status` (optional): Filter by status
-- `search` (optional): Search term
-- `timestamp` (optional): For polling updates
-
-**Response:**
-```json
-{
-  "success": true,
-  "drivers": [
-    {
-      "id": 1,
-      "license_number": "DL123456",
-      "first_name": "John",
-      "last_name": "Doe",
-      "status": "active",
-      "availability_status": "available",
-      "total_trips": 50,
-      "average_rating": 4.5
-    }
-  ],
-  "summary": {
-    "total": 25,
-    "active": 20,
-    "available": 15,
-    "busy": 5
-  },
-  "pagination": {
-    "page": 1,
-    "limit": 50,
-    "total": 25,
-    "pages": 1
-  }
-}
-```
-
-#### **POST /user-dashboard/drivers**
-```json
-{
-  "license_number": "DL123456",
-  "first_name": "John",
-  "last_name": "Doe",
-  "license_type": "professional",
-  "license_class": "A",
-  "date_of_birth": "1990-01-01",
-  "phone": "+1234567890",
-  "email": "john.doe@example.com",
-  "address": "123 Main St, City",
-  "emergency_contact_name": "Jane Doe",
-  "emergency_contact_phone": "+1234567891"
-}
-```
-
-### **Monitoring Endpoints**
-
-#### **GET /monitoring/health**
-**Response:**
-```json
-{
-  "healthScore": 95,
-  "dbResponseTime": 12.5,
-  "apiResponseTime": 45.2,
-  "activeSessions": 25,
-  "systemErrors": 0,
-  "status": "healthy",
-  "lastCheck": "2024-01-15T10:30:00Z"
-}
-```
-
-#### **GET /monitoring/metrics**
-**Query Parameters:**
-- `hours` (optional): Time range in hours (default: 24)
-
-**Response:**
-```json
-{
-  "period": "24 hours",
-  "metrics": [
-    {
-      "timestamp": "2024-01-15T10:00:00Z",
-      "healthScore": 95,
-      "dbResponseTime": 12.5,
-      "apiResponseTime": 45.2,
-      "activeSessions": 25,
-      "systemErrors": 0
-    }
-  ],
-  "averages": {
-    "healthScore": 94.5,
-    "dbResponseTime": 13.2,
-    "apiResponseTime": 48.1,
-    "activeSessions": 23,
-    "systemErrors": 0.5
-  }
-}
-```
+### **File Upload Middleware**
+- **Multer**: File upload handling
+- **File Validation**: Type and size validation
+- **Virus Scanning**: File security checks
+- **Storage Management**: Organized file storage
 
 ## 🔒 **Security Features**
 
 ### **Authentication**
-- **JWT Tokens**: Bearer token authentication
-- **Rate Limiting**: Configurable per endpoint
-- **Password Hashing**: bcrypt with salt rounds
+- **JWT Tokens**: Bearer token authentication with refresh tokens
+- **Password Security**: bcrypt with configurable salt rounds
 - **Session Management**: IP tracking and user agent logging
+- **Multi-factor Authentication**: TOTP support (planned)
 
 ### **Authorization**
 - **Role-Based Access Control**: admin, supplier, driver, customer
 - **Permission System**: Granular permissions per resource
 - **Company Isolation**: Multi-tenant data separation
+- **Resource Ownership**: User-specific data access
 
 ### **Security Headers**
 - **CORS**: Configurable allowed origins
-- **Helmet**: Security headers
+- **Helmet**: Comprehensive security headers
 - **CSRF Protection**: Token-based protection
 - **Request Sanitization**: Input validation and sanitization
+- **SQL Injection Prevention**: Parameterized queries
+
+### **Rate Limiting**
+- **Endpoint-specific limits**: Different limits per endpoint
+- **User-based tracking**: Per-user rate limiting
+- **IP-based fallback**: IP address tracking
+- **Configurable windows**: Flexible time windows
 
 ## 📊 **Response Formats**
 
@@ -423,7 +256,8 @@
   "success": true,
   "data": {},
   "message": "Operation completed successfully",
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2024-01-15T10:30:00Z",
+  "requestId": "req_123456789"
 }
 ```
 
@@ -435,9 +269,13 @@
     "code": "VALIDATION_ERROR",
     "message": "Invalid input data",
     "statusCode": 400,
-    "details": {}
+    "details": {
+      "field": "email",
+      "issue": "Invalid email format"
+    }
   },
-  "timestamp": "2024-01-15T10:30:00Z"
+  "timestamp": "2024-01-15T10:30:00Z",
+  "requestId": "req_123456789"
 }
 ```
 
@@ -453,28 +291,47 @@
     "pages": 10,
     "hasNext": true,
     "hasPrev": false
-  }
+  },
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+
+### **File Upload Response**
+```json
+{
+  "success": true,
+  "data": {
+    "fileId": "file_123456789",
+    "filename": "document.pdf",
+    "size": 1024000,
+    "mimeType": "application/pdf",
+    "url": "/uploads/documents/document.pdf",
+    "uploadedAt": "2024-01-15T10:30:00Z"
+  },
+  "message": "File uploaded successfully"
 }
 ```
 
 ## 🚀 **Performance Features**
 
-### **Caching**
+### **Caching Strategy**
 - **API Response Caching**: In-memory cache with TTL
-- **Database Query Optimization**: Prepared statements
+- **Database Query Optimization**: Prepared statements and indexing
 - **Connection Pooling**: Efficient database connections
+- **Static Asset Caching**: CDN-ready asset serving
 
-### **Monitoring**
-- **Request/Response Logging**: Performance tracking
-- **Error Tracking**: Comprehensive error logging
+### **Monitoring & Analytics**
+- **Request/Response Logging**: Comprehensive performance tracking
+- **Error Tracking**: Detailed error logging and reporting
 - **Health Checks**: System status monitoring
-- **Metrics Collection**: Performance analytics
+- **Metrics Collection**: Performance analytics and alerting
 
-### **Optimization**
+### **Optimization Techniques**
 - **Lazy Loading**: Component-based loading
 - **Data Pagination**: Efficient data retrieval
 - **Polling Optimization**: Timestamp-based updates
-- **Compression**: Response compression
+- **Compression**: Response compression (gzip/brotli)
+- **Database Indexing**: Optimized query performance
 
 ## 📝 **API Documentation**
 
@@ -483,12 +340,14 @@
 - **Interactive Documentation**: Test endpoints directly
 - **Schema Definitions**: Complete request/response schemas
 - **Authentication**: Bearer token support
+- **Examples**: Request/response examples
 
 ### **Health Check**
 - **URL**: `/health`
 - **Database Status**: Connection verification
 - **System Metrics**: Memory, CPU, uptime
 - **Environment Info**: Configuration details
+- **Dependencies**: External service status
 
 ## 🔄 **WebSocket Support**
 
@@ -497,5 +356,40 @@
 - **Real-time Updates**: Live data synchronization
 - **Event Broadcasting**: System-wide notifications
 - **Status Indicators**: Connection state management
+- **Reconnection Logic**: Automatic reconnection handling
 
-This comprehensive API structure provides a robust foundation for the inflight-login system with proper authentication, authorization, monitoring, and performance optimization features. 
+### **WebSocket Events**
+```javascript
+// Connection events
+'connect'           // Client connected
+'disconnect'        // Client disconnected
+'reconnect'         // Client reconnected
+
+// Data events
+'booking_update'    // Booking status changes
+'notification'      // New notifications
+'system_alert'      // System alerts
+'status_change'     // Status updates
+```
+
+## 🛠 **Development Tools**
+
+### **Environment Configuration**
+- **Development**: `.env.development`
+- **Production**: `.env.production`
+- **Testing**: `.env.test`
+- **Local Override**: `.env.local`
+
+### **Database Management**
+- **Migrations**: Automated schema updates
+- **Seeds**: Initial data population
+- **Backup**: Automated database backups
+- **Monitoring**: Query performance tracking
+
+### **Testing Support**
+- **Unit Tests**: Jest framework
+- **Integration Tests**: API endpoint testing
+- **E2E Tests**: Full workflow testing
+- **Performance Tests**: Load testing support
+
+This comprehensive API structure provides a robust, scalable, and secure foundation for the inflight-login system with proper authentication, authorization, monitoring, and performance optimization features. 
