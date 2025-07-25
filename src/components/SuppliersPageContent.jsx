@@ -385,6 +385,38 @@ const SuppliersPageContent = ({
                                     placeholder="Enter security deposit"
                                   />
                                 </div>
+                                <div className="form-group">
+                                  <label>CONTRACTED RATES</label>
+                                  <input 
+                                    type="date" 
+                                    value={supplierFormData.contractedRatesDate || ''}
+                                    onChange={(e) => handleFormChange('contractedRatesDate', e.target.value)}
+                                    placeholder="Select date"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>CORPORATE RATES</label>
+                                  <input 
+                                    type="date" 
+                                    value={supplierFormData.corporateRatesDate || ''}
+                                    onChange={(e) => handleFormChange('corporateRatesDate', e.target.value)}
+                                    placeholder="Select date"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>ACCREDITATION</label>
+                                  <select 
+                                    value={supplierFormData.accreditation || ''}
+                                    onChange={(e) => handleFormChange('accreditation', e.target.value)}
+                                  >
+                                    <option value="">Select accreditation</option>
+                                    <option value="accredited_dir">Accredited (DIR)</option>
+                                    <option value="accredited">Accredited</option>
+                                    <option value="non_accredited_inn">Non-Accredited (Inn/Airbnb)</option>
+                                    <option value="non_accredited">Non-Accredited</option>
+                                    <option value="on_process">On Process</option>
+                                  </select>
+                                </div>
                           </div>
                         </div>
 
