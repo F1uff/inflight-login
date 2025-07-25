@@ -101,6 +101,9 @@ router.get('/', async (req, res) => {
                 s.security_deposit,
                 s.location,
                 s.property_name,
+                s.contracted_rates_date,
+                s.corporate_rates_date,
+                s.accreditation,
                 c.name as company_name,
                 c.email as company_email,
                 c.phone as company_phone,
@@ -163,6 +166,9 @@ router.get('/', async (req, res) => {
                 securityDeposit: supplier.security_deposit,
                 location: supplier.location,
                 propertyName: supplier.property_name,
+                contractedRatesDate: supplier.contracted_rates_date,
+                corporateRatesDate: supplier.corporate_rates_date,
+                accreditation: supplier.accreditation,
                 createdAt: supplier.created_at,
                 updatedAt: supplier.updated_at
             })),
@@ -383,7 +389,10 @@ router.post('/', async (req, res) => {
             securityDeposit,
             // New fields
             location,
-            propertyName
+            propertyName,
+            contractedRatesDate,
+            corporateRatesDate,
+            accreditation
         } = req.body;
 
         // Use new field name if available, fallback to old field name
@@ -435,9 +444,12 @@ router.post('/', async (req, res) => {
                 security_deposit,
                 location,
                 property_name,
+                contracted_rates_date,
+                corporate_rates_date,
+                accreditation,
                 created_at, 
                 updated_at
-            ) VALUES ($1, $2, $3, 0.0, 0, 0.0, 0.0, 'pending', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ) VALUES ($1, $2, $3, 0.0, 0, 0.0, 0.0, 'pending', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             RETURNING id
         `;
 
@@ -457,7 +469,10 @@ router.post('/', async (req, res) => {
             frontdeskEmail,
             securityDeposit,
             location, // Use location field only
-            propertyName || companyName  // Use propertyName or fallback to companyName
+            propertyName || companyName,  // Use propertyName or fallback to companyName
+            contractedRatesDate,
+            corporateRatesDate,
+            accreditation
         ]);
 
         const supplierId = supplierResult.rows[0].id;
