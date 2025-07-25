@@ -627,7 +627,7 @@ const AdminDashboard = () => {
 
   const getTableHeaders = () => {
     if (uiState.selectedSupplierType === 'hotels') {
-      return ['', 'Location', 'Property Name', 'Contracted Rates', 'Corporate Rates', 'Validity', 'Remarks', 'Status'];
+      return ['', 'Location', 'Company Name', 'Contracted Rates', 'Corporate Rates', 'Validity', 'Remarks', 'Status'];
     } else {
       return ['', 'Location', 'Company Name', 'Company Address', 'Tariff Rates', 'Validity', 'Remarks', 'Status'];
     }
