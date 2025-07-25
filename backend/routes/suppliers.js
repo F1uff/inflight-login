@@ -456,7 +456,7 @@ router.post('/', async (req, res) => {
             frontdeskPhone,
             frontdeskEmail,
             securityDeposit,
-            location || companyAddress, // Use location or fallback to companyAddress
+            location, // Use location field only
             propertyName || companyName  // Use propertyName or fallback to companyName
         ]);
 
@@ -500,6 +500,8 @@ router.post('/', async (req, res) => {
                 frontdeskPhone: supplier.frontdesk_phone,
                 frontdeskEmail: supplier.frontdesk_email,
                 securityDeposit: supplier.security_deposit,
+                location: supplier.location,
+                propertyName: supplier.property_name,
                 accountStatus: supplier.account_status,
                 overallRating: supplier.overall_rating,
                 totalTripsCompleted: supplier.total_trips_completed,
