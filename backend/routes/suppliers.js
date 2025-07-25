@@ -99,6 +99,8 @@ router.get('/', async (req, res) => {
                 s.frontdesk_phone,
                 s.frontdesk_email,
                 s.security_deposit,
+                s.location,
+                s.property_name,
                 c.name as company_name,
                 c.email as company_email,
                 c.phone as company_phone,
@@ -159,6 +161,8 @@ router.get('/', async (req, res) => {
                 frontdeskPhone: supplier.frontdesk_phone,
                 frontdeskEmail: supplier.frontdesk_email,
                 securityDeposit: supplier.security_deposit,
+                location: supplier.location,
+                propertyName: supplier.property_name,
                 createdAt: supplier.created_at,
                 updatedAt: supplier.updated_at
             })),
@@ -359,7 +363,6 @@ router.post('/', async (req, res) => {
     try {
         const pool = getConnection();
         const {
-            location,
             companyName,
             companyAddress,
             contactNumber,
@@ -377,7 +380,10 @@ router.post('/', async (req, res) => {
             // Hotel-specific fields
             frontdeskPhone,
             frontdeskEmail,
-            securityDeposit
+            securityDeposit,
+            // New fields
+            location,
+            propertyName
         } = req.body;
 
         // Use new field name if available, fallback to old field name
@@ -399,7 +405,7 @@ router.post('/', async (req, res) => {
             RETURNING id
         `;
 
-        const companyResult = await pool.query(createCompanyQuery, [companyName, email, contactNumber, companyAddress, location || companyAddress]);
+        const companyResult = await pool.query(createCompanyQuery, [companyName, email, contactNumber, companyAddress, companyAddress]);
         const companyId = companyResult.rows[0].id;
         
         // Generate supplier code
@@ -427,9 +433,11 @@ router.post('/', async (req, res) => {
                 frontdesk_phone,
                 frontdesk_email,
                 security_deposit,
+                location,
+                property_name,
                 created_at, 
                 updated_at
-            ) VALUES ($1, $2, $3, 0.0, 0, 0.0, 0.0, 'pending', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ) VALUES ($1, $2, $3, 0.0, 0, 0.0, 0.0, 'pending', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             RETURNING id
         `;
 
@@ -447,7 +455,9 @@ router.post('/', async (req, res) => {
             remarks,
             frontdeskPhone,
             frontdeskEmail,
-            securityDeposit
+            securityDeposit,
+            location || companyAddress, // Use location or fallback to companyAddress
+            propertyName || companyName  // Use propertyName or fallback to companyName
         ]);
 
         const supplierId = supplierResult.rows[0].id;
@@ -517,7 +527,6 @@ router.put('/:id', async (req, res) => {
         const pool = getConnection();
         const supplierId = req.params.id;
         const {
-            location,
             companyRepresentative,
             designation,
             telNumber,
@@ -559,23 +568,21 @@ router.put('/:id', async (req, res) => {
         const companyId = supplierResult.rows[0].company_id;
 
         // Update company fields if provided
-        if (contactNumber || email || companyAddress || location) {
+        if (contactNumber || email || companyAddress) {
             const companyUpdateQuery = `
                 UPDATE companies 
                 SET 
                     phone = COALESCE($1, phone),
                     email = COALESCE($2, email),
                     address_line1 = COALESCE($3, address_line1),
-                    city = COALESCE($4, city),
                     updated_at = CURRENT_TIMESTAMP
-                WHERE id = $5
+                WHERE id = $4
             `;
             
             await pool.query(companyUpdateQuery, [
                 contactNumber || null,
                 email || null,
                 companyAddress || null,
-                location || null,
                 companyId
             ]);
         }
