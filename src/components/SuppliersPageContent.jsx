@@ -287,6 +287,15 @@ const SuppliersPageContent = ({
                                 placeholder="Enter email address"
                               />
                             </div>
+                            <div className="form-group">
+                              <label>COMPANY ADDRESS</label>
+                              <input 
+                                type="text" 
+                                value={supplierFormData.companyAddress || ''}
+                                onChange={(e) => handleFormChange('companyAddress', e.target.value)}
+                                placeholder="Enter company address"
+                              />
+                            </div>
 
                           </div>
                               

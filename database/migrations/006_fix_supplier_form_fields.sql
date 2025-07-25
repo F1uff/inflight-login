@@ -8,22 +8,19 @@
 ALTER TABLE suppliers 
 ADD COLUMN IF NOT EXISTS location VARCHAR(255);
 
--- Add missing property_name field (if needed for future use)
-ALTER TABLE suppliers 
-ADD COLUMN IF NOT EXISTS property_name VARCHAR(255);
-
 -- Add indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_suppliers_location ON suppliers(location);
-CREATE INDEX IF NOT EXISTS idx_suppliers_property_name ON suppliers(property_name);
+
+-- First update any existing invalid supplier types
+UPDATE suppliers SET supplier_type = 'transport' WHERE supplier_type NOT IN ('transport', 'logistics', 'tour', 'rental', 'hotel', 'land_transfer', 'hotels', 'transfer');
 
 -- Update supplier_type check constraint to include all types
 ALTER TABLE suppliers DROP CONSTRAINT IF EXISTS suppliers_supplier_type_check;
 ALTER TABLE suppliers ADD CONSTRAINT suppliers_supplier_type_check 
-    CHECK (supplier_type IN ('transport', 'logistics', 'tour', 'rental', 'hotel', 'land_transfer', 'hotels'));
+    CHECK (supplier_type IN ('transport', 'logistics', 'tour', 'rental', 'hotel', 'land_transfer', 'hotels', 'transfer'));
 
 -- Add comments to document the new fields
 COMMENT ON COLUMN suppliers.location IS 'Supplier location/address';
-COMMENT ON COLUMN suppliers.property_name IS 'Property name for hotel suppliers';
 
 -- Ensure all required fields have proper defaults
 ALTER TABLE suppliers 
@@ -41,7 +38,5 @@ ALTER COLUMN company_id SET NOT NULL;
 
 -- Update existing records to have proper defaults if needed
 UPDATE suppliers 
-SET 
-    location = COALESCE(location, 'N/A'),
-    property_name = COALESCE(property_name, 'N/A')
-WHERE location IS NULL OR property_name IS NULL; 
+SET location = COALESCE(location, 'N/A')
+WHERE location IS NULL; 
