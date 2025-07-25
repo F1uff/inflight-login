@@ -627,7 +627,7 @@ const AdminDashboard = () => {
 
   const getTableHeaders = () => {
     if (uiState.selectedSupplierType === 'hotels') {
-      return ['', 'Location', 'Company Name', 'Contracted Rates\n(Validity)', 'Corporate Rates\n(Validity)', 'Accreditation', 'Status'];
+      return ['', 'Location', 'Company Name', 'Contracted Rates', 'Corporate Rates', 'Accreditation', 'Status'];
     } else {
       return ['', 'Location', 'Company Name', 'Company Address', 'Tariff Rates', 'Validity', 'Remarks', 'Status'];
     }
@@ -636,15 +636,15 @@ const AdminDashboard = () => {
   const getTableRowData = (supplier) => {
     if (uiState.selectedSupplierType === 'hotels') {
       return [
-        supplier.company?.city || 'N/A',
+        supplier.location || supplier.company?.city || 'N/A',
         supplier.company?.name || 'N/A',
-        'TBD\n(Validity)', // contracted rates with validity
-        'TBD\n(Validity)', // corporate rates with validity
+        'TBD', // contracted rates
+        'TBD', // corporate rates
         `Rating: ${supplier.rating}/5.0` || 'N/A'
       ];
     } else {
       return [
-        supplier.company?.city || 'N/A',
+        supplier.location || supplier.company?.city || 'N/A',
         supplier.company?.name || 'N/A',
         supplier.company?.address || 'N/A',
         'TBD', // tariff rates
