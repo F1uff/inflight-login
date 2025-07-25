@@ -261,6 +261,15 @@ const SuppliersPageContent = ({
                               />
                             </div>
                             <div className="form-group">
+                              <label>PROPERTY NAME</label>
+                              <input 
+                                type="text" 
+                                value={supplierFormData.propertyName || ''}
+                                onChange={(e) => handleFormChange('propertyName', e.target.value)}
+                                placeholder="Enter property name"
+                              />
+                            </div>
+                            <div className="form-group">
                                   <label>SALE REPRESENTATIVE</label>
                               <input 
                                 type="text" 
