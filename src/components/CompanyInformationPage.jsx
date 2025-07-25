@@ -153,18 +153,22 @@ function CompanyInformationPage() {
             <div className="company-form-fields">
               <div className="form-row">
                 <div className="form-group">
-                  <label>USER ID <span className="field-note">(Generated Automatically Based in Registration)</span></label>
+                  <label htmlFor="user-id">USER ID <span className="field-note">(Generated Automatically Based in Registration)</span></label>
                   <input 
                     type="text" 
+                    id="user-id"
+                    name="userId"
                     className="form-control" 
                     value={formFields.userId}
                     disabled
                   />
                 </div>
                 <div className="form-group">
-                  <label>COMPANY NAME</label>
+                  <label htmlFor="company-name">COMPANY NAME</label>
                   <input 
                     type="text" 
+                    id="company-name"
+                    name="companyName"
                     className="form-control" 
                     value={formFields.companyName}
                     onChange={(e) => handleInputChange('companyName', e.target.value)}
@@ -174,18 +178,22 @@ function CompanyInformationPage() {
               
               <div className="form-row">
                 <div className="form-group">
-                  <label>LAST NAME <span className="field-note">(Company Representative)</span></label>
+                  <label htmlFor="last-name">LAST NAME <span className="field-note">(Company Representative)</span></label>
                   <input 
                     type="text" 
+                    id="last-name"
+                    name="lastName"
                     className="form-control" 
                     value={formFields.lastName}
                     onChange={(e) => handleInputChange('lastName', e.target.value)}
                   />
                 </div>
                 <div className="form-group">
-                  <label>FIRST NAME <span className="field-note">(Company Representative)</span></label>
+                  <label htmlFor="first-name">FIRST NAME <span className="field-note">(Company Representative)</span></label>
                   <input 
                     type="text" 
+                    id="first-name"
+                    name="firstName"
                     className="form-control" 
                     value={formFields.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
@@ -195,9 +203,11 @@ function CompanyInformationPage() {
               
               <div className="form-row">
                 <div className="form-group">
-                  <label>DESIGNATION</label>
+                  <label htmlFor="designation">DESIGNATION</label>
                   <input 
                     type="text" 
+                    id="designation"
+                    name="designation"
                     className="form-control" 
                     value={formFields.designation}
                     onChange={(e) => handleInputChange('designation', e.target.value)}
@@ -207,9 +217,11 @@ function CompanyInformationPage() {
               
               <div className="form-row">
                 <div className="form-group">
-                  <label>CONTACT #</label>
+                  <label htmlFor="contact-number">CONTACT #</label>
                   <input 
                     type="text" 
+                    id="contact-number"
+                    name="contactNumber"
                     className="form-control" 
                     value={formFields.contactNumber}
                     onChange={(e) => handleInputChange('contactNumber', e.target.value)}
@@ -217,9 +229,11 @@ function CompanyInformationPage() {
                   <div className="phone-format">Phone must be +63 format</div>
                 </div>
                 <div className="form-group">
-                  <label>EMAIL ADDRESS</label>
+                  <label htmlFor="email-address">EMAIL ADDRESS</label>
                   <input 
                     type="email" 
+                    id="email-address"
+                    name="emailAddress"
                     className="form-control" 
                     value={formFields.emailAddress}
                     onChange={(e) => handleInputChange('emailAddress', e.target.value)}

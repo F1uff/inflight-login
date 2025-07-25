@@ -1,24 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Images/logos used in the app
 import logo from './assets/inflight-menu-logo.png';
-import timLogo from './assets/tim-logo.svg';
 import corporateLogo from './assets/corporate-emblem.png';
 
-// Page and component imports
-import CombinedRegistrationForm from './components/CombinedRegistrationForm';
-import Dashboard from './components/Dashboard';
-import AdminDashboard from './components/AdminDashboard';
-import UserDashboard from './components/UserDashboard';
-import HotelDashboard from './components/HotelDashboard';
-import UserProfile from './components/UserProfile';
-import RedPlanetProfile from './components/RedPlanetProfile';
-import RoleBasedRedirect from './components/RoleBasedRedirect';
-import CompanyInformationPage from './components/CompanyInformationPage';
-import LoginCard from './components/LoginCard';
-import SystemPerformancePage from './components/SystemPerformancePage';
+// Lazy load components to improve initial load time
+const CombinedRegistrationForm = lazy(() => import('./components/CombinedRegistrationForm'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
+const UserDashboard = lazy(() => import('./components/UserDashboard'));
+const HotelDashboard = lazy(() => import('./components/HotelDashboard'));
+
+const UserProfile = lazy(() => import('./components/UserProfile'));
+const RedPlanetProfile = lazy(() => import('./components/RedPlanetProfile'));
+const RoleBasedRedirect = lazy(() => import('./components/RoleBasedRedirect'));
+const CompanyInformationPage = lazy(() => import('./components/CompanyInformationPage'));
+const LoginCard = lazy(() => import('./components/LoginCard'));
+const SystemPerformancePage = lazy(() => import('./components/SystemPerformancePage'));
+const DocumentsPage = lazy(() => import('./components/DocumentsPage'));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="loading-container">
+    <div className="loading-spinner"></div>
+    <p>Loading application...</p>
+  </div>
+);
 
 // Email icon for login form
 const EmailIcon = () => (
@@ -46,7 +56,7 @@ export const Header = ({ isDashboard = false, isUserDashboard = false, isRedPlan
     return (
       <header className="user-dashboard-header">
         <div className="user-dashboard-logo">
-          <img src={timLogo} alt="TIM Logo" className="service-portal-logo" />
+          <img src={logo} alt="Inflight Menu Logo" className="service-portal-logo" />
           <span className="service-portal-text">DASHBOARD</span>
         </div>
         <nav className="user-dashboard-nav">
@@ -64,7 +74,7 @@ export const Header = ({ isDashboard = false, isUserDashboard = false, isRedPlan
     return (
       <header className="user-dashboard-header">
         <div className="user-dashboard-logo">
-          <img src={timLogo} alt="TIM Logo" className="service-portal-logo" />
+          <img src={logo} alt="Inflight Menu Logo" className="service-portal-logo" />
           <span className="service-portal-text">PROFILE</span>
         </div>
         <nav className="user-dashboard-nav">
@@ -82,7 +92,7 @@ export const Header = ({ isDashboard = false, isUserDashboard = false, isRedPlan
     return (
       <header className="user-dashboard-header">
         <div className="user-dashboard-logo">
-          <img src={timLogo} alt="TIM Logo" className="service-portal-logo" />
+          <img src={logo} alt="Inflight Menu Logo" className="service-portal-logo" />
           <span className="service-portal-text">DASHBOARD</span>
         </div>
         <nav className="user-dashboard-nav">
@@ -176,6 +186,7 @@ const AppContent = () => {
   const isUserDashboard = currentPath.includes('/dashboard/user');
   const isRedPlanetProfile = currentPath.includes('/dashboard/user2/profile');
   const isRedPlanetDashboard = currentPath.includes('/dashboard/user2') && !currentPath.includes('/dashboard/user2/profile');
+
   const isSystemPerformance = currentPath.includes('/system-performance');
   const isCompanyInfoView = currentPath.includes('/company-info');
   const isLoginOrRegister = currentPath === '/' || currentPath.includes('/register');
@@ -231,19 +242,23 @@ const AppContent = () => {
       )}
 
       <main className={isAdminDashboard || isUserDashboard || isRedPlanetProfile || isRedPlanetDashboard || isSystemPerformance ? "dashboard-main" : `main-content ${currentPath.includes('/register') ? 'registration-page' : ''}`}>
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/register" element={<CombinedRegistrationForm />} />
-          <Route path="/dashboard" element={<RoleBasedRedirect />} />
-          <Route path="/dashboard/admin" element={<AdminDashboard />} />
-          <Route path="/dashboard/user" element={<UserDashboard />} />
-          <Route path="/dashboard/user2" element={<HotelDashboard />} />
-          <Route path="/dashboard/user2/profile" element={<RedPlanetProfile />} />
-          <Route path="/dashboard/user/profile" element={<UserProfile />} />
-          <Route path="/dashboard/user/company-info" element={<UserDashboard companyInfoView={true} />} />
-          <Route path="/system-performance" element={<SystemPerformancePage />} />
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/register" element={<CombinedRegistrationForm />} />
+            <Route path="/dashboard" element={<RoleBasedRedirect />} />
+            <Route path="/dashboard/admin" element={<AdminDashboard />} />
+            <Route path="/dashboard/user" element={<UserDashboard />} />
+            <Route path="/dashboard/ronway" element={<UserDashboard />} />
+            <Route path="/dashboard/user2" element={<HotelDashboard />} />
+            <Route path="/dashboard/user2/profile" element={<RedPlanetProfile />} />
+            <Route path="/dashboard/user/profile" element={<UserProfile />} />
+            <Route path="/dashboard/user/company-info" element={<UserDashboard companyInfoView={true} />} />
+            <Route path="/system-performance" element={<SystemPerformancePage />} />
+            <Route path="/documents" element={<DocumentsPage />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </Suspense>
       </main>
 
       {!isAdminDashboard && !isUserDashboard && !isRedPlanetProfile && !isRedPlanetDashboard && !isSystemPerformance && <Footer />}
@@ -253,10 +268,15 @@ const AppContent = () => {
 
 // Main app with router setup
 const App = () => {
+  // Use environment variable for base path or fallback to hardcoded value for backward compatibility
+  const basePath = import.meta.env.VITE_APP_BASE_PATH || '/serviceportal/static/inflight-login';
+  
   return (
-    <Router basename="/serviceportal/static/inflight-login">
-      <AppContent />
-    </Router>
+    <ErrorBoundary>
+      <Router basename={basePath}>
+        <AppContent />
+      </Router>
+    </ErrorBoundary>
   );
 };
 

@@ -8,9 +8,7 @@
     "dev": "nodemon server.js",
     "init-db": "node scripts/init-database.js",
     "init-postgresql": "node scripts/init-postgresql.js",
-    "migrate-to-postgresql": "node scripts/migrate-sqlite-to-postgresql.js",
-    "start-postgresql": "DATABASE_TYPE=postgresql node server.js",
-    "start-sqlite": "DATABASE_TYPE=sqlite node server.js"
+    "start-postgresql": "DATABASE_TYPE=postgresql node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,11 +17,15 @@
     "dotenv": "^16.6.1",
     "express": "^4.18.2",
     "express-rate-limit": "^6.8.1",
+    "express-validator": "^7.2.1",
     "helmet": "^7.0.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
     "pg": "^8.16.3",
-    "sqlite3": "^5.1.6",
-    "uuid": "^9.0.0"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.0",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

@@ -1,0 +1,79 @@
+/* Simple Round Status Button */
+.booking-status-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.booking-status-button.clickable:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 1);
+}
+
+.booking-status-button.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.booking-status-button .loading-spinner {
+  font-size: 8px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Editing Mode */
+.booking-status-dropdown-simple.editing {
+  position: relative;
+  z-index: 1000;
+}
+
+.status-select-simple {
+  padding: 4px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  background-color: #ffffff;
+  cursor: pointer;
+  min-width: 100px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.status-select-simple:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.status-select-simple option {
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .booking-status-button {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .status-select-simple {
+    font-size: 10px;
+    min-width: 90px;
+  }
+} 

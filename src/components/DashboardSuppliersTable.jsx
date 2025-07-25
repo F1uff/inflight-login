@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const DashboardSuppliersTable = ({ expandedDashboardSupplier, toggleDashboardSupplierExpansion }) => {
+const DashboardSuppliersTable = ({ 
+  expandedDashboardSupplier, 
+  toggleDashboardSupplierExpansion,
+  selectedStatus,
+  searchTerms,
+  handleSearchChange,
+  filterByStatus,
+  getCurrentSuppliersList,
+  getTableHeaders,
+  getTableRowData,
+  selectedSupplierType,
+  handleSupplierTypeChange
+}) => {
+  // Date range state for filtering
+  const [dateRange] = useState({
+    startDate: new Date(2025, 3, 25), // April 25, 2025
+    endDate: new Date(2025, 4, 24)    // May 24, 2025
+  });
+  
+  // Get current suppliers list using shared function
+  const currentSuppliersList = getCurrentSuppliersList ? getCurrentSuppliersList() : [];
+  
   return (
     <div className="suppliers-list-section">
       <div className="suppliers-header">
         <h2>LIST OF SUPPLIERS</h2>
         <div className="suppliers-controls">
-          <div className="date-range-picker">
-            <span>25/04/2025 - 24/05/2025</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 10l5 5 5-5H7z"/>
-            </svg>
+          <div className="date-range-placeholder">
+            <span>Date Range: {dateRange.startDate.toLocaleDateString()} - {dateRange.endDate.toLocaleDateString()}</span>
           </div>
           <button className="filters-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -23,28 +41,45 @@ const DashboardSuppliersTable = ({ expandedDashboardSupplier, toggleDashboardSup
       
       <div className="suppliers-filter-section">
         <div className="supplier-type-dropdown">
-          <select value="Land Transfer">
-            <option>Land Transfer</option>
-            <option>Air Transfer</option>
-            <option>Sea Transfer</option>
+          <select value={selectedSupplierType || 'land_transfer'} onChange={handleSupplierTypeChange}>
+            <option value="hotels">Hotels</option>
+            <option value="land_transfer">Land Transfer</option>
           </select>
         </div>
+        
         <div className="status-indicators">
-          <div className="status-indicator active">
+          <div 
+            className={`status-indicator active ${selectedStatus === 'active' ? 'selected' : ''}`}
+            onClick={() => filterByStatus && filterByStatus('active')}
+          >
             <div className="status-dot active"></div>
             <span>Active</span>
           </div>
-          <div className="status-indicator pending">
+          <div 
+            className={`status-indicator pending ${selectedStatus === 'pending' ? 'selected' : ''}`}
+            onClick={() => filterByStatus && filterByStatus('pending')}
+          >
             <div className="status-dot pending"></div>
             <span>Pending</span>
           </div>
-          <div className="status-indicator inactive">
+          <div 
+            className={`status-indicator inactive ${selectedStatus === 'inactive' ? 'selected' : ''}`}
+            onClick={() => filterByStatus && filterByStatus('inactive')}
+          >
             <div className="status-dot inactive"></div>
             <span>In-active</span>
           </div>
         </div>
+        
         <div className="search-container">
-          <input type="text" placeholder="Search suppliers..." />
+          <input 
+            type="text" 
+            id="supplier-search" 
+            name="supplierSearch" 
+            placeholder="Search suppliers..." 
+            value={searchTerms?.suppliers || ''}
+            onChange={(e) => handleSearchChange && handleSearchChange('suppliers', e.target.value)}
+          />
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
           </svg>
@@ -55,202 +90,151 @@ const DashboardSuppliersTable = ({ expandedDashboardSupplier, toggleDashboardSup
         <table className="suppliers-table">
           <thead>
             <tr>
-              <th></th>
-              <th>Location</th>
-              <th>Company Name</th>
-              <th>Company Address</th>
-              <th>Tariff Rate</th>
-              <th>Validity</th>
-              <th>Remarks</th>
-              <th>Status</th>
+              {(getTableHeaders ? getTableHeaders() : ['', 'Location', 'Company', 'Address', 'Rate', 'Validity', 'Remarks', 'Status']).map((header, index) => (
+                <th key={index}>{header}</th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr className="supplier-row" onClick={() => toggleDashboardSupplierExpansion('supplier-1')}>
-              <td className="expand-icon">{expandedDashboardSupplier === 'supplier-1' ? 'V' : '>'}</td>
-              <td>QUEZON CITY</td>
-              <td>RONWAY CAR & TRAVEL INC.</td>
-              <td>Regalia Park Tower C.</td>
-              <td>N/A</td>
-              <td>Dec. 31, 2026</td>
-              <td>Accredited</td>
-              <td><div className="status-dot active"></div></td>
-            </tr>
-            {expandedDashboardSupplier === 'supplier-1' && (
-              <tr className="contact-details-row">
-                <td colSpan="8">
-                  <div className="contact-details-section">
-                    <h3>CONTACT DETAILS</h3>
-                    <div className="contact-form">
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>COMPANY REPRESENTATIVE</label>
-                          <input type="text" defaultValue="John Doe" />
-                        </div>
-                        <div className="form-group">
-                          <label>CONTACT NUMBER</label>
-                          <input type="text" defaultValue="0917-123-4567" />
-                        </div>
-                        <div className="form-group">
-                          <label>TEL. NUMBER</label>
-                          <input type="text" defaultValue="(02) 8123-4567" />
-                        </div>
-                      </div>
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>DESIGNATION</label>
-                          <input type="text" defaultValue="Operations Manager" />
-                        </div>
-                        <div className="form-group">
-                          <label>EMAIL ADDRESS</label>
-                          <input type="email" defaultValue="john.doe@ronway.com" />
-                        </div>
-                      </div>
-                      <div className="payment-section">
-                        <h4>PAYMENT TERMS</h4>
-                        <div className="form-row">
-                          <div className="form-group">
-                            <label>MODE OF PAYMENT</label>
-                            <input type="text" defaultValue="Bank Transfer" />
+            {currentSuppliersList.length > 0 ? (
+              currentSuppliersList.map((supplier) => {
+                const rowData = getTableRowData ? getTableRowData(supplier) : [];
+                return (
+                  <React.Fragment key={supplier.id}>
+                    <tr className="supplier-row" onClick={() => toggleDashboardSupplierExpansion(supplier.id)}>
+                      <td className="expand-icon">{expandedDashboardSupplier === supplier.id ? 'V' : '>'}</td>
+                      {rowData.map((cellData, index) => (
+                        <td key={index}>{cellData}</td>
+                      ))}
+                    </tr>
+                    {expandedDashboardSupplier === supplier.id && (
+                      <tr className="contact-details-row">
+                        <td colSpan={getTableHeaders ? getTableHeaders().length : 8}>
+                          <div className="contact-details-section">
+                            <div className="contact-details-header">
+                              <h3>CONTACT DETAILS</h3>
+                            </div>
+                            <div className="contact-form-grid">
+                              <div className="contact-form-column">
+                                <div className="form-group">
+                                  <label>COMPANY REPRESENTATIVE</label>
+                                  <input 
+                                    type="text" 
+                                    value={supplier.company?.representative || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>CONTACT NUMBER</label>
+                                  <input 
+                                    type="text" 
+                                    value={supplier.company?.phone || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>EMAIL ADDRESS</label>
+                                  <input 
+                                    type="email" 
+                                    value={supplier.company?.email || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                  />
+                                </div>
+                              </div>
+                              <div className="contact-form-column">
+                                <div className="form-group">
+                                  <label>DESIGNATION</label>
+                                  <input 
+                                    type="text" 
+                                    value={supplier.designation || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>TEL NUMBER</label>
+                                  <input 
+                                    type="text" 
+                                    value={supplier.telNumber || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                  />
+                                </div>
+                                <div className="form-group">
+                                  <label>COMPANY ADDRESS</label>
+                                  <input 
+                                    type="text" 
+                                    value={supplier.company?.address || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                  />
+                                </div>
+                              </div>
+                              <div className="contact-form-column">
+                                {selectedSupplierType === 'hotels' && (
+                                  <>
+                                    <div className="form-group">
+                                      <label>TYPE OF BREAKFAST</label>
+                                      <input 
+                                        type="text" 
+                                        value={supplier.breakfastType || 'N/A'}
+                                        disabled={true}
+                                        className="readonly-input"
+                                      />
+                                    </div>
+                                    <div className="form-group">
+                                      <label>ROOM QUANTITY</label>
+                                      <input 
+                                        type="text" 
+                                        value={supplier.roomQuantity || 'N/A'}
+                                        disabled={true}
+                                        className="readonly-input"
+                                      />
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            <div className="bottom-form-section">
+                              <div className="payment-terms-section">
+                                <div className="payment-form-row">
+                                  <div className="form-group">
+                                    <label>CREDIT TERMS</label>
+                                    <input 
+                                      type="text" 
+                                      value={supplier.creditTerms || 'N/A'}
+                                      disabled={true}
+                                      className="readonly-input"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="remarks-section">
+                                <div className="form-group">
+                                  <label>REMARKS</label>
+                                  <textarea 
+                                    value={supplier.remarks || 'N/A'}
+                                    disabled={true}
+                                    className="readonly-input"
+                                    rows="3"
+                                  />
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="form-group">
-                            <label>CREDIT TERMS</label>
-                            <input type="text" defaultValue="Net 30 days" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="remarks-section">
-                        <label>REMARKS</label>
-                        <textarea defaultValue="Preferred supplier for Quezon City routes. Excellent service record."></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            )}
-            
-            <tr className="supplier-row" onClick={() => toggleDashboardSupplierExpansion('supplier-2')}>
-              <td className="expand-icon">{expandedDashboardSupplier === 'supplier-2' ? 'V' : '>'}</td>
-              <td>CEBU CITY</td>
-              <td>FAST TRANSIT CORP.</td>
-              <td>IT Park, Lahug</td>
-              <td>₱2,500/day</td>
-              <td>Mar. 15, 2026</td>
-              <td>Contracted</td>
-              <td><div className="status-dot pending"></div></td>
-            </tr>
-            {expandedDashboardSupplier === 'supplier-2' && (
-              <tr className="contact-details-row">
-                <td colSpan="8">
-                  <div className="contact-details-section">
-                    <h3>CONTACT DETAILS</h3>
-                    <div className="contact-form">
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>COMPANY REPRESENTATIVE</label>
-                          <input type="text" defaultValue="Maria Santos" />
-                        </div>
-                        <div className="form-group">
-                          <label>CONTACT NUMBER</label>
-                          <input type="text" defaultValue="0932-456-7890" />
-                        </div>
-                        <div className="form-group">
-                          <label>TEL. NUMBER</label>
-                          <input type="text" defaultValue="(032) 234-5678" />
-                        </div>
-                      </div>
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>DESIGNATION</label>
-                          <input type="text" defaultValue="Fleet Manager" />
-                        </div>
-                        <div className="form-group">
-                          <label>EMAIL ADDRESS</label>
-                          <input type="email" defaultValue="maria.santos@fasttransit.com" />
-                        </div>
-                      </div>
-                      <div className="payment-section">
-                        <h4>PAYMENT TERMS</h4>
-                        <div className="form-row">
-                          <div className="form-group">
-                            <label>MODE OF PAYMENT</label>
-                            <input type="text" defaultValue="Check Payment" />
-                          </div>
-                          <div className="form-group">
-                            <label>CREDIT TERMS</label>
-                            <input type="text" defaultValue="Net 15 days" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="remarks-section">
-                        <label>REMARKS</label>
-                        <textarea defaultValue="Reliable partner for Cebu operations. Pending contract renewal."></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            )}
-            
-            <tr className="supplier-row" onClick={() => toggleDashboardSupplierExpansion('supplier-3')}>
-              <td className="expand-icon">{expandedDashboardSupplier === 'supplier-3' ? 'V' : '>'}</td>
-              <td>DAVAO CITY</td>
-              <td>MINDANAO EXPRESS</td>
-              <td>Poblacion District</td>
-              <td>₱3,000/day</td>
-              <td>Jun. 30, 2026</td>
-              <td>Active</td>
-              <td><div className="status-dot active"></div></td>
-            </tr>
-            {expandedDashboardSupplier === 'supplier-3' && (
-              <tr className="contact-details-row">
-                <td colSpan="8">
-                  <div className="contact-details-section">
-                    <h3>CONTACT DETAILS</h3>
-                    <div className="contact-form">
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>COMPANY REPRESENTATIVE</label>
-                          <input type="text" defaultValue="Roberto Cruz" />
-                        </div>
-                        <div className="form-group">
-                          <label>CONTACT NUMBER</label>
-                          <input type="text" defaultValue="0945-678-9012" />
-                        </div>
-                        <div className="form-group">
-                          <label>TEL. NUMBER</label>
-                          <input type="text" defaultValue="(082) 345-6789" />
-                        </div>
-                      </div>
-                      <div className="form-row">
-                        <div className="form-group">
-                          <label>DESIGNATION</label>
-                          <input type="text" defaultValue="General Manager" />
-                        </div>
-                        <div className="form-group">
-                          <label>EMAIL ADDRESS</label>
-                          <input type="email" defaultValue="roberto.cruz@mindanaoexpress.com" />
-                        </div>
-                      </div>
-                      <div className="payment-section">
-                        <h4>PAYMENT TERMS</h4>
-                        <div className="form-row">
-                          <div className="form-group">
-                            <label>MODE OF PAYMENT</label>
-                            <input type="text" defaultValue="Online Transfer" />
-                          </div>
-                          <div className="form-group">
-                            <label>CREDIT TERMS</label>
-                            <input type="text" defaultValue="Net 45 days" />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="remarks-section">
-                        <label>REMARKS</label>
-                        <textarea defaultValue="Top-rated supplier for Mindanao region. Excellent customer feedback."></textarea>
-                      </div>
-                    </div>
-                  </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="8" style={{ textAlign: 'center', padding: '20px' }}>
+                  No suppliers data available
                 </td>
               </tr>
             )}

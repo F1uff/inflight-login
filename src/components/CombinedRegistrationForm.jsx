@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './CombinedRegistrationForm.css';
 import EmailVerificationModal from './EmailVerificationModal';
+import apiService from '../services/api';
 import { 
   getRegions, 
   getProvincesByRegion, 
@@ -257,32 +258,33 @@ function CombinedRegistrationForm() {
   };
   
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (validateForm()) {
-      // Form data is valid, proceed with submission
-      console.log('Form data:', {
+      try {
+        // Prepare registration data
+        const registrationData = {
         email,
-        address: {
-          region: selectedRegion,
-          province: selectedProvince,
-          city: selectedCity,
-          barangay: selectedBarangay,
-          street,
-          zipCode
-        },
-        officePhone: `${areaCode}-${phoneNumber}`,
-        contactNumber: contactNumber,
-        businessType: businessType === "Others" ? `Others - ${othersValue}` : businessType,
-        establishmentName,
-        yearEstablished,
-        files
-      });
-      
-      // In a real application, you would send this data to your backend
-      // Show the email verification modal instead of an alert
+          password: 'tempPassword123!', // You might want to add a password field to the form
+          firstName: establishmentName.split(' ')[0] || 'User',
+          lastName: establishmentName.split(' ').slice(1).join(' ') || 'Account',
+          phone: contactNumber || `${areaCode}-${phoneNumber}`,
+          role: 'user'
+        };
+
+        // Call the registration API
+        const response = await apiService.register(registrationData);
+        
+        console.log('Registration successful:', response);
+        
+        // Show the email verification modal
       setShowVerificationModal(true);
+      } catch (error) {
+        console.error('Registration failed:', error);
+        // You might want to show an error message to the user
+        alert('Registration failed: ' + error.message);
+      }
     } else {
       // Scroll to the first error
       const firstErrorElement = document.querySelector('.error-message');

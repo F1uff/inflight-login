@@ -646,7 +646,6 @@
   white-space: nowrap;
 }
 
-.suppliers-table-container {
   width: 100%;
   overflow-x: auto;
   background: white;
@@ -656,7 +655,6 @@
   margin: 16px 0;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -669,8 +667,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.suppliers-table th,
-.suppliers-table td {
   padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f3f4;
@@ -685,16 +681,12 @@
   height: 48px;
 }
 
-.suppliers-table th:last-child,
-.suppliers-table td:last-child {
   border-right: none;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.suppliers-table th {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-weight: 600;
   color: #475569;
@@ -707,8 +699,6 @@
   text-align: center;
 }
 
-.suppliers-table td:first-child,
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
   vertical-align: middle;
@@ -716,85 +706,57 @@
 }
 
 /* Symmetrical column widths for balanced layout */
-.suppliers-table th:nth-child(2),
-.suppliers-table td:nth-child(2) {
   width: 12%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(3),
-.suppliers-table td:nth-child(3) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(4),
-.suppliers-table td:nth-child(4) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(5),
-.suppliers-table td:nth-child(5) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(6),
-.suppliers-table td:nth-child(6) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(7),
-.suppliers-table td:nth-child(7) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(8),
-.suppliers-table td:nth-child(8) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(9),
-.suppliers-table td:nth-child(9) {
   width: 8%;
   text-align: center;
 }
 
 /* Header text alignment overrides for logical grouping */
-.suppliers-table th:nth-child(3),
-.suppliers-table th:nth-child(4),
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6) {
   text-align: left;
   padding-left: 16px;
 }
 
 /* Remove previous truncation styles */
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6),
-.suppliers-table th:nth-child(7),
-.suppliers-table th:nth-child(9) {
   font-size: 0.8em;
   line-height: 1.3;
   white-space: normal;
 }
 
 /* Better text handling for content cells */
-.suppliers-table td {
   font-size: 0.75em;
   line-height: 1.2;
 }
 
 /* Allow proper text display in date columns */
-.suppliers-table td:nth-child(5),
-.suppliers-table td:nth-child(6),
-.suppliers-table td:nth-child(7) {
   font-size: 0.75em;
   white-space: normal;
   overflow: visible;
@@ -802,40 +764,33 @@
 }
 
 /* Enhanced table hover and interaction states */
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   border-bottom: 1px solid #f1f3f4;
 }
 
-.suppliers-table tbody tr:hover {
   background-color: #f8faff;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid #e2e8f0;
 }
 
-.suppliers-table tbody tr.expanded {
   background-color: #f0f7ff;
   box-shadow: inset 0 2px 4px rgba(59, 130, 246, 0.1);
   border-bottom: 1px solid #dbeafe;
 }
 
 /* Alternating row colors for better readability */
-.suppliers-table tbody tr:nth-child(even) {
   background-color: #fafbfc;
 }
 
-.suppliers-table tbody tr:nth-child(even):hover {
   background-color: #f8faff;
 }
 
 /* Old expand icon styling - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Make sure expand icon column has the right width */
-.suppliers-table th:first-child,
 .bookings-table th:first-child,
 .accounts-table th:first-child,
-.suppliers-table td:first-child,
 .bookings-table td:first-child,
 .accounts-table td:first-child {
   width: 40px;
@@ -843,7 +798,6 @@
   min-width: 40px;
 }
 
-.suppliers-table .status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -854,37 +808,30 @@
   transition: transform 0.2s ease;
 }
 
-.suppliers-table .status-indicator:hover {
   transform: scale(1.2);
 }
 
-.suppliers-table .status-indicator.active {
   background-color: #10b981;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-.suppliers-table .status-indicator.pending {
   background-color: #f59e0b;
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.suppliers-table .status-indicator.inactive {
   background-color: #ef4444;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 /* Responsive improvements */
 @media (max-width: 1200px) {
-  .suppliers-table {
     font-size: 0.75em;
   }
   
-  .suppliers-table th {
     font-size: 0.7em;
     padding: 10px 6px;
   }
   
-  .suppliers-table td {
     font-size: 0.75em;
     padding: 8px 6px;
   }
@@ -958,22 +905,17 @@
     gap: 8px;
   }
   
-  .suppliers-table {
     font-size: 0.7em;
   }
   
-  .suppliers-table th,
-  .suppliers-table td {
     padding: 10px 6px;
   }
   
-  .suppliers-table thead th {
     padding: 12px 6px;
     height: 40px;
     font-size: 0.65em;
   }
   
-  .suppliers-table td {
     font-size: 0.68em;
   }
 }
@@ -991,8 +933,6 @@
 
 /* Styles for Expanded Supplier Row - Carbon Copy Redesign */
 
-/* .suppliers-table th:first-child, already defined above */
-/* .suppliers-table td:first-child, already defined above */
 
 /* .chevron-cell, already defined above */
 
@@ -1311,985 +1251,6 @@
   overflow-y: auto;
 }
 
-/* Suppliers Page Specific Styles */
-.suppliers-page-content {
-  padding: 30px;
-  background-color: #f8f9fa;
-  min-height: calc(100vh - 60px);
-}
-
-/* Suppliers Statistics Cards */
-.suppliers-stats-section {
-  margin-bottom: 40px;
-  margin-top: -10px;
-}
-
-.suppliers-stats-single-row {
-  display: flex;
-  gap: 20px;
-  align-items: stretch;
-}
-
-.suppliers-stats-row {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 0;
-  flex: 1;
-}
-
-/* First group (left section) - Accreditation stats */
-.suppliers-stats-row:first-child {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  gap: 15px;
-}
-
-.suppliers-stats-row:first-child .suppliers-stat-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: left;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  border: none;
-  position: relative;
-  overflow: hidden;
-  min-height: 100px;
-  flex: 1;
-}
-
-.suppliers-stats-row:first-child .suppliers-stat-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 50%;
-  height: 100%;
-  z-index: 1;
-  border-radius: 0;
-  transform: none;
-}
-
-/* Use original image with proper blue, orange, red colors */
-.suppliers-stat-card.accredited::after {
-  background: url('../assets/card-gradient.webp');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.75;
-  filter: hue-rotate(200deg) saturate(1.2) brightness(1.0); /* Clean blue */
-}
-
-.suppliers-stat-card.accredited-prepaid::after {
-  background: url('../assets/card-gradient.webp');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.75;
-  filter: hue-rotate(350deg) saturate(1.5) brightness(1.0); /* Orange (was red) */
-}
-
-.suppliers-stat-card.non-accredited::after {
-  background: url('../assets/card-gradient.webp');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.75;
-  filter: sepia(100%) saturate(600%) hue-rotate(0deg) brightness(0.8);
-}
-
-/* Status dots styling for the new design */
-.suppliers-stats-row:first-child .suppliers-stat-card .status-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-/* Second group (right section) - Regional stats */
-.suppliers-stats-row:last-child {
-  gap: 15px;
-}
-
-.suppliers-stats-row:last-child .suppliers-stat-card {
-  background-color: #333;
-  position: relative;
-  border-radius: 8px;
-  padding: 15px;
-  text-align: left;
-  min-height: 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
-  color: white;
-}
-
-.suppliers-stats-row:last-child .suppliers-stat-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('../assets/mapBG.png');
-  background-size: 140%;
-  background-position: center;
-  opacity: 0.15;
-  z-index: 1;
-}
-
-/* Status dots for the labels */
-.suppliers-stat-card .stat-label {
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-  position: relative;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.suppliers-stats-row:first-child .stat-label {
-  color: #333;
-}
-
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-label {
-  color: #333;
-  font-weight: 600;
-}
-
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-value {
-  color: #212529;
-  font-weight: 700;
-}
-
-.suppliers-stats-row:last-child .stat-label {
-  color: white;
-}
-
-.suppliers-stat-card .stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0;
-  position: relative;
-  z-index: 5;
-}
-
-.suppliers-stats-row:first-child .stat-value {
-  color: #212529;
-}
-
-.suppliers-stats-row:last-child .stat-value {
-  color: white;
-}
-
-/* Status dots styling */
-.suppliers-stat-card .status-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-right: 8px;
-  display: inline-block;
-}
-
-/* Left section dots */
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited .status-dot.active {
-  background-color: #3B82F6;
-}
-
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited-prepaid .status-dot.pending {
-  background-color: #F59E0B;
-}
-
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .status-dot.inactive {
-  background-color: #dc2626;
-}
-
-/* Right section dots */
-.suppliers-stats-row:last-child .suppliers-stat-card.ncr-luzon .status-dot.ncr {
-  background-color: #FFC107;
-}
-
-.suppliers-stats-row:last-child .suppliers-stat-card.visayas .status-dot.visayas {
-  background-color: #4CAF50;
-}
-
-.suppliers-stats-row:last-child .suppliers-stat-card.mindanao .status-dot.mindanao {
-  background-color: #2196F3;
-}
-
-/* Suppliers List Section */
-.suppliers-list-section {
-  background: white;
-  border-radius: 8px;
-  padding: 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
-}
-
-.suppliers-list-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 25px;
-  border-bottom: 1px solid #dee2e6;
-  background: white;
-}
-
-.suppliers-list-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #000;
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.suppliers-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.date-filter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: white;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  color: #495057;
-  min-width: 200px;
-}
-
-.date-filter:hover {
-  background: #f8f9fa;
-}
-
-.date-filter svg {
-  width: 16px;
-  height: 16px;
-  fill: #6c757d;
-}
-
-.filters-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: white;
-  color: #495057;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.filters-btn:hover {
-  background: #f8f9fa;
-}
-
-.filters-btn svg {
-  width: 16px;
-  height: 16px;
-  fill: #6c757d;
-}
-
-/* Suppliers Table Controls */
-.suppliers-table-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  border-bottom: 1px solid #e9ecef;
-  background: white;
-}
-
-.supplier-type-selector select {
-  padding: 8px 16px;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  background: white;
-  font-size: 13px;
-  color: #495057;
-  cursor: pointer;
-  min-width: 120px;
-}
-
-.status-filters {
-  display: flex;
-  gap: 25px;
-  align-items: center;
-}
-
-.status-filter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  color: #495057;
-  font-weight: 500;
-}
-
-.status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  margin-right: 8px;
-  display: inline-block;
-}
-
-.status-filter.active .status-dot {
-  background: #4CAF50;
-}
-
-.status-filter.pending .status-dot {
-  background: #FFC107;
-}
-
-.status-filter.inactive .status-dot {
-  background: #F44336;
-}
-
-.search-control {
-  display: flex;
-  align-items: center;
-}
-
-.search-btn {
-  padding: 8px 12px;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  color: #6c757d;
-  transition: background-color 0.2s ease;
-}
-
-.search-btn:hover {
-  background: #e9ecef;
-}
-
-/* Enhanced Suppliers Table */
-.suppliers-table-container {
-  background: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
-}
-
-.suppliers-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  font-size: 14px;
-}
-
-.suppliers-table th {
-  background: #f8f9fa;
-  font-weight: 600;
-  color: #495057;
-  text-transform: uppercase;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  padding: 16px 20px;
-  text-align: left;
-  border-bottom: 2px solid #dee2e6;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-}
-
-.suppliers-table td {
-  padding: 16px 20px;
-  border-bottom: 1px solid #f1f3f4;
-  color: #495057;
-  vertical-align: middle;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.suppliers-table tbody tr {
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-
-.suppliers-table tbody tr:hover {
-  background: #f8f9fa;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.suppliers-table tbody tr.expanded {
-  background: #f2f6fa;
-  border-left: 4px solid #007bff;
-}
-
-.suppliers-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Old enhanced expand icon - REPLACED BY UNIFIED DESIGN ABOVE */
-
-/* Enhanced status indicators */
-.suppliers-table .status-column {
-  text-align: center;
-  padding: 16px 20px;
-}
-
-.suppliers-table .account-status-indicator {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  margin: 0 auto;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
-  transition: all 0.2s ease;
-}
-
-.suppliers-table .account-status-indicator.active {
-  background: #28a745;
-  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
-}
-
-.suppliers-table .account-status-indicator.pending {
-  background: #ffc107;
-  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
-}
-
-.suppliers-table .account-status-indicator.inactive {
-  background: #dc3545;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
-}
-
-/* Enhanced expanded details */
-.suppliers-table .expanded-details td {
-  padding: 0;
-  background: #f8f9fa;
-  border-top: 2px solid #007bff;
-}
-
-.suppliers-table .contact-details-form {
-  padding: 16px;
-  background: white;
-  margin: 0;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-}
-
-.suppliers-table .contact-details-header h3 {
-  color: #333;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin-bottom: 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.suppliers-table .contact-form-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 16px;
-  max-width: 100%;
-}
-
-.suppliers-table .contact-form-column {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.suppliers-table .form-group {
-  margin-bottom: 0;
-}
-
-.suppliers-table .form-group label {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: #333;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 6px;
-}
-
-.suppliers-table .form-group input,
-.suppliers-table .form-group textarea {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 3px;
-  font-size: 13px;
-  color: #495057;
-  background: white;
-  transition: border-color 0.2s ease;
-  box-sizing: border-box;
-  height: 32px;
-}
-
-.suppliers-table .form-group input:focus,
-.suppliers-table .form-group textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
-}
-
-.suppliers-table .bottom-form-section {
-  padding-top: 16px;
-  border-top: 1px solid #dee2e6;
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 16px;
-  margin-top: 0;
-}
-
-.suppliers-table .payment-terms-section {
-  margin-bottom: 0;
-}
-
-.suppliers-table .payment-form-row {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.suppliers-table .payment-terms-section h4,
-.suppliers-table .remarks-section h4 {
-  color: #333;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
-
-.suppliers-table .remarks-section textarea {
-  resize: vertical;
-  min-height: 70px;
-  height: auto;
-}
-
-/* Room Rates Section within Expanded Supplier Details */
-.suppliers-table .room-rates-section {
-  margin-top: 16px;
-  padding: 16px;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-}
-
-.suppliers-table .room-rates-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.suppliers-table .seasons-rate-filter select {
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 3px;
-  font-size: 13px;
-  background: white;
-  color: #495057;
-  min-width: 140px;
-  height: 32px;
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M2 3l3 3 3-3z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 10px;
-}
-
-.suppliers-table .filters-button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
-  background: white;
-  color: #495057;
-  border-radius: 3px;
-  cursor: pointer;
-  font-size: 13px;
-  height: 32px;
-  transition: all 0.2s ease;
-}
-
-.suppliers-table .filters-button:hover {
-  background: #f8f9fa;
-  border-color: #adb5bd;
-}
-
-.suppliers-table .room-rates-body {
-  display: flex;
-  gap: 16px;
-}
-
-.suppliers-table .room-rates-table-container {
-  flex: 2;
-}
-
-.suppliers-table .room-rates-table-nested {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.suppliers-table .room-rates-table-nested th {
-  background: #f8f9fa;
-  padding: 8px;
-  text-align: center;
-  font-weight: 600;
-  font-size: 11px;
-  color: #495057;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.suppliers-table .room-rates-table-nested td {
-  padding: 8px;
-  border-bottom: 1px solid #dee2e6;
-  font-size: 12px;
-}
-
-.suppliers-table .room-rates-table-nested td:first-child {
-  font-weight: 500;
-  color: #495057;
-}
-
-.suppliers-table .room-rates-table-nested td input[type="text"] {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 13px;
-  box-sizing: border-box;
-}
-
-.suppliers-table .room-rates-table-nested td input[type="text"]:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
-}
-
-.suppliers-table .room-features-inclusions {
-  flex: 1;
-  background: white;
-  padding: 12px;
-  border: 1px solid #dee2e6;
-  border-radius: 4px;
-}
-
-.suppliers-table .room-features-inclusions h4 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #495057;
-  margin: 0 0 12px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.suppliers-table .room-features-inclusions ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 20px 0;
-}
-
-.suppliers-table .room-features-inclusions ul:last-child {
-  margin-bottom: 0;
-}
-
-.suppliers-table .room-features-inclusions li {
-  padding: 4px 0;
-  font-size: 13px;
-  color: #6c757d;
-  position: relative;
-  padding-left: 16px;
-}
-
-.suppliers-table .room-features-inclusions li::before {
-  content: "•";
-  color: #007bff;
-  font-weight: bold;
-  position: absolute;
-  left: 0;
-}
-
-/* Dropdown styling within the expanded supplier details */
-.suppliers-table .form-group select {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 3px;
-  font-size: 13px;
-  background: white;
-  color: #495057;
-  cursor: pointer;
-  box-sizing: border-box;
-  height: 32px;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M2 3l3 3 3-3z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 10px;
-}
-
-.suppliers-table .form-group select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
-}
-
-.suppliers-table .form-group select:hover {
-  border-color: #adb5bd;
-}
-
-/* Room type dropdown in table */
-.suppliers-table .room-type-select {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 13px;
-  background: white;
-  color: #495057;
-  cursor: pointer;
-  box-sizing: border-box;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M2 3l3 3 3-3z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 10px;
-}
-
-.suppliers-table .room-type-select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
-}
-
-.suppliers-table .room-type-select:hover {
-  border-color: #adb5bd;
-}
-
-/* Number inputs in room rates table */
-.suppliers-table .room-rates-table-nested td input[type="number"] {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 13px;
-  box-sizing: border-box;
-  text-align: right;
-}
-
-.suppliers-table .room-rates-table-nested td input[type="number"]:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .suppliers-stats-row {
-    flex-wrap: wrap;
-  }
-  
-  .suppliers-stat-card {
-    min-width: calc(50% - 10px);
-  }
-  
-  .contact-form-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  
-  .suppliers-table .bottom-form-section {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-@media (max-width: 768px) {
-  .suppliers-page-content {
-    padding: 80px 15px 15px 15px;
-  }
-  
-  .suppliers-stats-row {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .suppliers-stat-card {
-    min-width: 100%;
-  }
-  
-  .suppliers-list-header {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
-  
-  .suppliers-controls {
-    width: 100%;
-    justify-content: flex-end;
-  }
-  
-  .suppliers-table-controls {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
-  
-  .status-filters {
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-  
-  .contact-form-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .suppliers-table .contact-form-column {
-    gap: 12px;
-  }
-  
-  .suppliers-table .bottom-form-section {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-  
-  .suppliers-table .payment-form-row {
-    gap: 12px;
-  }
-
-  .expanded-content {
-    padding: 16px;
-  }
-
-  .suppliers-table .room-rates-body {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .suppliers-table .room-rates-section {
-    padding: 16px;
-    margin-top: 16px;
-  }
-
-  .suppliers-table .room-rates-header {
-    margin-bottom: 12px;
-  }
-}
-
-/* Admin Navigation Active State Update */
-.admin-sidebar-item.active {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  font-weight: 600;
-  border-radius: 4px;
-  margin: 0 10px;
-  padding: 12px 15px;
-}
-
-.admin-sidebar-item {
-  cursor: pointer;
-  user-select: none;
-}
-
-.admin-sidebar-item:not(.active):hover {
-  background-color: #f5f5f5;
-  color: #1976d2;
-}
-
-/* Monitoring Page Styles */
-.monitoring-page-content {
-  padding: 30px;
-  background-color: #f8f9fa;
-  min-height: calc(100vh - 60px);
-}
-
-.monitoring-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.monitoring-title-section {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.monitoring-icon {
-  width: 40px;
-  height: 40px;
-  background: #333;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.monitoring-icon svg {
-  fill: white;
-}
-
-.monitoring-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  white-space: nowrap;
-}
-
-.monitoring-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* Monitoring Status Indicators */
-.monitoring-status-indicators {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-left: 12px;
-}
-
-.monitoring-status-indicators .status-pill {
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 4px 16px;
-  font-size: 13px;
-}
-
-.monitoring-status-indicators .status-pill:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
 
 /* Dashboard Overview Styles */
 .dashboard-overview {
@@ -3844,7 +2805,6 @@
   white-space: nowrap;
 }
 
-.suppliers-table-container {
   width: 100%;
   overflow-x: auto;
   background: white;
@@ -3854,7 +2814,6 @@
   margin: 16px 0;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -3867,8 +2826,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.suppliers-table th,
-.suppliers-table td {
   padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f3f4;
@@ -3883,16 +2840,12 @@
   height: 48px;
 }
 
-.suppliers-table th:last-child,
-.suppliers-table td:last-child {
   border-right: none;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.suppliers-table th {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-weight: 600;
   color: #475569;
@@ -3905,8 +2858,6 @@
   text-align: center;
 }
 
-.suppliers-table td:first-child,
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
   vertical-align: middle;
@@ -3914,85 +2865,57 @@
 }
 
 /* Symmetrical column widths for balanced layout */
-.suppliers-table th:nth-child(2),
-.suppliers-table td:nth-child(2) {
   width: 12%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(3),
-.suppliers-table td:nth-child(3) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(4),
-.suppliers-table td:nth-child(4) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(5),
-.suppliers-table td:nth-child(5) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(6),
-.suppliers-table td:nth-child(6) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(7),
-.suppliers-table td:nth-child(7) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(8),
-.suppliers-table td:nth-child(8) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(9),
-.suppliers-table td:nth-child(9) {
   width: 8%;
   text-align: center;
 }
 
 /* Header text alignment overrides for logical grouping */
-.suppliers-table th:nth-child(3),
-.suppliers-table th:nth-child(4),
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6) {
   text-align: left;
   padding-left: 16px;
 }
 
 /* Remove previous truncation styles */
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6),
-.suppliers-table th:nth-child(7),
-.suppliers-table th:nth-child(9) {
   font-size: 0.8em;
   line-height: 1.3;
   white-space: normal;
 }
 
 /* Better text handling for content cells */
-.suppliers-table td {
   font-size: 0.75em;
   line-height: 1.2;
 }
 
 /* Allow proper text display in date columns */
-.suppliers-table td:nth-child(5),
-.suppliers-table td:nth-child(6),
-.suppliers-table td:nth-child(7) {
   font-size: 0.75em;
   white-space: normal;
   overflow: visible;
@@ -4000,40 +2923,33 @@
 }
 
 /* Enhanced table hover and interaction states */
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   border-bottom: 1px solid #f1f3f4;
 }
 
-.suppliers-table tbody tr:hover {
   background-color: #f8faff;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid #e2e8f0;
 }
 
-.suppliers-table tbody tr.expanded {
   background-color: #f0f7ff;
   box-shadow: inset 0 2px 4px rgba(59, 130, 246, 0.1);
   border-bottom: 1px solid #dbeafe;
 }
 
 /* Alternating row colors for better readability */
-.suppliers-table tbody tr:nth-child(even) {
   background-color: #fafbfc;
 }
 
-.suppliers-table tbody tr:nth-child(even):hover {
   background-color: #f8faff;
 }
 
 /* Old expand icon styling - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Make sure expand icon column has the right width */
-.suppliers-table th:first-child,
 .bookings-table th:first-child,
 .accounts-table th:first-child,
-.suppliers-table td:first-child,
 .bookings-table td:first-child,
 .accounts-table td:first-child {
   width: 40px;
@@ -4041,7 +2957,6 @@
   min-width: 40px;
 }
 
-.suppliers-table .status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -4052,37 +2967,30 @@
   transition: transform 0.2s ease;
 }
 
-.suppliers-table .status-indicator:hover {
   transform: scale(1.2);
 }
 
-.suppliers-table .status-indicator.active {
   background-color: #10b981;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-.suppliers-table .status-indicator.pending {
   background-color: #f59e0b;
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.suppliers-table .status-indicator.inactive {
   background-color: #ef4444;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 /* Responsive improvements */
 @media (max-width: 1200px) {
-  .suppliers-table {
     font-size: 0.75em;
   }
   
-  .suppliers-table th {
     font-size: 0.7em;
     padding: 10px 6px;
   }
   
-  .suppliers-table td {
     font-size: 0.75em;
     padding: 8px 6px;
   }
@@ -4156,22 +3064,17 @@
     gap: 8px;
   }
   
-  .suppliers-table {
     font-size: 0.7em;
   }
   
-  .suppliers-table th,
-  .suppliers-table td {
     padding: 10px 6px;
   }
   
-  .suppliers-table thead th {
     padding: 12px 6px;
     height: 40px;
     font-size: 0.65em;
   }
   
-  .suppliers-table td {
     font-size: 0.68em;
   }
 }
@@ -4189,8 +3092,6 @@
 
 /* Styles for Expanded Supplier Row - Carbon Copy Redesign */
 
-/* .suppliers-table th:first-child, already defined above */
-/* .suppliers-table td:first-child, already defined above */
 
 /* .chevron-cell, already defined above */
 
@@ -4510,25 +3411,21 @@
 }
 
 /* Suppliers Page Specific Styles */
-.suppliers-page-content {
   padding: 30px;
   background-color: #f8f9fa;
   min-height: calc(100vh - 60px);
 }
 
 /* Suppliers Statistics Cards */
-.suppliers-stats-section {
   margin-bottom: 40px;
   margin-top: -10px;
 }
 
-.suppliers-stats-single-row {
   display: flex;
   gap: 20px;
   align-items: stretch;
 }
 
-.suppliers-stats-row {
   display: flex;
   gap: 15px;
   margin-bottom: 0;
@@ -4536,14 +3433,12 @@
 }
 
 /* First group (left section) - Accreditation stats */
-.suppliers-stats-row:first-child {
   background: transparent;
   border-radius: 0;
   padding: 0;
   gap: 15px;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card {
   background: white;
   border-radius: 12px;
   padding: 20px;
@@ -4556,7 +3451,6 @@
   flex: 1;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card::after {
   content: '';
   position: absolute;
   top: 0;
@@ -4594,7 +3488,6 @@
 }
 
 /* Status dots styling for the new design */
-.suppliers-stats-row:first-child .suppliers-stat-card .status-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -4603,11 +3496,9 @@
 }
 
 /* Second group (right section) - Regional stats */
-.suppliers-stats-row:last-child {
   gap: 15px;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card {
   background-color: #333;
   position: relative;
   border-radius: 8px;
@@ -4621,7 +3512,6 @@
   color: white;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -4649,21 +3539,17 @@
   gap: 6px;
 }
 
-.suppliers-stats-row:first-child .stat-label {
   color: #333;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-label {
   color: #333;
   font-weight: 600;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-value {
   color: #212529;
   font-weight: 700;
 }
 
-.suppliers-stats-row:last-child .stat-label {
   color: white;
 }
 
@@ -4675,11 +3561,9 @@
   z-index: 5;
 }
 
-.suppliers-stats-row:first-child .stat-value {
   color: #212529;
 }
 
-.suppliers-stats-row:last-child .stat-value {
   color: white;
 }
 
@@ -4693,28 +3577,22 @@
 }
 
 /* Left section dots */
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited .status-dot.active {
   background-color: #3B82F6;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited-prepaid .status-dot.pending {
   background-color: #F59E0B;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .status-dot.inactive {
   background-color: #dc2626;
 }
 
 /* Right section dots */
-.suppliers-stats-row:last-child .suppliers-stat-card.ncr-luzon .status-dot.ncr {
   background-color: #FFC107;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.visayas .status-dot.visayas {
   background-color: #4CAF50;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.mindanao .status-dot.mindanao {
   background-color: #2196F3;
 }
 
@@ -4801,7 +3679,6 @@
 }
 
 /* Suppliers Table Controls */
-.suppliers-table-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -4879,7 +3756,6 @@
 }
 
 /* Enhanced Suppliers Table */
-.suppliers-table-container {
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -4887,14 +3763,12 @@
   border: 1px solid #e9ecef;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
   font-size: 14px;
 }
 
-.suppliers-table th {
   background: #f8f9fa;
   font-weight: 600;
   color: #495057;
@@ -4909,7 +3783,6 @@
   z-index: 5;
 }
 
-.suppliers-table td {
   padding: 16px 20px;
   border-bottom: 1px solid #f1f3f4;
   color: #495057;
@@ -4918,35 +3791,29 @@
   line-height: 1.4;
 }
 
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
-.suppliers-table tbody tr:hover {
   background: #f8f9fa;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.suppliers-table tbody tr.expanded {
   background: #f2f6fa;
   border-left: 4px solid #007bff;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* Old enhanced expand icon - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Enhanced status indicators */
-.suppliers-table .status-column {
   text-align: center;
   padding: 16px 20px;
 }
 
-.suppliers-table .account-status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -4955,29 +3822,24 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .account-status-indicator.active {
   background: #28a745;
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
 
-.suppliers-table .account-status-indicator.pending {
   background: #ffc107;
   box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
 }
 
-.suppliers-table .account-status-indicator.inactive {
   background: #dc3545;
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
 }
 
 /* Enhanced expanded details */
-.suppliers-table .expanded-details td {
   padding: 0;
   background: #f8f9fa;
   border-top: 2px solid #007bff;
 }
 
-.suppliers-table .contact-details-form {
   padding: 16px;
   background: white;
   margin: 0;
@@ -4986,7 +3848,6 @@
   border: none;
 }
 
-.suppliers-table .contact-details-header h3 {
   color: #333;
   font-size: 13px;
   font-weight: 700;
@@ -4997,7 +3858,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .contact-form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -5005,17 +3865,14 @@
   max-width: 100%;
 }
 
-.suppliers-table .contact-form-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .form-group {
   margin-bottom: 0;
 }
 
-.suppliers-table .form-group label {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -5025,8 +3882,6 @@
   margin-bottom: 6px;
 }
 
-.suppliers-table .form-group input,
-.suppliers-table .form-group textarea {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -5039,14 +3894,11 @@
   height: 32px;
 }
 
-.suppliers-table .form-group input:focus,
-.suppliers-table .form-group textarea:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .bottom-form-section {
   padding-top: 16px;
   border-top: 1px solid #dee2e6;
   display: grid;
@@ -5055,18 +3907,14 @@
   margin-top: 0;
 }
 
-.suppliers-table .payment-terms-section {
   margin-bottom: 0;
 }
 
-.suppliers-table .payment-form-row {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .payment-terms-section h4,
-.suppliers-table .remarks-section h4 {
   color: #333;
   font-size: 10px;
   font-weight: 700;
@@ -5075,14 +3923,12 @@
   margin-bottom: 8px;
 }
 
-.suppliers-table .remarks-section textarea {
   resize: vertical;
   min-height: 70px;
   height: auto;
 }
 
 /* Room Rates Section within Expanded Supplier Details */
-.suppliers-table .room-rates-section {
   margin-top: 16px;
   padding: 16px;
   background: #f8f9fa;
@@ -5090,7 +3936,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-rates-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -5099,7 +3944,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .seasons-rate-filter select {
   padding: 8px 10px;
   border: 1px solid #ced4da;
   border-radius: 3px;
@@ -5116,7 +3960,6 @@
   background-size: 10px;
 }
 
-.suppliers-table .filters-button {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -5131,21 +3974,17 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .filters-button:hover {
   background: #f8f9fa;
   border-color: #adb5bd;
 }
 
-.suppliers-table .room-rates-body {
   display: flex;
   gap: 16px;
 }
 
-.suppliers-table .room-rates-table-container {
   flex: 2;
 }
 
-.suppliers-table .room-rates-table-nested {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #dee2e6;
@@ -5153,7 +3992,6 @@
   overflow: hidden;
 }
 
-.suppliers-table .room-rates-table-nested th {
   background: #f8f9fa;
   padding: 8px;
   text-align: center;
@@ -5163,18 +4001,15 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .room-rates-table-nested td {
   padding: 8px;
   border-bottom: 1px solid #dee2e6;
   font-size: 12px;
 }
 
-.suppliers-table .room-rates-table-nested td:first-child {
   font-weight: 500;
   color: #495057;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -5183,13 +4018,11 @@
   box-sizing: border-box;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-features-inclusions {
   flex: 1;
   background: white;
   padding: 12px;
@@ -5197,7 +4030,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-features-inclusions h4 {
   font-size: 14px;
   font-weight: 600;
   color: #495057;
@@ -5206,17 +4038,14 @@
   letter-spacing: 0.5px;
 }
 
-.suppliers-table .room-features-inclusions ul {
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
 }
 
-.suppliers-table .room-features-inclusions ul:last-child {
   margin-bottom: 0;
 }
 
-.suppliers-table .room-features-inclusions li {
   padding: 4px 0;
   font-size: 13px;
   color: #6c757d;
@@ -5224,7 +4053,6 @@
   padding-left: 16px;
 }
 
-.suppliers-table .room-features-inclusions li::before {
   content: "•";
   color: #007bff;
   font-weight: bold;
@@ -5233,7 +4061,6 @@
 }
 
 /* Dropdown styling within the expanded supplier details */
-.suppliers-table .form-group select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -5251,18 +4078,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .form-group select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .form-group select:hover {
   border-color: #adb5bd;
 }
 
 /* Room type dropdown in table */
-.suppliers-table .room-type-select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -5279,18 +4103,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .room-type-select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-type-select:hover {
   border-color: #adb5bd;
 }
 
 /* Number inputs in room rates table */
-.suppliers-table .room-rates-table-nested td input[type="number"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -5300,7 +4121,6 @@
   text-align: right;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="number"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
@@ -5308,7 +4128,6 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .suppliers-stats-row {
     flex-wrap: wrap;
   }
   
@@ -5321,18 +4140,15 @@
     gap: 20px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .suppliers-page-content {
     padding: 80px 15px 15px 15px;
   }
   
-  .suppliers-stats-row {
     flex-direction: column;
     gap: 15px;
   }
@@ -5352,7 +4168,6 @@
     justify-content: flex-end;
   }
   
-  .suppliers-table-controls {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
@@ -5368,16 +4183,13 @@
     gap: 15px;
   }
   
-  .suppliers-table .contact-form-column {
     gap: 12px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 15px;
   }
   
-  .suppliers-table .payment-form-row {
     gap: 12px;
   }
 
@@ -5385,17 +4197,14 @@
     padding: 16px;
   }
 
-  .suppliers-table .room-rates-body {
     flex-direction: column;
     gap: 16px;
   }
 
-  .suppliers-table .room-rates-section {
     padding: 16px;
     margin-top: 16px;
   }
 
-  .suppliers-table .room-rates-header {
     margin-bottom: 12px;
   }
 }
@@ -7840,7 +6649,6 @@
   white-space: nowrap;
 }
 
-.suppliers-table-container {
   width: 100%;
   overflow-x: auto;
   background: white;
@@ -7850,7 +6658,6 @@
   margin: 16px 0;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -7863,8 +6670,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.suppliers-table th,
-.suppliers-table td {
   padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f3f4;
@@ -7879,16 +6684,12 @@
   height: 48px;
 }
 
-.suppliers-table th:last-child,
-.suppliers-table td:last-child {
   border-right: none;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.suppliers-table th {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-weight: 600;
   color: #475569;
@@ -7901,8 +6702,6 @@
   text-align: center;
 }
 
-.suppliers-table td:first-child,
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
   vertical-align: middle;
@@ -7910,85 +6709,57 @@
 }
 
 /* Symmetrical column widths for balanced layout */
-.suppliers-table th:nth-child(2),
-.suppliers-table td:nth-child(2) {
   width: 12%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(3),
-.suppliers-table td:nth-child(3) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(4),
-.suppliers-table td:nth-child(4) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(5),
-.suppliers-table td:nth-child(5) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(6),
-.suppliers-table td:nth-child(6) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(7),
-.suppliers-table td:nth-child(7) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(8),
-.suppliers-table td:nth-child(8) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(9),
-.suppliers-table td:nth-child(9) {
   width: 8%;
   text-align: center;
 }
 
 /* Header text alignment overrides for logical grouping */
-.suppliers-table th:nth-child(3),
-.suppliers-table th:nth-child(4),
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6) {
   text-align: left;
   padding-left: 16px;
 }
 
 /* Remove previous truncation styles */
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6),
-.suppliers-table th:nth-child(7),
-.suppliers-table th:nth-child(9) {
   font-size: 0.8em;
   line-height: 1.3;
   white-space: normal;
 }
 
 /* Better text handling for content cells */
-.suppliers-table td {
   font-size: 0.75em;
   line-height: 1.2;
 }
 
 /* Allow proper text display in date columns */
-.suppliers-table td:nth-child(5),
-.suppliers-table td:nth-child(6),
-.suppliers-table td:nth-child(7) {
   font-size: 0.75em;
   white-space: normal;
   overflow: visible;
@@ -8638,7 +7409,6 @@
   white-space: nowrap;
 }
 
-.suppliers-table-container {
   width: 100%;
   overflow-x: auto;
   background: white;
@@ -8648,7 +7418,6 @@
   margin: 16px 0;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -8661,8 +7430,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.suppliers-table th,
-.suppliers-table td {
   padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f3f4;
@@ -8677,16 +7444,12 @@
   height: 48px;
 }
 
-.suppliers-table th:last-child,
-.suppliers-table td:last-child {
   border-right: none;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.suppliers-table th {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-weight: 600;
   color: #475569;
@@ -8699,8 +7462,6 @@
   text-align: center;
 }
 
-.suppliers-table td:first-child,
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
   vertical-align: middle;
@@ -8708,85 +7469,57 @@
 }
 
 /* Symmetrical column widths for balanced layout */
-.suppliers-table th:nth-child(2),
-.suppliers-table td:nth-child(2) {
   width: 12%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(3),
-.suppliers-table td:nth-child(3) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(4),
-.suppliers-table td:nth-child(4) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(5),
-.suppliers-table td:nth-child(5) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(6),
-.suppliers-table td:nth-child(6) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(7),
-.suppliers-table td:nth-child(7) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(8),
-.suppliers-table td:nth-child(8) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(9),
-.suppliers-table td:nth-child(9) {
   width: 8%;
   text-align: center;
 }
 
 /* Header text alignment overrides for logical grouping */
-.suppliers-table th:nth-child(3),
-.suppliers-table th:nth-child(4),
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6) {
   text-align: left;
   padding-left: 16px;
 }
 
 /* Remove previous truncation styles */
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6),
-.suppliers-table th:nth-child(7),
-.suppliers-table th:nth-child(9) {
   font-size: 0.8em;
   line-height: 1.3;
   white-space: normal;
 }
 
 /* Better text handling for content cells */
-.suppliers-table td {
   font-size: 0.75em;
   line-height: 1.2;
 }
 
 /* Allow proper text display in date columns */
-.suppliers-table td:nth-child(5),
-.suppliers-table td:nth-child(6),
-.suppliers-table td:nth-child(7) {
   font-size: 0.75em;
   white-space: normal;
   overflow: visible;
@@ -8794,40 +7527,33 @@
 }
 
 /* Enhanced table hover and interaction states */
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   border-bottom: 1px solid #f1f3f4;
 }
 
-.suppliers-table tbody tr:hover {
   background-color: #f8faff;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid #e2e8f0;
 }
 
-.suppliers-table tbody tr.expanded {
   background-color: #f0f7ff;
   box-shadow: inset 0 2px 4px rgba(59, 130, 246, 0.1);
   border-bottom: 1px solid #dbeafe;
 }
 
 /* Alternating row colors for better readability */
-.suppliers-table tbody tr:nth-child(even) {
   background-color: #fafbfc;
 }
 
-.suppliers-table tbody tr:nth-child(even):hover {
   background-color: #f8faff;
 }
 
 /* Old expand icon styling - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Make sure expand icon column has the right width */
-.suppliers-table th:first-child,
 .bookings-table th:first-child,
 .accounts-table th:first-child,
-.suppliers-table td:first-child,
 .bookings-table td:first-child,
 .accounts-table td:first-child {
   width: 40px;
@@ -8835,7 +7561,6 @@
   min-width: 40px;
 }
 
-.suppliers-table .status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -8846,37 +7571,30 @@
   transition: transform 0.2s ease;
 }
 
-.suppliers-table .status-indicator:hover {
   transform: scale(1.2);
 }
 
-.suppliers-table .status-indicator.active {
   background-color: #10b981;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-.suppliers-table .status-indicator.pending {
   background-color: #f59e0b;
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.suppliers-table .status-indicator.inactive {
   background-color: #ef4444;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 /* Responsive improvements */
 @media (max-width: 1200px) {
-  .suppliers-table {
     font-size: 0.75em;
   }
   
-  .suppliers-table th {
     font-size: 0.7em;
     padding: 10px 6px;
   }
   
-  .suppliers-table td {
     font-size: 0.75em;
     padding: 8px 6px;
   }
@@ -8950,22 +7668,17 @@
     gap: 8px;
   }
   
-  .suppliers-table {
     font-size: 0.7em;
   }
   
-  .suppliers-table th,
-  .suppliers-table td {
     padding: 10px 6px;
   }
   
-  .suppliers-table thead th {
     padding: 12px 6px;
     height: 40px;
     font-size: 0.65em;
   }
   
-  .suppliers-table td {
     font-size: 0.68em;
   }
 }
@@ -8983,8 +7696,6 @@
 
 /* Styles for Expanded Supplier Row - Carbon Copy Redesign */
 
-/* .suppliers-table th:first-child, already defined above */
-/* .suppliers-table td:first-child, already defined above */
 
 /* .chevron-cell, already defined above */
 
@@ -9304,25 +8015,21 @@
 }
 
 /* Suppliers Page Specific Styles */
-.suppliers-page-content {
   padding: 30px;
   background-color: #f8f9fa;
   min-height: calc(100vh - 60px);
 }
 
 /* Suppliers Statistics Cards */
-.suppliers-stats-section {
   margin-bottom: 40px;
   margin-top: -10px;
 }
 
-.suppliers-stats-single-row {
   display: flex;
   gap: 20px;
   align-items: stretch;
 }
 
-.suppliers-stats-row {
   display: flex;
   gap: 15px;
   margin-bottom: 0;
@@ -9330,14 +8037,12 @@
 }
 
 /* First group (left section) - Accreditation stats */
-.suppliers-stats-row:first-child {
   background: transparent;
   border-radius: 0;
   padding: 0;
   gap: 15px;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card {
   background: white;
   border-radius: 12px;
   padding: 20px;
@@ -9350,7 +8055,6 @@
   flex: 1;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card::after {
   content: '';
   position: absolute;
   top: 0;
@@ -9388,7 +8092,6 @@
 }
 
 /* Status dots styling for the new design */
-.suppliers-stats-row:first-child .suppliers-stat-card .status-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -9397,11 +8100,9 @@
 }
 
 /* Second group (right section) - Regional stats */
-.suppliers-stats-row:last-child {
   gap: 15px;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card {
   background-color: #333;
   position: relative;
   border-radius: 8px;
@@ -9415,7 +8116,6 @@
   color: white;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -9443,21 +8143,17 @@
   gap: 6px;
 }
 
-.suppliers-stats-row:first-child .stat-label {
   color: #333;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-label {
   color: #333;
   font-weight: 600;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-value {
   color: #212529;
   font-weight: 700;
 }
 
-.suppliers-stats-row:last-child .stat-label {
   color: white;
 }
 
@@ -9469,11 +8165,9 @@
   z-index: 5;
 }
 
-.suppliers-stats-row:first-child .stat-value {
   color: #212529;
 }
 
-.suppliers-stats-row:last-child .stat-value {
   color: white;
 }
 
@@ -9487,28 +8181,22 @@
 }
 
 /* Left section dots */
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited .status-dot.active {
   background-color: #3B82F6;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited-prepaid .status-dot.pending {
   background-color: #F59E0B;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .status-dot.inactive {
   background-color: #dc2626;
 }
 
 /* Right section dots */
-.suppliers-stats-row:last-child .suppliers-stat-card.ncr-luzon .status-dot.ncr {
   background-color: #FFC107;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.visayas .status-dot.visayas {
   background-color: #4CAF50;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.mindanao .status-dot.mindanao {
   background-color: #2196F3;
 }
 
@@ -9595,7 +8283,6 @@
 }
 
 /* Suppliers Table Controls */
-.suppliers-table-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9673,7 +8360,6 @@
 }
 
 /* Enhanced Suppliers Table */
-.suppliers-table-container {
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -9681,14 +8367,12 @@
   border: 1px solid #e9ecef;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
   font-size: 14px;
 }
 
-.suppliers-table th {
   background: #f8f9fa;
   font-weight: 600;
   color: #495057;
@@ -9703,7 +8387,6 @@
   z-index: 5;
 }
 
-.suppliers-table td {
   padding: 16px 20px;
   border-bottom: 1px solid #f1f3f4;
   color: #495057;
@@ -9712,35 +8395,29 @@
   line-height: 1.4;
 }
 
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
-.suppliers-table tbody tr:hover {
   background: #f8f9fa;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.suppliers-table tbody tr.expanded {
   background: #f2f6fa;
   border-left: 4px solid #007bff;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* Old enhanced expand icon - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Enhanced status indicators */
-.suppliers-table .status-column {
   text-align: center;
   padding: 16px 20px;
 }
 
-.suppliers-table .account-status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -9749,29 +8426,24 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .account-status-indicator.active {
   background: #28a745;
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
 
-.suppliers-table .account-status-indicator.pending {
   background: #ffc107;
   box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
 }
 
-.suppliers-table .account-status-indicator.inactive {
   background: #dc3545;
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
 }
 
 /* Enhanced expanded details */
-.suppliers-table .expanded-details td {
   padding: 0;
   background: #f8f9fa;
   border-top: 2px solid #007bff;
 }
 
-.suppliers-table .contact-details-form {
   padding: 16px;
   background: white;
   margin: 0;
@@ -9780,7 +8452,6 @@
   border: none;
 }
 
-.suppliers-table .contact-details-header h3 {
   color: #333;
   font-size: 13px;
   font-weight: 700;
@@ -9791,7 +8462,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .contact-form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -9799,17 +8469,14 @@
   max-width: 100%;
 }
 
-.suppliers-table .contact-form-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .form-group {
   margin-bottom: 0;
 }
 
-.suppliers-table .form-group label {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -9819,8 +8486,6 @@
   margin-bottom: 6px;
 }
 
-.suppliers-table .form-group input,
-.suppliers-table .form-group textarea {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -9833,14 +8498,11 @@
   height: 32px;
 }
 
-.suppliers-table .form-group input:focus,
-.suppliers-table .form-group textarea:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .bottom-form-section {
   padding-top: 16px;
   border-top: 1px solid #dee2e6;
   display: grid;
@@ -9849,18 +8511,14 @@
   margin-top: 0;
 }
 
-.suppliers-table .payment-terms-section {
   margin-bottom: 0;
 }
 
-.suppliers-table .payment-form-row {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .payment-terms-section h4,
-.suppliers-table .remarks-section h4 {
   color: #333;
   font-size: 10px;
   font-weight: 700;
@@ -9869,14 +8527,12 @@
   margin-bottom: 8px;
 }
 
-.suppliers-table .remarks-section textarea {
   resize: vertical;
   min-height: 70px;
   height: auto;
 }
 
 /* Room Rates Section within Expanded Supplier Details */
-.suppliers-table .room-rates-section {
   margin-top: 16px;
   padding: 16px;
   background: #f8f9fa;
@@ -9884,7 +8540,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-rates-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -9893,7 +8548,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .seasons-rate-filter select {
   padding: 8px 10px;
   border: 1px solid #ced4da;
   border-radius: 3px;
@@ -9910,7 +8564,6 @@
   background-size: 10px;
 }
 
-.suppliers-table .filters-button {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -9925,21 +8578,17 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .filters-button:hover {
   background: #f8f9fa;
   border-color: #adb5bd;
 }
 
-.suppliers-table .room-rates-body {
   display: flex;
   gap: 16px;
 }
 
-.suppliers-table .room-rates-table-container {
   flex: 2;
 }
 
-.suppliers-table .room-rates-table-nested {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #dee2e6;
@@ -9947,7 +8596,6 @@
   overflow: hidden;
 }
 
-.suppliers-table .room-rates-table-nested th {
   background: #f8f9fa;
   padding: 8px;
   text-align: center;
@@ -9957,18 +8605,15 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .room-rates-table-nested td {
   padding: 8px;
   border-bottom: 1px solid #dee2e6;
   font-size: 12px;
 }
 
-.suppliers-table .room-rates-table-nested td:first-child {
   font-weight: 500;
   color: #495057;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -9977,13 +8622,11 @@
   box-sizing: border-box;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-features-inclusions {
   flex: 1;
   background: white;
   padding: 12px;
@@ -9991,7 +8634,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-features-inclusions h4 {
   font-size: 14px;
   font-weight: 600;
   color: #495057;
@@ -10000,17 +8642,14 @@
   letter-spacing: 0.5px;
 }
 
-.suppliers-table .room-features-inclusions ul {
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
 }
 
-.suppliers-table .room-features-inclusions ul:last-child {
   margin-bottom: 0;
 }
 
-.suppliers-table .room-features-inclusions li {
   padding: 4px 0;
   font-size: 13px;
   color: #6c757d;
@@ -10018,7 +8657,6 @@
   padding-left: 16px;
 }
 
-.suppliers-table .room-features-inclusions li::before {
   content: "•";
   color: #007bff;
   font-weight: bold;
@@ -10027,7 +8665,6 @@
 }
 
 /* Dropdown styling within the expanded supplier details */
-.suppliers-table .form-group select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -10045,18 +8682,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .form-group select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .form-group select:hover {
   border-color: #adb5bd;
 }
 
 /* Room type dropdown in table */
-.suppliers-table .room-type-select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -10073,18 +8707,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .room-type-select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-type-select:hover {
   border-color: #adb5bd;
 }
 
 /* Number inputs in room rates table */
-.suppliers-table .room-rates-table-nested td input[type="number"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -10094,7 +8725,6 @@
   text-align: right;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="number"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
@@ -10102,7 +8732,6 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .suppliers-stats-row {
     flex-wrap: wrap;
   }
   
@@ -10115,18 +8744,15 @@
     gap: 20px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .suppliers-page-content {
     padding: 80px 15px 15px 15px;
   }
   
-  .suppliers-stats-row {
     flex-direction: column;
     gap: 15px;
   }
@@ -10146,7 +8772,6 @@
     justify-content: flex-end;
   }
   
-  .suppliers-table-controls {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
@@ -10162,16 +8787,13 @@
     gap: 15px;
   }
   
-  .suppliers-table .contact-form-column {
     gap: 12px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 15px;
   }
   
-  .suppliers-table .payment-form-row {
     gap: 12px;
   }
 
@@ -10179,17 +8801,14 @@
     padding: 16px;
   }
 
-  .suppliers-table .room-rates-body {
     flex-direction: column;
     gap: 16px;
   }
 
-  .suppliers-table .room-rates-section {
     padding: 16px;
     margin-top: 16px;
   }
 
-  .suppliers-table .room-rates-header {
     margin-bottom: 12px;
   }
 }
@@ -12634,7 +11253,6 @@
   white-space: nowrap;
 }
 
-.suppliers-table-container {
   width: 100%;
   overflow-x: auto;
   background: white;
@@ -12644,7 +11262,6 @@
   margin: 16px 0;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -12657,8 +11274,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.suppliers-table th,
-.suppliers-table td {
   padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f3f4;
@@ -12673,16 +11288,12 @@
   height: 48px;
 }
 
-.suppliers-table th:last-child,
-.suppliers-table td:last-child {
   border-right: none;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.suppliers-table th {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-weight: 600;
   color: #475569;
@@ -12695,8 +11306,6 @@
   text-align: center;
 }
 
-.suppliers-table td:first-child,
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
   vertical-align: middle;
@@ -12704,85 +11313,57 @@
 }
 
 /* Symmetrical column widths for balanced layout */
-.suppliers-table th:nth-child(2),
-.suppliers-table td:nth-child(2) {
   width: 12%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(3),
-.suppliers-table td:nth-child(3) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(4),
-.suppliers-table td:nth-child(4) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(5),
-.suppliers-table td:nth-child(5) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(6),
-.suppliers-table td:nth-child(6) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(7),
-.suppliers-table td:nth-child(7) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(8),
-.suppliers-table td:nth-child(8) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(9),
-.suppliers-table td:nth-child(9) {
   width: 8%;
   text-align: center;
 }
 
 /* Header text alignment overrides for logical grouping */
-.suppliers-table th:nth-child(3),
-.suppliers-table th:nth-child(4),
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6) {
   text-align: left;
   padding-left: 16px;
 }
 
 /* Remove previous truncation styles */
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6),
-.suppliers-table th:nth-child(7),
-.suppliers-table th:nth-child(9) {
   font-size: 0.8em;
   line-height: 1.3;
   white-space: normal;
 }
 
 /* Better text handling for content cells */
-.suppliers-table td {
   font-size: 0.75em;
   line-height: 1.2;
 }
 
 /* Allow proper text display in date columns */
-.suppliers-table td:nth-child(5),
-.suppliers-table td:nth-child(6),
-.suppliers-table td:nth-child(7) {
   font-size: 0.75em;
   white-space: normal;
   overflow: visible;
@@ -12790,40 +11371,33 @@
 }
 
 /* Enhanced table hover and interaction states */
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   border-bottom: 1px solid #f1f3f4;
 }
 
-.suppliers-table tbody tr:hover {
   background-color: #f8faff;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid #e2e8f0;
 }
 
-.suppliers-table tbody tr.expanded {
   background-color: #f0f7ff;
   box-shadow: inset 0 2px 4px rgba(59, 130, 246, 0.1);
   border-bottom: 1px solid #dbeafe;
 }
 
 /* Alternating row colors for better readability */
-.suppliers-table tbody tr:nth-child(even) {
   background-color: #fafbfc;
 }
 
-.suppliers-table tbody tr:nth-child(even):hover {
   background-color: #f8faff;
 }
 
 /* Old expand icon styling - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Make sure expand icon column has the right width */
-.suppliers-table th:first-child,
 .bookings-table th:first-child,
 .accounts-table th:first-child,
-.suppliers-table td:first-child,
 .bookings-table td:first-child,
 .accounts-table td:first-child {
   width: 40px;
@@ -12831,7 +11405,6 @@
   min-width: 40px;
 }
 
-.suppliers-table .status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -12842,37 +11415,30 @@
   transition: transform 0.2s ease;
 }
 
-.suppliers-table .status-indicator:hover {
   transform: scale(1.2);
 }
 
-.suppliers-table .status-indicator.active {
   background-color: #10b981;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-.suppliers-table .status-indicator.pending {
   background-color: #f59e0b;
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.suppliers-table .status-indicator.inactive {
   background-color: #ef4444;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 /* Responsive improvements */
 @media (max-width: 1200px) {
-  .suppliers-table {
     font-size: 0.75em;
   }
   
-  .suppliers-table th {
     font-size: 0.7em;
     padding: 10px 6px;
   }
   
-  .suppliers-table td {
     font-size: 0.75em;
     padding: 8px 6px;
   }
@@ -12946,22 +11512,17 @@
     gap: 8px;
   }
   
-  .suppliers-table {
     font-size: 0.7em;
   }
   
-  .suppliers-table th,
-  .suppliers-table td {
     padding: 10px 6px;
   }
   
-  .suppliers-table thead th {
     padding: 12px 6px;
     height: 40px;
     font-size: 0.65em;
   }
   
-  .suppliers-table td {
     font-size: 0.68em;
   }
 }
@@ -12979,8 +11540,6 @@
 
 /* Styles for Expanded Supplier Row - Carbon Copy Redesign */
 
-/* .suppliers-table th:first-child, already defined above */
-/* .suppliers-table td:first-child, already defined above */
 
 /* .chevron-cell, already defined above */
 
@@ -13300,25 +11859,21 @@
 }
 
 /* Suppliers Page Specific Styles */
-.suppliers-page-content {
   padding: 30px;
   background-color: #f8f9fa;
   min-height: calc(100vh - 60px);
 }
 
 /* Suppliers Statistics Cards */
-.suppliers-stats-section {
   margin-bottom: 40px;
   margin-top: -10px;
 }
 
-.suppliers-stats-single-row {
   display: flex;
   gap: 20px;
   align-items: stretch;
 }
 
-.suppliers-stats-row {
   display: flex;
   gap: 15px;
   margin-bottom: 0;
@@ -13326,14 +11881,12 @@
 }
 
 /* First group (left section) - Accreditation stats */
-.suppliers-stats-row:first-child {
   background: transparent;
   border-radius: 0;
   padding: 0;
   gap: 15px;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card {
   background: white;
   border-radius: 12px;
   padding: 20px;
@@ -13346,7 +11899,6 @@
   flex: 1;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card::after {
   content: '';
   position: absolute;
   top: 0;
@@ -13384,7 +11936,6 @@
 }
 
 /* Status dots styling for the new design */
-.suppliers-stats-row:first-child .suppliers-stat-card .status-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -13393,11 +11944,9 @@
 }
 
 /* Second group (right section) - Regional stats */
-.suppliers-stats-row:last-child {
   gap: 15px;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card {
   background-color: #333;
   position: relative;
   border-radius: 8px;
@@ -13411,7 +11960,6 @@
   color: white;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -13439,21 +11987,17 @@
   gap: 6px;
 }
 
-.suppliers-stats-row:first-child .stat-label {
   color: #333;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-label {
   color: #333;
   font-weight: 600;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-value {
   color: #212529;
   font-weight: 700;
 }
 
-.suppliers-stats-row:last-child .stat-label {
   color: white;
 }
 
@@ -13465,11 +12009,9 @@
   z-index: 5;
 }
 
-.suppliers-stats-row:first-child .stat-value {
   color: #212529;
 }
 
-.suppliers-stats-row:last-child .stat-value {
   color: white;
 }
 
@@ -13483,28 +12025,22 @@
 }
 
 /* Left section dots */
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited .status-dot.active {
   background-color: #3B82F6;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited-prepaid .status-dot.pending {
   background-color: #F59E0B;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .status-dot.inactive {
   background-color: #dc2626;
 }
 
 /* Right section dots */
-.suppliers-stats-row:last-child .suppliers-stat-card.ncr-luzon .status-dot.ncr {
   background-color: #FFC107;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.visayas .status-dot.visayas {
   background-color: #4CAF50;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.mindanao .status-dot.mindanao {
   background-color: #2196F3;
 }
 
@@ -13591,7 +12127,6 @@
 }
 
 /* Suppliers Table Controls */
-.suppliers-table-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13669,7 +12204,6 @@
 }
 
 /* Enhanced Suppliers Table */
-.suppliers-table-container {
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -13677,14 +12211,12 @@
   border: 1px solid #e9ecef;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
   font-size: 14px;
 }
 
-.suppliers-table th {
   background: #f8f9fa;
   font-weight: 600;
   color: #495057;
@@ -13699,7 +12231,6 @@
   z-index: 5;
 }
 
-.suppliers-table td {
   padding: 16px 20px;
   border-bottom: 1px solid #f1f3f4;
   color: #495057;
@@ -13708,35 +12239,29 @@
   line-height: 1.4;
 }
 
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
-.suppliers-table tbody tr:hover {
   background: #f8f9fa;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.suppliers-table tbody tr.expanded {
   background: #f2f6fa;
   border-left: 4px solid #007bff;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* Old enhanced expand icon - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Enhanced status indicators */
-.suppliers-table .status-column {
   text-align: center;
   padding: 16px 20px;
 }
 
-.suppliers-table .account-status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -13745,29 +12270,24 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .account-status-indicator.active {
   background: #28a745;
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
 
-.suppliers-table .account-status-indicator.pending {
   background: #ffc107;
   box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
 }
 
-.suppliers-table .account-status-indicator.inactive {
   background: #dc3545;
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
 }
 
 /* Enhanced expanded details */
-.suppliers-table .expanded-details td {
   padding: 0;
   background: #f8f9fa;
   border-top: 2px solid #007bff;
 }
 
-.suppliers-table .contact-details-form {
   padding: 16px;
   background: white;
   margin: 0;
@@ -13776,7 +12296,6 @@
   border: none;
 }
 
-.suppliers-table .contact-details-header h3 {
   color: #333;
   font-size: 13px;
   font-weight: 700;
@@ -13787,7 +12306,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .contact-form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -13795,17 +12313,14 @@
   max-width: 100%;
 }
 
-.suppliers-table .contact-form-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .form-group {
   margin-bottom: 0;
 }
 
-.suppliers-table .form-group label {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -13815,8 +12330,6 @@
   margin-bottom: 6px;
 }
 
-.suppliers-table .form-group input,
-.suppliers-table .form-group textarea {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -13829,14 +12342,11 @@
   height: 32px;
 }
 
-.suppliers-table .form-group input:focus,
-.suppliers-table .form-group textarea:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .bottom-form-section {
   padding-top: 16px;
   border-top: 1px solid #dee2e6;
   display: grid;
@@ -13845,18 +12355,14 @@
   margin-top: 0;
 }
 
-.suppliers-table .payment-terms-section {
   margin-bottom: 0;
 }
 
-.suppliers-table .payment-form-row {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .payment-terms-section h4,
-.suppliers-table .remarks-section h4 {
   color: #333;
   font-size: 10px;
   font-weight: 700;
@@ -13865,14 +12371,12 @@
   margin-bottom: 8px;
 }
 
-.suppliers-table .remarks-section textarea {
   resize: vertical;
   min-height: 70px;
   height: auto;
 }
 
 /* Room Rates Section within Expanded Supplier Details */
-.suppliers-table .room-rates-section {
   margin-top: 16px;
   padding: 16px;
   background: #f8f9fa;
@@ -13880,7 +12384,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-rates-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13889,7 +12392,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .seasons-rate-filter select {
   padding: 8px 10px;
   border: 1px solid #ced4da;
   border-radius: 3px;
@@ -13906,7 +12408,6 @@
   background-size: 10px;
 }
 
-.suppliers-table .filters-button {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -13921,21 +12422,17 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .filters-button:hover {
   background: #f8f9fa;
   border-color: #adb5bd;
 }
 
-.suppliers-table .room-rates-body {
   display: flex;
   gap: 16px;
 }
 
-.suppliers-table .room-rates-table-container {
   flex: 2;
 }
 
-.suppliers-table .room-rates-table-nested {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #dee2e6;
@@ -13943,7 +12440,6 @@
   overflow: hidden;
 }
 
-.suppliers-table .room-rates-table-nested th {
   background: #f8f9fa;
   padding: 8px;
   text-align: center;
@@ -13953,18 +12449,15 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .room-rates-table-nested td {
   padding: 8px;
   border-bottom: 1px solid #dee2e6;
   font-size: 12px;
 }
 
-.suppliers-table .room-rates-table-nested td:first-child {
   font-weight: 500;
   color: #495057;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -13973,13 +12466,11 @@
   box-sizing: border-box;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-features-inclusions {
   flex: 1;
   background: white;
   padding: 12px;
@@ -13987,7 +12478,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-features-inclusions h4 {
   font-size: 14px;
   font-weight: 600;
   color: #495057;
@@ -13996,17 +12486,14 @@
   letter-spacing: 0.5px;
 }
 
-.suppliers-table .room-features-inclusions ul {
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
 }
 
-.suppliers-table .room-features-inclusions ul:last-child {
   margin-bottom: 0;
 }
 
-.suppliers-table .room-features-inclusions li {
   padding: 4px 0;
   font-size: 13px;
   color: #6c757d;
@@ -14014,7 +12501,6 @@
   padding-left: 16px;
 }
 
-.suppliers-table .room-features-inclusions li::before {
   content: "•";
   color: #007bff;
   font-weight: bold;
@@ -14023,7 +12509,6 @@
 }
 
 /* Dropdown styling within the expanded supplier details */
-.suppliers-table .form-group select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -14041,18 +12526,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .form-group select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .form-group select:hover {
   border-color: #adb5bd;
 }
 
 /* Room type dropdown in table */
-.suppliers-table .room-type-select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -14069,18 +12551,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .room-type-select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-type-select:hover {
   border-color: #adb5bd;
 }
 
 /* Number inputs in room rates table */
-.suppliers-table .room-rates-table-nested td input[type="number"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -14090,7 +12569,6 @@
   text-align: right;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="number"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
@@ -14098,7 +12576,6 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .suppliers-stats-row {
     flex-wrap: wrap;
   }
   
@@ -14111,18 +12588,15 @@
     gap: 20px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .suppliers-page-content {
     padding: 80px 15px 15px 15px;
   }
   
-  .suppliers-stats-row {
     flex-direction: column;
     gap: 15px;
   }
@@ -14142,7 +12616,6 @@
     justify-content: flex-end;
   }
   
-  .suppliers-table-controls {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
@@ -14158,16 +12631,13 @@
     gap: 15px;
   }
   
-  .suppliers-table .contact-form-column {
     gap: 12px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 15px;
   }
   
-  .suppliers-table .payment-form-row {
     gap: 12px;
   }
 
@@ -14175,17 +12645,14 @@
     padding: 16px;
   }
 
-  .suppliers-table .room-rates-body {
     flex-direction: column;
     gap: 16px;
   }
 
-  .suppliers-table .room-rates-section {
     padding: 16px;
     margin-top: 16px;
   }
 
-  .suppliers-table .room-rates-header {
     margin-bottom: 12px;
   }
 }
@@ -16375,17 +14842,14 @@
 }
 
 /* Corrected Table Status Indicators */
-.suppliers-table .account-status-indicator.active {
   background: #22C55E;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-.suppliers-table .account-status-indicator.pending {
   background: #F59E0B;
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
 
-.suppliers-table .account-status-indicator.inactive {
   background: #EF4444;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 }
@@ -18503,7 +16967,6 @@
   white-space: nowrap;
 }
 
-.suppliers-table-container {
   width: 100%;
   overflow-x: auto;
   background: white;
@@ -18513,7 +16976,6 @@
   margin: 16px 0;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
@@ -18526,8 +16988,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.suppliers-table th,
-.suppliers-table td {
   padding: 12px 8px;
   text-align: left;
   border-bottom: 1px solid #f1f3f4;
@@ -18542,16 +17002,12 @@
   height: 48px;
 }
 
-.suppliers-table th:last-child,
-.suppliers-table td:last-child {
   border-right: none;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
-.suppliers-table th {
   background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   font-weight: 600;
   color: #475569;
@@ -18564,8 +17020,6 @@
   text-align: center;
 }
 
-.suppliers-table td:first-child,
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
   vertical-align: middle;
@@ -18573,85 +17027,57 @@
 }
 
 /* Symmetrical column widths for balanced layout */
-.suppliers-table th:nth-child(2),
-.suppliers-table td:nth-child(2) {
   width: 12%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(3),
-.suppliers-table td:nth-child(3) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(4),
-.suppliers-table td:nth-child(4) {
   width: 14%;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(5),
-.suppliers-table td:nth-child(5) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(6),
-.suppliers-table td:nth-child(6) {
   width: 16%;
   white-space: normal;
   text-align: left;
 }
 
-.suppliers-table th:nth-child(7),
-.suppliers-table td:nth-child(7) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(8),
-.suppliers-table td:nth-child(8) {
   width: 10%;
   text-align: center;
 }
 
-.suppliers-table th:nth-child(9),
-.suppliers-table td:nth-child(9) {
   width: 8%;
   text-align: center;
 }
 
 /* Header text alignment overrides for logical grouping */
-.suppliers-table th:nth-child(3),
-.suppliers-table th:nth-child(4),
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6) {
   text-align: left;
   padding-left: 16px;
 }
 
 /* Remove previous truncation styles */
-.suppliers-table th:nth-child(5),
-.suppliers-table th:nth-child(6),
-.suppliers-table th:nth-child(7),
-.suppliers-table th:nth-child(9) {
   font-size: 0.8em;
   line-height: 1.3;
   white-space: normal;
 }
 
 /* Better text handling for content cells */
-.suppliers-table td {
   font-size: 0.75em;
   line-height: 1.2;
 }
 
 /* Allow proper text display in date columns */
-.suppliers-table td:nth-child(5),
-.suppliers-table td:nth-child(6),
-.suppliers-table td:nth-child(7) {
   font-size: 0.75em;
   white-space: normal;
   overflow: visible;
@@ -18659,40 +17085,33 @@
 }
 
 /* Enhanced table hover and interaction states */
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   border-bottom: 1px solid #f1f3f4;
 }
 
-.suppliers-table tbody tr:hover {
   background-color: #f8faff;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border-bottom: 1px solid #e2e8f0;
 }
 
-.suppliers-table tbody tr.expanded {
   background-color: #f0f7ff;
   box-shadow: inset 0 2px 4px rgba(59, 130, 246, 0.1);
   border-bottom: 1px solid #dbeafe;
 }
 
 /* Alternating row colors for better readability */
-.suppliers-table tbody tr:nth-child(even) {
   background-color: #fafbfc;
 }
 
-.suppliers-table tbody tr:nth-child(even):hover {
   background-color: #f8faff;
 }
 
 /* Old expand icon styling - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Make sure expand icon column has the right width */
-.suppliers-table th:first-child,
 .bookings-table th:first-child,
 .accounts-table th:first-child,
-.suppliers-table td:first-child,
 .bookings-table td:first-child,
 .accounts-table td:first-child {
   width: 40px;
@@ -18700,7 +17119,6 @@
   min-width: 40px;
 }
 
-.suppliers-table .status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -18711,37 +17129,30 @@
   transition: transform 0.2s ease;
 }
 
-.suppliers-table .status-indicator:hover {
   transform: scale(1.2);
 }
 
-.suppliers-table .status-indicator.active {
   background-color: #10b981;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
-.suppliers-table .status-indicator.pending {
   background-color: #f59e0b;
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
 }
 
-.suppliers-table .status-indicator.inactive {
   background-color: #ef4444;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 /* Responsive improvements */
 @media (max-width: 1200px) {
-  .suppliers-table {
     font-size: 0.75em;
   }
   
-  .suppliers-table th {
     font-size: 0.7em;
     padding: 10px 6px;
   }
   
-  .suppliers-table td {
     font-size: 0.75em;
     padding: 8px 6px;
   }
@@ -18815,22 +17226,17 @@
     gap: 8px;
   }
   
-  .suppliers-table {
     font-size: 0.7em;
   }
   
-  .suppliers-table th,
-  .suppliers-table td {
     padding: 10px 6px;
   }
   
-  .suppliers-table thead th {
     padding: 12px 6px;
     height: 40px;
     font-size: 0.65em;
   }
   
-  .suppliers-table td {
     font-size: 0.68em;
   }
 }
@@ -18848,8 +17254,6 @@
 
 /* Styles for Expanded Supplier Row - Carbon Copy Redesign */
 
-/* .suppliers-table th:first-child, already defined above */
-/* .suppliers-table td:first-child, already defined above */
 
 /* .chevron-cell, already defined above */
 
@@ -19169,25 +17573,21 @@
 }
 
 /* Suppliers Page Specific Styles */
-.suppliers-page-content {
   padding: 30px;
   background-color: #f8f9fa;
   min-height: calc(100vh - 60px);
 }
 
 /* Suppliers Statistics Cards */
-.suppliers-stats-section {
   margin-bottom: 40px;
   margin-top: -10px;
 }
 
-.suppliers-stats-single-row {
   display: flex;
   gap: 20px;
   align-items: stretch;
 }
 
-.suppliers-stats-row {
   display: flex;
   gap: 15px;
   margin-bottom: 0;
@@ -19195,14 +17595,12 @@
 }
 
 /* First group (left section) - Accreditation stats */
-.suppliers-stats-row:first-child {
   background: transparent;
   border-radius: 0;
   padding: 0;
   gap: 15px;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card {
   background: white;
   border-radius: 12px;
   padding: 20px;
@@ -19215,7 +17613,6 @@
   flex: 1;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card::after {
   content: '';
   position: absolute;
   top: 0;
@@ -19253,7 +17650,6 @@
 }
 
 /* Status dots styling for the new design */
-.suppliers-stats-row:first-child .suppliers-stat-card .status-dot {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -19262,11 +17658,9 @@
 }
 
 /* Second group (right section) - Regional stats */
-.suppliers-stats-row:last-child {
   gap: 15px;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card {
   background-color: #333;
   position: relative;
   border-radius: 8px;
@@ -19280,7 +17674,6 @@
   color: white;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -19308,21 +17701,17 @@
   gap: 6px;
 }
 
-.suppliers-stats-row:first-child .stat-label {
   color: #333;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-label {
   color: #333;
   font-weight: 600;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .stat-value {
   color: #212529;
   font-weight: 700;
 }
 
-.suppliers-stats-row:last-child .stat-label {
   color: white;
 }
 
@@ -19334,11 +17723,9 @@
   z-index: 5;
 }
 
-.suppliers-stats-row:first-child .stat-value {
   color: #212529;
 }
 
-.suppliers-stats-row:last-child .stat-value {
   color: white;
 }
 
@@ -19352,28 +17739,22 @@
 }
 
 /* Left section dots */
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited .status-dot.active {
   background-color: #3B82F6;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.accredited-prepaid .status-dot.pending {
   background-color: #F59E0B;
 }
 
-.suppliers-stats-row:first-child .suppliers-stat-card.non-accredited .status-dot.inactive {
   background-color: #dc2626;
 }
 
 /* Right section dots */
-.suppliers-stats-row:last-child .suppliers-stat-card.ncr-luzon .status-dot.ncr {
   background-color: #FFC107;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.visayas .status-dot.visayas {
   background-color: #4CAF50;
 }
 
-.suppliers-stats-row:last-child .suppliers-stat-card.mindanao .status-dot.mindanao {
   background-color: #2196F3;
 }
 
@@ -19460,7 +17841,6 @@
 }
 
 /* Suppliers Table Controls */
-.suppliers-table-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19538,7 +17918,6 @@
 }
 
 /* Enhanced Suppliers Table */
-.suppliers-table-container {
   background: white;
   border-radius: 8px;
   overflow: hidden;
@@ -19546,14 +17925,12 @@
   border: 1px solid #e9ecef;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
   font-size: 14px;
 }
 
-.suppliers-table th {
   background: #f8f9fa;
   font-weight: 600;
   color: #495057;
@@ -19568,7 +17945,6 @@
   z-index: 5;
 }
 
-.suppliers-table td {
   padding: 16px 20px;
   border-bottom: 1px solid #f1f3f4;
   color: #495057;
@@ -19577,35 +17953,29 @@
   line-height: 1.4;
 }
 
-.suppliers-table tbody tr {
   transition: all 0.2s ease;
   cursor: pointer;
 }
 
-.suppliers-table tbody tr:hover {
   background: #f8f9fa;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.suppliers-table tbody tr.expanded {
   background: #f2f6fa;
   border-left: 4px solid #007bff;
 }
 
-.suppliers-table tbody tr:last-child td {
   border-bottom: none;
 }
 
 /* Old enhanced expand icon - REPLACED BY UNIFIED DESIGN ABOVE */
 
 /* Enhanced status indicators */
-.suppliers-table .status-column {
   text-align: center;
   padding: 16px 20px;
 }
 
-.suppliers-table .account-status-indicator {
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -19614,29 +17984,24 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .account-status-indicator.active {
   background: #28a745;
   box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
 }
 
-.suppliers-table .account-status-indicator.pending {
   background: #ffc107;
   box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
 }
 
-.suppliers-table .account-status-indicator.inactive {
   background: #dc3545;
   box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2);
 }
 
 /* Enhanced expanded details */
-.suppliers-table .expanded-details td {
   padding: 0;
   background: #f8f9fa;
   border-top: 2px solid #007bff;
 }
 
-.suppliers-table .contact-details-form {
   padding: 16px;
   background: white;
   margin: 0;
@@ -19645,7 +18010,6 @@
   border: none;
 }
 
-.suppliers-table .contact-details-header h3 {
   color: #333;
   font-size: 13px;
   font-weight: 700;
@@ -19656,7 +18020,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .contact-form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
@@ -19664,17 +18027,14 @@
   max-width: 100%;
 }
 
-.suppliers-table .contact-form-column {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .form-group {
   margin-bottom: 0;
 }
 
-.suppliers-table .form-group label {
   display: block;
   font-size: 11px;
   font-weight: 700;
@@ -19684,8 +18044,6 @@
   margin-bottom: 6px;
 }
 
-.suppliers-table .form-group input,
-.suppliers-table .form-group textarea {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -19698,14 +18056,11 @@
   height: 32px;
 }
 
-.suppliers-table .form-group input:focus,
-.suppliers-table .form-group textarea:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .bottom-form-section {
   padding-top: 16px;
   border-top: 1px solid #dee2e6;
   display: grid;
@@ -19714,18 +18069,14 @@
   margin-top: 0;
 }
 
-.suppliers-table .payment-terms-section {
   margin-bottom: 0;
 }
 
-.suppliers-table .payment-form-row {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.suppliers-table .payment-terms-section h4,
-.suppliers-table .remarks-section h4 {
   color: #333;
   font-size: 10px;
   font-weight: 700;
@@ -19734,14 +18085,12 @@
   margin-bottom: 8px;
 }
 
-.suppliers-table .remarks-section textarea {
   resize: vertical;
   min-height: 70px;
   height: auto;
 }
 
 /* Room Rates Section within Expanded Supplier Details */
-.suppliers-table .room-rates-section {
   margin-top: 16px;
   padding: 16px;
   background: #f8f9fa;
@@ -19749,7 +18098,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-rates-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19758,7 +18106,6 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .seasons-rate-filter select {
   padding: 8px 10px;
   border: 1px solid #ced4da;
   border-radius: 3px;
@@ -19775,7 +18122,6 @@
   background-size: 10px;
 }
 
-.suppliers-table .filters-button {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -19790,21 +18136,17 @@
   transition: all 0.2s ease;
 }
 
-.suppliers-table .filters-button:hover {
   background: #f8f9fa;
   border-color: #adb5bd;
 }
 
-.suppliers-table .room-rates-body {
   display: flex;
   gap: 16px;
 }
 
-.suppliers-table .room-rates-table-container {
   flex: 2;
 }
 
-.suppliers-table .room-rates-table-nested {
   width: 100%;
   border-collapse: collapse;
   border: 1px solid #dee2e6;
@@ -19812,7 +18154,6 @@
   overflow: hidden;
 }
 
-.suppliers-table .room-rates-table-nested th {
   background: #f8f9fa;
   padding: 8px;
   text-align: center;
@@ -19822,18 +18163,15 @@
   border-bottom: 1px solid #dee2e6;
 }
 
-.suppliers-table .room-rates-table-nested td {
   padding: 8px;
   border-bottom: 1px solid #dee2e6;
   font-size: 12px;
 }
 
-.suppliers-table .room-rates-table-nested td:first-child {
   font-weight: 500;
   color: #495057;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -19842,13 +18180,11 @@
   box-sizing: border-box;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-features-inclusions {
   flex: 1;
   background: white;
   padding: 12px;
@@ -19856,7 +18192,6 @@
   border-radius: 4px;
 }
 
-.suppliers-table .room-features-inclusions h4 {
   font-size: 14px;
   font-weight: 600;
   color: #495057;
@@ -19865,17 +18200,14 @@
   letter-spacing: 0.5px;
 }
 
-.suppliers-table .room-features-inclusions ul {
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
 }
 
-.suppliers-table .room-features-inclusions ul:last-child {
   margin-bottom: 0;
 }
 
-.suppliers-table .room-features-inclusions li {
   padding: 4px 0;
   font-size: 13px;
   color: #6c757d;
@@ -19883,7 +18215,6 @@
   padding-left: 16px;
 }
 
-.suppliers-table .room-features-inclusions li::before {
   content: "•";
   color: #007bff;
   font-weight: bold;
@@ -19892,7 +18223,6 @@
 }
 
 /* Dropdown styling within the expanded supplier details */
-.suppliers-table .form-group select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -19910,18 +18240,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .form-group select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.08);
 }
 
-.suppliers-table .form-group select:hover {
   border-color: #adb5bd;
 }
 
 /* Room type dropdown in table */
-.suppliers-table .room-type-select {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -19938,18 +18265,15 @@
   background-size: 10px;
 }
 
-.suppliers-table .room-type-select:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.suppliers-table .room-type-select:hover {
   border-color: #adb5bd;
 }
 
 /* Number inputs in room rates table */
-.suppliers-table .room-rates-table-nested td input[type="number"] {
   width: 100%;
   padding: 8px 10px;
   border: 1px solid #ced4da;
@@ -19959,7 +18283,6 @@
   text-align: right;
 }
 
-.suppliers-table .room-rates-table-nested td input[type="number"]:focus {
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
@@ -19967,7 +18290,6 @@
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .suppliers-stats-row {
     flex-wrap: wrap;
   }
   
@@ -19980,18 +18302,15 @@
     gap: 20px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 }
 
 @media (max-width: 768px) {
-  .suppliers-page-content {
     padding: 80px 15px 15px 15px;
   }
   
-  .suppliers-stats-row {
     flex-direction: column;
     gap: 15px;
   }
@@ -20011,7 +18330,6 @@
     justify-content: flex-end;
   }
   
-  .suppliers-table-controls {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
@@ -20027,16 +18345,13 @@
     gap: 15px;
   }
   
-  .suppliers-table .contact-form-column {
     gap: 12px;
   }
   
-  .suppliers-table .bottom-form-section {
     grid-template-columns: 1fr;
     gap: 15px;
   }
   
-  .suppliers-table .payment-form-row {
     gap: 12px;
   }
 
@@ -20044,17 +18359,14 @@
     padding: 16px;
   }
 
-  .suppliers-table .room-rates-body {
     flex-direction: column;
     gap: 16px;
   }
 
-  .suppliers-table .room-rates-section {
     padding: 16px;
     margin-top: 16px;
   }
 
-  .suppliers-table .room-rates-header {
     margin-bottom: 12px;
   }
 }
@@ -22244,17 +20556,14 @@
 }
 
 /* Corrected Table Status Indicators */
-.suppliers-table .account-status-indicator.active {
   background: #22C55E;
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
-.suppliers-table .account-status-indicator.pending {
   background: #F59E0B;
   box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
 }
 
-.suppliers-table .account-status-indicator.inactive {
   background: #EF4444;
   box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
 }
@@ -24164,13 +22473,11 @@
 }
 
 /* Enhanced styling for suppliers table - New Standard */
-.suppliers-table .expand-icon {
   width: 40px;
   text-align: center;
   padding: 8px 6px;
 }
 
-.suppliers-table .expand-icon span {
   width: 28px;
   height: 28px;
   font-size: 16px;
@@ -24184,7 +22491,6 @@
   position: relative;
 }
 
-.suppliers-table .expand-icon span::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -24199,7 +22505,6 @@
   opacity: 0.8;
 }
 
-.suppliers-table .expand-icon:hover span {
   background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
   border-color: #4f46e5;
   color: white;
@@ -24207,25 +22512,20 @@
   box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
-.suppliers-table .expand-icon:hover span::after {
   border-left-color: white;
   opacity: 1;
   transform: translate(-50%, -50%) scale(1.1);
 }
 
-.suppliers-table .expand-icon:active span {
   transform: scale(0.98);
   transition: transform 0.1s ease;
   background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%) !important;
   border-color: #adb5bd !important;
 }
 
-.suppliers-table .expand-icon:active span::after {
   transform: translate(-50%, -50%) scale(0.9);
 }
 
-.suppliers-table .expanded .expand-icon span,
-.suppliers-table .supplier-row.expanded .expand-icon span {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border-color: #10b981;
   color: white;
@@ -24233,31 +22533,21 @@
   box-shadow: 0 3px 8px rgba(16, 185, 129, 0.25);
 }
 
-.suppliers-table .expanded .expand-icon span::after,
-.suppliers-table .supplier-row.expanded .expand-icon span::after {
   transform: translate(-50%, -50%) rotate(90deg) scale(1.05);
   border-left-color: white;
   opacity: 1;
 }
 
 /* Prevent white backgrounds on suppliers table expand icons */
-.suppliers-table .expand-icon span,
-.suppliers-table .expand-icon:hover span,
-.suppliers-table .expand-icon:active span,
-.suppliers-table .expand-icon:focus span {
   background-color: transparent !important;
 }
 
-.suppliers-table .expand-icon span {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
 }
 
-.suppliers-table .expand-icon:hover span {
   background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
 }
 
-.suppliers-table .expanded .expand-icon span,
-.suppliers-table .supplier-row.expanded .expand-icon span {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
 }
 
@@ -24396,10 +22686,8 @@
 }
 
 /* Ensure expand icon column has consistent width */
-.suppliers-table th:first-child,
 .bookings-table th:first-child,
 .accounts-table th:first-child,
-.suppliers-table td:first-child,
 .bookings-table td:first-child,
 .accounts-table td:first-child {
   width: 40px;
@@ -24422,7 +22710,6 @@
     border-radius: 6px;
   }
   
-  .suppliers-table .expand-icon span,
   .bookings-table .expand-icon span,
   .accounts-table .expand-icon span {
     width: 24px;
@@ -24431,7 +22718,6 @@
     border-radius: 6px;
   }
   
-  .suppliers-table .expand-icon span::after,
   .bookings-table .expand-icon span::after,
   .accounts-table .expand-icon span::after {
     border-left: 5px solid #495057;
@@ -24439,10 +22725,8 @@
     border-bottom: 3px solid transparent;
   }
   
-  .suppliers-table th:first-child,
   .bookings-table th:first-child,
   .accounts-table th:first-child,
-  .suppliers-table td:first-child,
   .bookings-table td:first-child,
   .accounts-table td:first-child {
     width: 36px;
@@ -24863,7 +23147,6 @@
 }
 
 /* Ultra-specific rule for suppliers page search icon visibility */
-.suppliers-page-content .filter-right-section .search-container-enhanced .search-btn-enhanced,
 .admin-main-content .filter-right-section .search-container-enhanced .search-btn-enhanced {
   position: absolute !important;
   right: 6px !important;
@@ -24885,7 +23168,6 @@
   opacity: 1 !important;
 }
 
-.suppliers-page-content .filter-right-section .search-container-enhanced .search-btn-enhanced svg,
 .admin-main-content .filter-right-section .search-container-enhanced .search-btn-enhanced svg {
   width: 16px !important;
   height: 16px !important;
@@ -25412,26 +23694,17 @@ button.search-btn-enhanced svg {
 }
 
 /* Form Field Enhancements for Edit Mode */
-.suppliers-table .form-group input:disabled,
-.suppliers-table .form-group select:disabled,
-.suppliers-table .form-group textarea:disabled {
   background-color: #f9fafb;
   color: #6b7280;
   cursor: not-allowed;
   border-color: #e5e7eb;
 }
 
-.suppliers-table .form-group input:not(:disabled),
-.suppliers-table .form-group select:not(:disabled),
-.suppliers-table .form-group textarea:not(:disabled) {
   background-color: white;
   border-color: #d1d5db;
   transition: all 0.2s ease;
 }
 
-.suppliers-table .form-group input:not(:disabled):focus,
-.suppliers-table .form-group select:not(:disabled):focus,
-.suppliers-table .form-group textarea:not(:disabled):focus {
   border-color: #3b82f6;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
   background-color: #fefefe;
@@ -25631,24 +23904,20 @@ button.search-btn-enhanced svg {
   color: #666;
 }
 
-.suppliers-table-container {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
   background: white;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-.suppliers-table thead {
   background-color: #f5f5f5;
 }
 
-.suppliers-table th {
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
@@ -25658,12 +23927,10 @@ button.search-btn-enhanced svg {
   text-transform: uppercase;
 }
 
-.suppliers-table th:first-child {
   width: 40px;
   text-align: center;
 }
 
-.suppliers-table th:last-child {
   width: 80px;
   text-align: center;
 }
@@ -25677,7 +23944,6 @@ button.search-btn-enhanced svg {
   background-color: #f8f9fa;
 }
 
-.suppliers-table td {
   padding: 12px 16px;
   color: #333;
   vertical-align: middle;
@@ -25772,7 +24038,6 @@ button.search-btn-enhanced svg {
 }
 
 /* Status dot in table */
-.suppliers-table .status-dot {
   margin: 0 auto;
   display: block;
 }
@@ -25806,12 +24071,9 @@ button.search-btn-enhanced svg {
     justify-content: space-between;
   }
   
-  .suppliers-table {
     font-size: 12px;
   }
   
-  .suppliers-table th,
-  .suppliers-table td {
     padding: 8px 12px;
   }
   
@@ -25941,24 +24203,20 @@ button.search-btn-enhanced svg {
   color: #666;
 }
 
-.dashboard-section .suppliers-table-container {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
   background: white;
 }
 
-.dashboard-section .suppliers-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
 }
 
-.dashboard-section .suppliers-table thead {
   background-color: #f5f5f5;
 }
 
-.dashboard-section .suppliers-table th {
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
@@ -25968,12 +24226,10 @@ button.search-btn-enhanced svg {
   text-transform: uppercase;
 }
 
-.dashboard-section .suppliers-table th:first-child {
   width: 40px;
   text-align: center;
 }
 
-.dashboard-section .suppliers-table th:last-child {
   width: 80px;
   text-align: center;
 }
@@ -25987,7 +24243,6 @@ button.search-btn-enhanced svg {
   background-color: #f8f9fa;
 }
 
-.dashboard-section .suppliers-table td {
   padding: 12px 16px;
   color: #333;
   vertical-align: middle;
@@ -26082,7 +24337,6 @@ button.search-btn-enhanced svg {
 }
 
 /* Status dot in dashboard suppliers table */
-.dashboard-section .suppliers-table .status-dot {
   margin: 0 auto;
   display: block;
 }
@@ -26116,12 +24370,9 @@ button.search-btn-enhanced svg {
     justify-content: space-between;
   }
   
-  .dashboard-section .suppliers-table {
     font-size: 12px;
   }
   
-  .dashboard-section .suppliers-table th,
-  .dashboard-section .suppliers-table td {
     padding: 8px 12px;
   }
   
@@ -26723,17 +24974,14 @@ button.search-btn-enhanced svg {
 }
 
 /* Table Improvements */
-.suppliers-table-container {
   overflow-x: auto;
 }
 
-.suppliers-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px; /* Smaller font for cleaner look */
 }
 
-.suppliers-table th {
   background: #f8f9fa;
   padding: 12px 16px; /* Consistent padding */
   text-align: left;
@@ -26745,7 +24993,6 @@ button.search-btn-enhanced svg {
   letter-spacing: 0.5px;
 }
 
-.suppliers-table td {
   padding: 12px 16px; /* Consistent padding */
   border-bottom: 1px solid #f1f3f4;
   color: #495057;
@@ -27209,7 +25456,6 @@ button.search-btn-enhanced svg {
   }
   
   /* Stats Cards Mobile */
-  .suppliers-stats-row {
     flex-direction: column;
     gap: 15px;
   }
@@ -27260,22 +25506,18 @@ button.search-btn-enhanced svg {
   }
   
   /* Tables Mobile */
-  .suppliers-table-container,
   .bookings-table-container,
   .accounts-table {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
   
-  .suppliers-table,
   .bookings-table,
   .accounts-table {
     min-width: 800px;
     font-size: 12px;
   }
   
-  .suppliers-table th,
-  .suppliers-table td,
   .bookings-table th,
   .bookings-table td,
   .accounts-table th,
@@ -27465,15 +25707,12 @@ button.search-btn-enhanced svg {
     padding: 10px;
   }
   
-  .suppliers-table,
   .bookings-table,
   .accounts-table {
     min-width: 600px;
     font-size: 11px;
   }
   
-  .suppliers-table th,
-  .suppliers-table td,
   .bookings-table th,
   .bookings-table td {
     padding: 6px 4px;

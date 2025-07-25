@@ -1,6 +1,5 @@
 import React from 'react';
 import { Icons } from '../data/icons.jsx';
-import { accountsStats } from '../data/sampleData';
 
 const StatusIndicator = ({ status, label, isActive, onClick }) => {
   return (
@@ -36,7 +35,7 @@ const AccountsSection = ({
           <div className="accounts-stats-container">
             <div className="stats-item">
               <div className="stat-label">ALL EMPLOYEES</div>
-              <div className="stat-number">{accountsStats.allEmployees}</div>
+              <div className="stat-number">{filteredData.accounts.length}</div>
             </div>
             
             <div className="stats-item">

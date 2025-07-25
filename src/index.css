@@ -1,24 +1,34 @@
-/*
-body, html, #root {
-  @apply h-full w-full m-0 p-0 font-sans overflow-x-hidden bg-gray-100;
-}
-*/
+/* =================================================================
+   GLOBAL STYLES
+   ================================================================= */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Reset and base styles */
+body, html, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  background-color: #f5f5f5;
+}
+
+/* Essential global styles only */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Link styles */
 a {
   font-weight: 500;
   color: #646cff;
@@ -28,19 +38,7 @@ a:hover {
   color: #535bf2;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
+/* Button base styles - will be overridden by Tailwind utilities */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -48,18 +46,199 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+/* Essential Dashboard Styles */
+.admin-dashboard-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  background-color: #e5e7eb;
+  position: relative;
 }
 
+.admin-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  overflow: hidden;
+  width: 100%;
+}
+
+.admin-right-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100vh;
+  overflow-y: auto;
+  width: calc(100% - 250px);
+}
+
+.admin-main-content {
+  flex-grow: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background-color: #f9fafb;
+}
+
+.admin-dashboard-header {
+  background-color: #000;
+  height: 60px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 40;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service-portal-logo {
+  height: 32px;
+  width: 32px;
+  margin-right: 15px;
+  vertical-align: middle;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.service-portal-text {
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.single-line-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bookings-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.bookings-status-legend {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.search-controls-group {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.status-pill.active {
+  background-color: #f0fdf4;
+  color: #166534;
+  border-color: #bbf7d0;
+}
+
+.status-pill.pending {
+  background-color: #fffbeb;
+  color: #92400e;
+  border-color: #fed7aa;
+}
+
+.status-pill.inactive {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.status-pill.request {
+  background-color: #f0f9ff;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+
+.status-pill.selected {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.travel-voucher-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #495057;
+  min-width: 200px;
+}
+
+.standardized-search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: white;
+  transition: all 0.2s ease;
+  min-width: 250px;
+}
+
+.standardized-search-input {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: transparent;
+  font-size: 14px;
+  color: #374151;
+  width: 100%;
+  outline: none;
+}
+
+.standardized-search-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+/* Light/dark mode preferences */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -68,20 +247,13 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
-    background-color: #f9f9f9;
-  }
 }
 
+/* Utility classes for legacy compatibility */
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
+  @apply grid grid-cols-[repeat(auto-fit,_minmax(300px,_1fr))] gap-4;
 }
 
 .stat-card {
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  @apply bg-white p-4 rounded-lg shadow-sm;
 }

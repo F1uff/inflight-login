@@ -42,6 +42,15 @@ const SystemPerformancePage = () => {
 
   // Fetch system data
   useEffect(() => {
+    // Clean up any conflicting admin dashboard elements
+    const adminHeader = document.querySelector('.admin-dashboard-header');
+    const adminSidebar = document.querySelector('.admin-sidebar');
+    const adminContentWrapper = document.querySelector('.admin-content-wrapper');
+    
+    if (adminHeader) adminHeader.style.display = 'none';
+    if (adminSidebar) adminSidebar.style.display = 'none';
+    if (adminContentWrapper) adminContentWrapper.style.display = 'none';
+
     const fetchSystemData = async () => {
       try {
         setIsLoading(true);
@@ -91,7 +100,18 @@ const SystemPerformancePage = () => {
       }));
     }, 3000);
 
-    return () => clearInterval(performanceInterval);
+    return () => {
+      clearInterval(performanceInterval);
+      
+      // Restore admin dashboard elements when component unmounts
+      const adminHeader = document.querySelector('.admin-dashboard-header');
+      const adminSidebar = document.querySelector('.admin-sidebar');
+      const adminContentWrapper = document.querySelector('.admin-content-wrapper');
+      
+      if (adminHeader) adminHeader.style.display = '';
+      if (adminSidebar) adminSidebar.style.display = '';
+      if (adminContentWrapper) adminContentWrapper.style.display = '';
+    };
   }, []);
 
   const getStatusColor = (value, type) => {
@@ -289,66 +309,6 @@ const SystemPerformancePage = () => {
         </div>
       </div>
 
-      {/* Safety & Security Protocols */}
-      <div className="safety-section">
-        <div className="section-header">
-          <h2>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.4 16,13V16C16,17.4 15.4,18 14.8,18H9.2C8.6,18 8,17.4 8,16V13C8,12.4 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
-            </svg>
-            SAFETY & SECURITY PROTOCOLS
-          </h2>
-        </div>
-
-        <div className="safety-grid">
-          <div className="safety-card">
-            <div className="safety-header">
-              <span className="safety-title">Security Alerts</span>
-              <div className={`alert-badge ${safetyProtocols.securityAlerts === 0 ? 'success' : 'warning'}`}>
-                {safetyProtocols.securityAlerts}
-              </div>
-            </div>
-            <div className="safety-status success">All Clear</div>
-            <div className="safety-description">No security threats detected</div>
-          </div>
-
-          <div className="safety-card">
-            <div className="safety-header">
-              <span className="safety-title">Backup Status</span>
-              <div className="status-indicator-small healthy"></div>
-            </div>
-            <div className="safety-status success">Healthy</div>
-            <div className="safety-description">Last backup: {safetyProtocols.lastBackup}</div>
-          </div>
-
-          <div className="safety-card">
-            <div className="safety-header">
-              <span className="safety-title">Compliance Score</span>
-            </div>
-            <div className="safety-value">{safetyProtocols.complianceScore}%</div>
-            <div className="safety-status excellent">Excellent</div>
-          </div>
-
-          <div className="safety-card">
-            <div className="safety-header">
-              <span className="safety-title">Active Connections</span>
-            </div>
-            <div className="safety-value">{safetyProtocols.activeConnections}</div>
-            <div className="safety-status normal">Normal</div>
-            <div className="safety-description">Within acceptable limits</div>
-          </div>
-
-          <div className="safety-card">
-            <div className="safety-header">
-              <span className="safety-title">Data Integrity</span>
-            </div>
-            <div className="safety-value">{safetyProtocols.dataIntegrity}%</div>
-            <div className="safety-status perfect">Perfect</div>
-            <div className="safety-description">All data validated successfully</div>
-          </div>
-        </div>
-      </div>
-
       {/* Real-time System Resources */}
       <div className="resources-section">
         <div className="section-header">
@@ -415,6 +375,66 @@ const SystemPerformancePage = () => {
               ></div>
             </div>
             <div className="resource-status">High Activity</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Safety & Security Protocols */}
+      <div className="safety-section">
+        <div className="section-header">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11.5C15.4,11.5 16,12.4 16,13V16C16,17.4 15.4,18 14.8,18H9.2C8.6,18 8,17.4 8,16V13C8,12.4 8.6,11.5 9.2,11.5V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.5,8.7 10.5,10V11.5H13.5V10C13.5,8.7 12.8,8.2 12,8.2Z"/>
+            </svg>
+            SAFETY & SECURITY PROTOCOLS
+          </h2>
+        </div>
+
+        <div className="safety-grid">
+          <div className="safety-card">
+            <div className="safety-header">
+              <span className="safety-title">Security Alerts</span>
+              <div className={`alert-badge ${safetyProtocols.securityAlerts === 0 ? 'success' : 'warning'}`}>
+                {safetyProtocols.securityAlerts}
+              </div>
+            </div>
+            <div className="safety-status success">All Clear</div>
+            <div className="safety-description">No security threats detected</div>
+          </div>
+
+          <div className="safety-card">
+            <div className="safety-header">
+              <span className="safety-title">Backup Status</span>
+              <div className="status-indicator-small healthy"></div>
+            </div>
+            <div className="safety-status success">Healthy</div>
+            <div className="safety-description">Last backup: {safetyProtocols.lastBackup}</div>
+          </div>
+
+          <div className="safety-card">
+            <div className="safety-header">
+              <span className="safety-title">Compliance Score</span>
+            </div>
+            <div className="safety-value">{safetyProtocols.complianceScore}%</div>
+            <div className="safety-status excellent">Excellent</div>
+          </div>
+
+          <div className="safety-card">
+            <div className="safety-header">
+              <span className="safety-title">Active Connections</span>
+            </div>
+            <div className="safety-value">{safetyProtocols.activeConnections}</div>
+            <div className="safety-status normal">Normal</div>
+            <div className="safety-description">Within acceptable limits</div>
+          </div>
+
+          <div className="safety-card">
+            <div className="safety-header">
+              <span className="safety-title">Data Integrity</span>
+            </div>
+            <div className="safety-value">{safetyProtocols.dataIntegrity}%</div>
+            <div className="safety-status perfect">Perfect</div>
+            <div className="safety-description">All data validated successfully</div>
           </div>
         </div>
       </div>

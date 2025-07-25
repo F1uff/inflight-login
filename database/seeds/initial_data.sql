@@ -201,10 +201,12 @@ INSERT INTO feature_flags (flag_name, flag_key, is_enabled, rollout_percentage, 
 -- ('admin@inflight.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'System', 'Administrator', true, 'active');
 
 -- ============================================================================
--- SAMPLE DASHBOARD METRICS (FOR DEVELOPMENT)
+-- SAMPLE DASHBOARD METRICS (COMMENTED OUT - NO MOCKUP DATA)
 -- ============================================================================
 
--- Insert sample metrics for the last 7 days
+-- Sample metrics insertion commented out to keep database clean
+-- Uncomment only for development/testing purposes
+/*
 DO $$
 DECLARE
     i INTEGER;
@@ -232,5 +234,6 @@ BEGIN
     END LOOP;
 END
 $$;
+*/
 
 \echo 'Initial data seeding completed successfully!'; 

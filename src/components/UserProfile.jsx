@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './UserDashboard.css';
 import './CompanyInformationPage.css';
@@ -76,18 +76,37 @@ const Icons = {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="#4CAF50">
       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
     </svg>
+  ),
+  save: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#4CAF50">
+      <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+    </svg>
+  ),
+  warning: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#ff9800">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+  ),
+  error: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#f44336">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+  ),
+  progress: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#2196F3">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
   )
 };
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  // const location = useLocation(); // Uncomment when location is needed
   const [dataRegistrationExpanded, setDataRegistrationExpanded] = useState(false);
   
   // File upload states
   const [companyLogo, setCompanyLogo] = useState(null);
   const [documents, setDocuments] = useState({
-    'business-permit': true,  // Set to true to show green checkmarks like in the image
+    'business-permit': true,
     'dtsec': true,
     'bir2303': true,
     'sample-soa': null,
@@ -95,7 +114,7 @@ const UserProfile = () => {
     'service-agreement': null
   });
   
-  // Form field states
+  // Form field states with validation
   const [formFields, setFormFields] = useState({
     userId: 'Generated Automatically Base in Registration',
     companyName: '',
@@ -110,6 +129,14 @@ const UserProfile = () => {
     accountNumber: '',
     creditTerms: ''
   });
+
+  // New state for enhanced functionality
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [isAutoSaving, setIsAutoSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [formProgress, setFormProgress] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Refs for file inputs
   const logoInputRef = useRef(null);
@@ -122,38 +149,132 @@ const UserProfile = () => {
     'service-agreement': useRef(null)
   };
 
+  // Auto-save function
+  const autoSave = useCallback(async () => {
+    setIsAutoSaving(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setLastSaved(new Date());
+      console.log('Profile auto-saved:', formFields);
+    } catch (error) {
+      console.error('Auto-save failed:', error);
+    } finally {
+      setIsAutoSaving(false);
+    }
+  }, [formFields]);
+
+  // Auto-save functionality
+  useEffect(() => {
+    const autoSaveTimer = setTimeout(() => {
+      if (Object.values(formFields).some(field => field !== '' && field !== 'Generated Automatically Base in Registration')) {
+        autoSave();
+      }
+    }, 2000); // Auto-save after 2 seconds of inactivity
+
+    return () => clearTimeout(autoSaveTimer);
+  }, [formFields, autoSave]);
+
+  // Calculate form completion progress
+  useEffect(() => {
+    const requiredFields = ['companyName', 'lastName', 'firstName', 'contactNumber', 'emailAddress'];
+    const requiredDocuments = ['business-permit', 'dtsec', 'bir2303'];
+    
+    const completedFields = requiredFields.filter(field => formFields[field].trim() !== '').length;
+    const completedDocs = requiredDocuments.filter(doc => documents[doc]).length;
+    
+    const totalRequired = requiredFields.length + requiredDocuments.length;
+    const totalCompleted = completedFields + completedDocs;
+    
+    setFormProgress(Math.round((totalCompleted / totalRequired) * 100));
+  }, [formFields, documents]);
+
+  // Validation functions
+  const validateField = (field, value) => {
+    let error = '';
+    
+    switch (field) {
+      case 'companyName':
+        if (!value.trim()) error = 'Company name is required';
+        break;
+      case 'lastName':
+        if (!value.trim()) error = 'Last name is required';
+        break;
+      case 'firstName':
+        if (!value.trim()) error = 'First name is required';
+        break;
+      case 'contactNumber':
+        if (!value.trim()) {
+          error = 'Contact number is required';
+        } else if (!/^[0-9+\-\s()]+$/.test(value)) {
+          error = 'Invalid contact number format';
+        }
+        break;
+      case 'emailAddress':
+        if (!value.trim()) {
+          error = 'Email address is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          error = 'Invalid email format';
+        }
+        break;
+      case 'telephoneNumber':
+        if (value && !/^[0-9+\-\s()]+$/.test(value)) {
+          error = 'Invalid telephone number format';
+        }
+        break;
+      default:
+        break;
+    }
+    
+    return error;
+  };
+
   // Navigation functions
   const handleDataRegistrationClick = () => {
     setDataRegistrationExpanded(!dataRegistrationExpanded);
   };
 
-  // Navigate to dashboard with specific view
   const navigateToView = (view) => {
-    // Store the view in sessionStorage for the dashboard to pick up
     sessionStorage.setItem('userDashboardView', view);
     navigate('/dashboard/user');
   };
 
-  // Navigate to expanded menu items
   const navigateToExpandedView = (view) => {
-    // Store the view and expansion state
     sessionStorage.setItem('userDashboardView', view);
     sessionStorage.setItem('dataRegistrationExpanded', 'true');
     navigate('/dashboard/user');
   };
   
-  // Handle logo upload
+  // Enhanced logo upload with validation
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+      
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
       setCompanyLogo(file);
     }
   };
   
-  // Handle document upload
+  // Enhanced document upload
   const handleDocumentUpload = (docId, e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file size (max 10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB');
+        return;
+      }
+      
       setDocuments(prev => ({
         ...prev,
         [docId]: file
@@ -161,23 +282,80 @@ const UserProfile = () => {
     }
   };
   
-  // Handle form field change
+  // Enhanced input change with validation
   const handleInputChange = (field, value) => {
     setFormFields(prev => ({
       ...prev,
       [field]: value
     }));
+    
+    // Clear previous error and validate
+    const error = validateField(field, value);
+    setFieldErrors(prev => ({
+      ...prev,
+      [field]: error
+    }));
   };
   
-  // Handle submit
-  const handleSubmit = (e) => {
+  // Enhanced submit with validation
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Profile updated with formFields, documents, and companyLogo
-    alert('Profile updated successfully!');
+    setIsSubmitting(true);
+    
+    // Validate all required fields
+    const requiredFields = ['companyName', 'lastName', 'firstName', 'contactNumber', 'emailAddress'];
+    const errors = {};
+    
+    requiredFields.forEach(field => {
+      const error = validateField(field, formFields[field]);
+      if (error) errors[field] = error;
+    });
+    
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setIsSubmitting(false);
+      return;
+    }
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setShowSuccessMessage(true);
+      setTimeout(() => setShowSuccessMessage(false), 5000);
+      
+      console.log('Profile updated successfully:', {
+        formFields,
+        documents,
+        companyLogo
+      });
+    } catch (error) {
+      console.error('Submit failed:', error);
+      alert('Failed to update profile. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Helper function to get field class with error state
+  const getFieldClass = (field) => {
+    let baseClass = 'profile-input';
+    if (fieldErrors[field]) baseClass += ' profile-input-error';
+    return baseClass;
   };
 
   return (
     <>
+      {/* Success Message */}
+      {showSuccessMessage && (
+        <div className="profile-success-banner">
+          <div className="profile-success-content">
+            {Icons.check}
+            <span>Profile updated successfully!</span>
+          </div>
+        </div>
+      )}
+
       {/* User Profile Header */}
       <header className="user-dashboard-header">
         <div className="user-dashboard-logo">
@@ -303,6 +481,27 @@ const UserProfile = () => {
           <div className="user-dashboard-content">
             <div className="user-dashboard-main-content">
               <div className="profile-content">
+                {/* Progress Bar */}
+                <div className="profile-progress-section">
+                  <div className="profile-progress-header">
+                    <span className="profile-progress-title">Profile Completion</span>
+                    <span className="profile-progress-percentage">{formProgress}%</span>
+                  </div>
+                  <div className="profile-progress-bar">
+                    <div 
+                      className="profile-progress-fill" 
+                      style={{ width: `${formProgress}%` }}
+                    ></div>
+                  </div>
+                  {lastSaved && (
+                    <div className="profile-auto-save-status">
+                      {Icons.save}
+                      <span>Last saved: {lastSaved.toLocaleTimeString()}</span>
+                      {isAutoSaving && <span className="profile-saving">Saving...</span>}
+                    </div>
+                  )}
+                </div>
+
                 {/* Info Banner */}
                 <div className="profile-info-banner">
                   <div className="info-icon">{Icons.info}</div>
@@ -349,6 +548,9 @@ const UserProfile = () => {
                         >
                           UPLOAD
                         </button>
+                        <div className="profile-upload-hint">
+                          Max 5MB • JPG, PNG, GIF
+                        </div>
                       </div>
                     </div>
                     
@@ -365,55 +567,98 @@ const UserProfile = () => {
                           />
                         </div>
                         <div className="profile-form-group">
-                          <label className="profile-label">COMPANY NAME</label>
+                          <label className="profile-label">
+                            COMPANY NAME <span className="profile-required">*</span>
+                          </label>
                           <input 
                             type="text" 
-                            className="profile-input" 
+                            className={getFieldClass('companyName')}
                             value={formFields.companyName}
                             onChange={(e) => handleInputChange('companyName', e.target.value)}
+                            placeholder="Enter company name"
                           />
+                          {fieldErrors.companyName && (
+                            <div className="profile-error-message">
+                              {Icons.error}
+                              {fieldErrors.companyName}
+                            </div>
+                          )}
                         </div>
                       </div>
                       
                       <div className="profile-form-row">
                         <div className="profile-form-group">
-                          <label className="profile-label">LAST NAME <span className="profile-field-note">(Company Representative)</span></label>
+                          <label className="profile-label">
+                            LAST NAME <span className="profile-field-note">(Company Representative)</span> <span className="profile-required">*</span>
+                          </label>
                           <input 
                             type="text" 
-                            className="profile-input" 
+                            className={getFieldClass('lastName')}
                             value={formFields.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
+                            placeholder="Enter last name"
                           />
+                          {fieldErrors.lastName && (
+                            <div className="profile-error-message">
+                              {Icons.error}
+                              {fieldErrors.lastName}
+                            </div>
+                          )}
                         </div>
                         <div className="profile-form-group">
-                          <label className="profile-label">CONTACT # <span className="profile-required">Please required to fill out!</span></label>
+                          <label className="profile-label">
+                            CONTACT # <span className="profile-required">*</span>
+                          </label>
                           <input 
                             type="text" 
-                            className="profile-input" 
+                            className={getFieldClass('contactNumber')}
                             value={formFields.contactNumber}
                             onChange={(e) => handleInputChange('contactNumber', e.target.value)}
+                            placeholder="e.g. +63 917 123 4567"
                           />
+                          {fieldErrors.contactNumber && (
+                            <div className="profile-error-message">
+                              {Icons.error}
+                              {fieldErrors.contactNumber}
+                            </div>
+                          )}
                         </div>
                       </div>
                       
                       <div className="profile-form-row">
                         <div className="profile-form-group">
-                          <label className="profile-label">FIRST NAME <span className="profile-field-note">(Company Representative)</span></label>
+                          <label className="profile-label">
+                            FIRST NAME <span className="profile-field-note">(Company Representative)</span> <span className="profile-required">*</span>
+                          </label>
                           <input 
                             type="text" 
-                            className="profile-input" 
+                            className={getFieldClass('firstName')}
                             value={formFields.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
+                            placeholder="Enter first name"
                           />
+                          {fieldErrors.firstName && (
+                            <div className="profile-error-message">
+                              {Icons.error}
+                              {fieldErrors.firstName}
+                            </div>
+                          )}
                         </div>
                         <div className="profile-form-group">
                           <label className="profile-label">TELEPHONE #</label>
                           <input 
                             type="text" 
-                            className="profile-input" 
+                            className={getFieldClass('telephoneNumber')}
                             value={formFields.telephoneNumber}
                             onChange={(e) => handleInputChange('telephoneNumber', e.target.value)}
+                            placeholder="e.g. (02) 8123 4567"
                           />
+                          {fieldErrors.telephoneNumber && (
+                            <div className="profile-error-message">
+                              {Icons.error}
+                              {fieldErrors.telephoneNumber}
+                            </div>
+                          )}
                         </div>
                       </div>
                       
@@ -422,26 +667,39 @@ const UserProfile = () => {
                           <label className="profile-label">DESIGNATION</label>
                           <input 
                             type="text" 
-                            className="profile-input" 
+                            className="profile-input"
                             value={formFields.designation}
                             onChange={(e) => handleInputChange('designation', e.target.value)}
+                            placeholder="e.g. General Manager"
                           />
                         </div>
                         <div className="profile-form-group">
-                          <label className="profile-label">EMAIL ADDRESS</label>
+                          <label className="profile-label">
+                            EMAIL ADDRESS <span className="profile-required">*</span>
+                          </label>
                           <input 
                             type="email" 
-                            className="profile-input" 
+                            className={getFieldClass('emailAddress')}
                             value={formFields.emailAddress}
                             onChange={(e) => handleInputChange('emailAddress', e.target.value)}
+                            placeholder="example@company.com"
                           />
+                          {fieldErrors.emailAddress && (
+                            <div className="profile-error-message">
+                              {Icons.error}
+                              {fieldErrors.emailAddress}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Primary Documents Section */}
-                  <div className="profile-section-title">PRIMARY DOCUMENTS</div>
+                  <div className="profile-section-title">
+                    PRIMARY DOCUMENTS
+                    <span className="profile-section-subtitle">Required documents for account verification</span>
+                  </div>
                   <div className="profile-documents-section">
                     <div className="profile-documents-row">
                       <div className="profile-document-item">
@@ -456,13 +714,15 @@ const UserProfile = () => {
                           ref={documentInputRefs['business-permit']}
                           style={{ display: 'none' }}
                           onChange={(e) => handleDocumentUpload('business-permit', e)}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
                         <button 
                           type="button"
-                          className="profile-document-btn"
+                          className={`profile-document-btn ${documents['business-permit'] ? 'uploaded' : ''}`}
                           onClick={() => documentInputRefs['business-permit'].current.click()}
                         >
                           Business Permit
+                          {documents['business-permit'] && <span className="profile-required">*</span>}
                         </button>
                       </div>
 
@@ -478,10 +738,11 @@ const UserProfile = () => {
                           ref={documentInputRefs['sample-soa']}
                           style={{ display: 'none' }}
                           onChange={(e) => handleDocumentUpload('sample-soa', e)}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
                         <button 
                           type="button"
-                          className="profile-document-btn"
+                          className={`profile-document-btn ${documents['sample-soa'] ? 'uploaded' : ''}`}
                           onClick={() => documentInputRefs['sample-soa'].current.click()}
                         >
                           Sample of SOA
@@ -502,13 +763,15 @@ const UserProfile = () => {
                           ref={documentInputRefs['dtsec']}
                           style={{ display: 'none' }}
                           onChange={(e) => handleDocumentUpload('dtsec', e)}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
                         <button 
                           type="button"
-                          className="profile-document-btn"
+                          className={`profile-document-btn ${documents['dtsec'] ? 'uploaded' : ''}`}
                           onClick={() => documentInputRefs['dtsec'].current.click()}
                         >
                           DTI/SEC
+                          {documents['dtsec'] && <span className="profile-required">*</span>}
                         </button>
                       </div>
 
@@ -524,10 +787,11 @@ const UserProfile = () => {
                           ref={documentInputRefs['sample-invoice']}
                           style={{ display: 'none' }}
                           onChange={(e) => handleDocumentUpload('sample-invoice', e)}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
                         <button 
                           type="button"
-                          className="profile-document-btn"
+                          className={`profile-document-btn ${documents['sample-invoice'] ? 'uploaded' : ''}`}
                           onClick={() => documentInputRefs['sample-invoice'].current.click()}
                         >
                           Sample of Service Invoice
@@ -548,13 +812,15 @@ const UserProfile = () => {
                           ref={documentInputRefs['bir2303']}
                           style={{ display: 'none' }}
                           onChange={(e) => handleDocumentUpload('bir2303', e)}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
                         <button 
                           type="button"
-                          className="profile-document-btn"
+                          className={`profile-document-btn ${documents['bir2303'] ? 'uploaded' : ''}`}
                           onClick={() => documentInputRefs['bir2303'].current.click()}
                         >
                           BIR 2303
+                          {documents['bir2303'] && <span className="profile-required">*</span>}
                         </button>
                       </div>
 
@@ -570,15 +836,20 @@ const UserProfile = () => {
                           ref={documentInputRefs['service-agreement']}
                           style={{ display: 'none' }}
                           onChange={(e) => handleDocumentUpload('service-agreement', e)}
+                          accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                         />
                         <button 
                           type="button"
-                          className="profile-document-btn"
+                          className={`profile-document-btn ${documents['service-agreement'] ? 'uploaded' : ''}`}
                           onClick={() => documentInputRefs['service-agreement'].current.click()}
                         >
                           Service Agreement
                         </button>
                       </div>
+                    </div>
+                    
+                    <div className="profile-upload-hint">
+                      Accepted formats: PDF, DOC, DOCX, JPG, PNG • Max 10MB per file
                     </div>
                   </div>
 
@@ -593,11 +864,15 @@ const UserProfile = () => {
                           value={formFields.nameOfBank}
                           onChange={(e) => handleInputChange('nameOfBank', e.target.value)}
                         >
-                          <option value=""></option>
-                          <option value="BDO">BDO</option>
-                          <option value="BPI">BPI</option>
-                          <option value="Metrobank">Metrobank</option>
-                          <option value="Security Bank">Security Bank</option>
+                          <option value="">Select a bank</option>
+                          <option value="BDO">BDO Unibank</option>
+                          <option value="BPI">Bank of the Philippine Islands</option>
+                          <option value="Metrobank">Metropolitan Bank & Trust Company</option>
+                          <option value="Security Bank">Security Bank Corporation</option>
+                          <option value="PNB">Philippine National Bank</option>
+                          <option value="Unionbank">Union Bank of the Philippines</option>
+                          <option value="RCBC">Rizal Commercial Banking Corporation</option>
+                          <option value="Chinabank">China Banking Corporation</option>
                         </select>
                       </div>
                       <div className="profile-form-group profile-form-group-single">
@@ -607,8 +882,10 @@ const UserProfile = () => {
                           value={formFields.creditTerms}
                           onChange={(e) => handleInputChange('creditTerms', e.target.value)}
                         >
-                          <option value=""></option>
+                          <option value="">Select credit terms</option>
+                          <option value="15 days">15 days</option>
                           <option value="30 days">30 days</option>
+                          <option value="45 days">45 days</option>
                           <option value="60 days">60 days</option>
                           <option value="90 days">90 days</option>
                         </select>
@@ -623,6 +900,7 @@ const UserProfile = () => {
                           className="profile-input" 
                           value={formFields.accountName}
                           onChange={(e) => handleInputChange('accountName', e.target.value)}
+                          placeholder="Enter account name as it appears on bank records"
                         />
                       </div>
                       <div className="profile-form-group">
@@ -632,6 +910,7 @@ const UserProfile = () => {
                           className="profile-input" 
                           value={formFields.accountNumber}
                           onChange={(e) => handleInputChange('accountNumber', e.target.value)}
+                          placeholder="Enter bank account number"
                         />
                       </div>
                     </div>
@@ -639,9 +918,26 @@ const UserProfile = () => {
 
                   {/* Submit Button */}
                   <div className="profile-submit-section">
-                    <button type="submit" className="profile-submit-btn">
-                      SUBMIT
+                    <button 
+                      type="submit" 
+                      className={`profile-submit-btn ${isSubmitting ? 'submitting' : ''}`}
+                      disabled={isSubmitting || formProgress < 70}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="profile-spinner"></div>
+                          UPDATING PROFILE...
+                        </>
+                      ) : (
+                        'SUBMIT'
+                      )}
                     </button>
+                    {formProgress < 70 && (
+                      <div className="profile-submit-hint">
+                        {Icons.warning}
+                        Please complete at least 70% of the form to submit
+                      </div>
+                    )}
                   </div>
                 </form>
               </div>

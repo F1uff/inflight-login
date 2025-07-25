@@ -1,0 +1,349 @@
+/* =================================================================
+   CONSOLIDATED DASHBOARD STYLES
+   Replaces: AdminDashboard_problematic.css, AdminDashboard.css, UserDashboard.css
+   Uses Tailwind classes where possible, custom CSS only when necessary
+   ================================================================= */
+
+/* 1. LAYOUT CONTAINERS */
+.admin-dashboard-container {
+  @apply flex flex-row h-screen w-full font-sans p-0 m-0 overflow-hidden bg-gray-200 relative;
+}
+
+.admin-content-wrapper {
+  @apply flex flex-row flex-grow overflow-hidden w-full;
+}
+
+.admin-right-content {
+  @apply flex flex-col flex-grow h-screen overflow-y-auto;
+  width: calc(100% - 250px);
+}
+
+.admin-main-content {
+  @apply flex-grow p-6 overflow-y-auto bg-gray-50;
+}
+
+.admin-main-content-body {
+  @apply max-w-full mx-auto;
+}
+
+/* 2. HEADER STYLES */
+.admin-top-header {
+  @apply bg-black h-10 w-full flex justify-between items-center px-5 fixed top-0 left-0 z-50;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.admin-dashboard-header {
+  @apply bg-black h-15 w-full flex justify-between items-center px-8 relative z-40;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+  @apply flex items-center;
+}
+
+.header-right {
+  @apply flex items-center;
+}
+
+.tim-logo, .service-portal-logo {
+  @apply h-8 w-8 mr-4 object-contain rounded-sm;
+}
+
+.dashboard-text, .service-portal-text {
+  @apply text-white text-sm font-semibold uppercase tracking-wide;
+}
+
+.header-item {
+  @apply text-white ml-6 text-xs uppercase cursor-pointer font-medium transition-colors duration-300;
+}
+
+.header-item:hover {
+  @apply text-yellow-400;
+}
+
+/* 3. SIDEBAR STYLES */
+.admin-sidebar {
+  @apply w-64 min-w-64 bg-white border-r border-gray-300 flex-shrink-0 overflow-y-auto flex flex-col h-screen relative z-30;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-profile {
+  @apply p-5 flex flex-col items-center border-b border-gray-300 text-center bg-white;
+}
+
+.admin-profile-pic {
+  @apply w-20 h-20 rounded-full overflow-hidden mb-3 border-2 border-gray-200 bg-gray-100 flex items-center justify-center;
+}
+
+.admin-profile-pic img {
+  @apply w-full h-full object-cover;
+}
+
+.admin-name {
+  @apply text-lg font-semibold text-gray-800 mb-1;
+}
+
+.admin-role {
+  @apply text-sm text-gray-500 uppercase tracking-wide;
+}
+
+.admin-sidebar-nav {
+  @apply flex flex-col flex-grow p-0;
+}
+
+.admin-sidebar-item {
+  @apply flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100 cursor-pointer transition-colors duration-200;
+}
+
+.admin-sidebar-item svg {
+  @apply w-5 h-5 mr-3 flex-shrink-0;
+}
+
+.admin-sidebar-item.active {
+  @apply bg-blue-50 text-blue-700 border-r-4 border-blue-600;
+}
+
+.admin-sidebar-item:not(.active):hover {
+  @apply text-gray-900;
+}
+
+/* 4. NOTIFICATION STYLES */
+.notification-badge {
+  @apply absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold;
+}
+
+/* 5. CARD STYLES */
+.section-title {
+  @apply text-xl font-semibold text-gray-800 mb-6 uppercase tracking-wide;
+}
+
+.portfolio-cards-container {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8;
+}
+
+.portfolio-card {
+  @apply bg-white rounded-lg shadow-md p-6 border border-gray-200 hover:shadow-lg transition-all duration-300 cursor-pointer;
+}
+
+.portfolio-card:hover {
+  @apply transform -translate-y-1 shadow-xl;
+}
+
+.card-content {
+  @apply flex flex-col items-center text-center;
+}
+
+.card-header {
+  @apply flex items-center justify-center mb-3;
+}
+
+.icon-box {
+  @apply w-12 h-12 rounded-full flex items-center justify-center text-white text-xl;
+}
+
+.card-label {
+  @apply text-sm font-medium text-gray-600 uppercase tracking-wide mb-2;
+}
+
+.card-value {
+  @apply text-2xl font-bold text-gray-800;
+}
+
+/* 6. TABLE STYLES */
+.supplier-controls-bar {
+  @apply flex justify-between items-center mb-6 p-4 bg-white rounded-lg shadow-sm border border-gray-200;
+}
+
+.controls-bar-left {
+  @apply flex items-center gap-4;
+}
+
+.supplier-type-dropdown select {
+  @apply border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.status-filters {
+  @apply flex items-center gap-4;
+}
+
+.status-filter {
+  @apply flex items-center gap-2 cursor-pointer;
+}
+
+.status-dot {
+  @apply w-3 h-3 rounded-full;
+}
+
+.status-dot.active {
+  @apply bg-green-500;
+}
+
+.status-dot.pending {
+  @apply bg-yellow-500;
+}
+
+.status-dot.inactive {
+  @apply bg-red-500;
+}
+
+/* 7. FORM STYLES */
+.form-group {
+  @apply mb-4;
+}
+
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-2;
+}
+
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.form-textarea {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical;
+}
+
+.form-select {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+/* 8. BUTTON STYLES */
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200;
+}
+
+.btn-success {
+  @apply bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-200;
+}
+
+.btn-danger {
+  @apply bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200;
+}
+
+/* 9. UTILITY CLASSES */
+.page-header {
+  @apply mb-6;
+}
+
+.page-title {
+  @apply text-2xl font-bold text-gray-900 mb-2;
+}
+
+.page-content {
+  @apply bg-white rounded-lg shadow-sm p-6;
+}
+
+.empty-state {
+  @apply text-center py-12;
+}
+
+.empty-icon {
+  @apply w-16 h-16 mx-auto mb-4 text-gray-400;
+}
+
+.empty-state h3 {
+  @apply text-lg font-medium text-gray-900 mb-2;
+}
+
+.empty-state p {
+  @apply text-gray-500;
+}
+
+/* 10. RESPONSIVE UTILITIES */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    @apply w-full min-w-full absolute inset-0 z-50 transform -translate-x-full transition-transform duration-300;
+  }
+  
+  .admin-sidebar.mobile-open {
+    @apply translate-x-0;
+  }
+  
+  .admin-right-content {
+    @apply w-full;
+  }
+  
+  .portfolio-cards-container {
+    @apply grid-cols-1 sm:grid-cols-2;
+  }
+}
+
+/* 11. CUSTOM ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 12. SPECIFIC COMPONENT OVERRIDES */
+.notification-page-content {
+  @apply p-6;
+}
+
+.supplier-portfolio-section {
+  @apply mb-8;
+}
+
+.list-of-suppliers-section {
+  @apply bg-white rounded-lg shadow-sm p-6;
+}
+
+/* 13. LOADING STATES */
+.loading-spinner {
+  @apply inline-block w-4 h-4 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin;
+}
+
+.loading-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+/* 14. MODAL STYLES */
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.modal-content {
+  @apply bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-96 overflow-y-auto;
+}
+
+.modal-header {
+  @apply px-6 py-4 border-b border-gray-200;
+}
+
+.modal-title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.modal-body {
+  @apply px-6 py-4;
+}
+
+.modal-footer {
+  @apply px-6 py-4 border-t border-gray-200 flex justify-end gap-3;
+}
+
+/* 15. DARK MODE SUPPORT (Optional) */
+@media (prefers-color-scheme: dark) {
+  .admin-dashboard-container {
+    @apply bg-gray-900;
+  }
+  
+  .admin-sidebar {
+    @apply bg-gray-800 border-gray-700;
+  }
+  
+  .admin-main-content {
+    @apply bg-gray-900;
+  }
+  
+  .page-content {
+    @apply bg-gray-800 text-white;
+  }
+} 

@@ -1,85 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './AdminNotificationPage.css';
 
-// Sample notification data - in a real app, this would come from an API
-const sampleNotifications = [
-  {
-    id: 1,
-    type: 'request',
-    priority: 'high',
-    title: 'New Supplier Registration Request',
-    message: 'CRZTY MCLLN TRANSPORT SERVICES INC. has submitted a new registration request requiring approval.',
-    company: 'CRZTY MCLLN TRANSPORT SERVICES INC.',
-    timestamp: '2024-07-03T17:39:00Z',
-    read: false,
-    category: 'registration',
-    avatar: '/api/placeholder/40/40'
-  },
-  {
-    id: 2,
-    type: 'renewal',
-    priority: 'medium',
-    title: 'Accreditation Renewal Request',
-    message: 'GRAB TRANSPORTATION is requesting renewal of their DOT accreditation certificate.',
-    company: 'GRAB TRANSPORTATION',
-    timestamp: '2024-07-02T14:20:00Z',
-    read: false,
-    category: 'renewal',
-    avatar: '/api/placeholder/40/40'
-  },
-  {
-    id: 3,
-    type: 'expiry',
-    priority: 'high',
-    title: 'Accreditation Expiry Warning',
-    message: 'INFLIGHT MENU TRAVEL MANAGEMENT CORP. accreditation expires in 30 days.',
-    company: 'INFLIGHT MENU TRAVEL MANAGEMENT CORP.',
-    timestamp: '2024-07-01T09:15:00Z',
-    read: true,
-    category: 'expiry',
-    avatar: '/api/placeholder/40/40'
-  },
-  {
-    id: 4,
-    type: 'update',
-    priority: 'low',
-    title: 'Profile Information Updated',
-    message: 'RED PLANET HOTELS has updated their company profile information.',
-    company: 'RED PLANET HOTELS',
-    timestamp: '2024-06-28T16:45:00Z',
-    read: true,
-    category: 'update',
-    avatar: '/api/placeholder/40/40'
-  },
-  {
-    id: 5,
-    type: 'document',
-    priority: 'medium',
-    title: 'Document Submission',
-    message: 'New business permit document submitted by MANILA BAY CRUISE.',
-    company: 'MANILA BAY CRUISE',
-    timestamp: '2024-06-25T11:30:00Z',
-    read: false,
-    category: 'document',
-    avatar: '/api/placeholder/40/40'
-  },
-  {
-    id: 6,
-    type: 'system',
-    priority: 'low',
-    title: 'System Maintenance Complete',
-    message: 'Scheduled system maintenance has been completed successfully.',
-    company: 'System Administrator',
-    timestamp: '2024-06-20T02:00:00Z',
-    read: true,
-    category: 'system',
-    avatar: null
-  }
-];
-
 const AdminNotificationPage = () => {
-  const [notifications, setNotifications] = useState(sampleNotifications);
-  const [filteredNotifications, setFilteredNotifications] = useState(sampleNotifications);
+  const [notifications, setNotifications] = useState([]);
+  const [filteredNotifications, setFilteredNotifications] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [selectedPriority, setSelectedPriority] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');

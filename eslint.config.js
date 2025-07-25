@@ -35,9 +35,31 @@ export default [
   // Backend configuration
   {
     files: ['backend/**/*.js'],
+    ignores: ['backend/**/*.test.js', 'backend/**/*.spec.js', 'backend/tests/**/*.js'],
     languageOptions: {
       ecmaVersion: 2021,
       globals: globals.node,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'commonjs',
+      },
+    },
+    rules: {
+      ...js.configs.recommended.rules,
+      'no-console': 'off',
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    },
+  },
+  // Backend test configuration
+  {
+    files: ['backend/**/*.test.js', 'backend/**/*.spec.js', 'backend/tests/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 2021,
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+        testUtils: 'readonly'
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'commonjs',

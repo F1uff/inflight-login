@@ -1,6 +1,13 @@
 import React from 'react';
 
 const SupplierPortfolioSection = ({ portfolioCounts, portfolioLoading }) => {
+  // Helper function to safely convert values to numbers
+  const getCount = (value) => {
+    if (portfolioLoading) return '...';
+    const numValue = parseInt(value) || 0;
+    return numValue.toLocaleString();
+  };
+
   return (
     <div className="supplier-portfolio-section">
       <h1 className="portfolio-title">SUPPLIER PORTFOLIO COUNT</h1>
@@ -14,7 +21,7 @@ const SupplierPortfolioSection = ({ portfolioCounts, portfolioLoading }) => {
           </div>
           <div className="card-content">
             <div className="card-label">HOTEL</div>
-            <div className="card-count">{portfolioLoading ? '...' : portfolioCounts.hotel.toLocaleString()}</div>
+            <div className="card-count">{getCount(portfolioCounts?.hotel)}</div>
           </div>
         </div>
         
@@ -26,7 +33,7 @@ const SupplierPortfolioSection = ({ portfolioCounts, portfolioLoading }) => {
           </div>
           <div className="card-content">
             <div className="card-label">TRANSFER</div>
-            <div className="card-count">{portfolioLoading ? '...' : portfolioCounts.transfer.toLocaleString()}</div>
+            <div className="card-count">{getCount(portfolioCounts?.transfer)}</div>
           </div>
         </div>
         
@@ -38,7 +45,7 @@ const SupplierPortfolioSection = ({ portfolioCounts, portfolioLoading }) => {
           </div>
           <div className="card-content">
             <div className="card-label">AIRLINE</div>
-            <div className="card-count">{portfolioLoading ? '...' : portfolioCounts.airline.toLocaleString()}</div>
+            <div className="card-count">{getCount(portfolioCounts?.airline)}</div>
           </div>
         </div>
         
@@ -50,7 +57,7 @@ const SupplierPortfolioSection = ({ portfolioCounts, portfolioLoading }) => {
           </div>
           <div className="card-content">
             <div className="card-label">TRAVEL OPERATOR</div>
-            <div className="card-count">{portfolioLoading ? '...' : portfolioCounts.travelOperator.toLocaleString()}</div>
+            <div className="card-count">{getCount(portfolioCounts?.travelOperator)}</div>
           </div>
         </div>
       </div>

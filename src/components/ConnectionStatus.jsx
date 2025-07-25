@@ -5,35 +5,69 @@ const ConnectionStatus = () => {
   const [status, setStatus] = useState('checking');
   const [lastCheck, setLastCheck] = useState(null);
   const [error, setError] = useState(null);
+  const [pollingInterval, setPollingInterval] = useState(300000); // Start with 5 minutes to avoid rate limiting
+  const [rateLimited, setRateLimited] = useState(false);
 
   const checkConnection = async () => {
     try {
       setStatus('checking');
       setError(null);
       
+      const startTime = Date.now();
       const healthData = await apiService.healthCheck();
+      const responseTime = Date.now() - startTime;
       
       if (healthData.status === 'OK') {
         setStatus('connected');
         setLastCheck(new Date());
+        setRateLimited(false);
+        setPollingInterval(30000); // Reset to normal interval
+        
+        // Log performance metrics (development only)
+        if (import.meta.env.DEV && import.meta.env.VITE_DEBUG_API === 'true') {
+          if (responseTime > 1000) {
+            console.warn(`⚠️ Slow health check response: ${responseTime}ms`);
+          } else {
+            console.log(`✅ Health check: ${responseTime}ms`);
+          }
+        }
       } else {
         setStatus('error');
         setError('Health check failed');
       }
     } catch (err) {
-      setStatus('disconnected');
-      setError(err.message);
+      console.error('Connection check failed:', err);
+      
+      // Handle rate limiting
+      if (err.message.includes('Too many requests') || err.message.includes('429')) {
+        setStatus('error');
+        setError('Rate limited - reducing check frequency');
+        setRateLimited(true);
+        setPollingInterval(300000); // Increase to 5 minutes when rate limited
+      } else if (err.message.includes('CONNECTION_ERROR')) {
+        setStatus('disconnected');
+        setError('Cannot connect to server');
+        setRateLimited(false);
+      } else if (err.message.includes('TIMEOUT_ERROR')) {
+        setStatus('error');
+        setError('Request timeout');
+        setRateLimited(false);
+      } else {
+        setStatus('disconnected');
+        setError(err.message);
+        setRateLimited(false);
+      }
     }
   };
 
   useEffect(() => {
     checkConnection();
     
-    // Check connection every 30 seconds
-    const interval = setInterval(checkConnection, 30000);
+    // Dynamic polling interval based on rate limiting status
+    const interval = setInterval(checkConnection, pollingInterval);
     
     return () => clearInterval(interval);
-  }, []);
+  }, [pollingInterval]); // Re-create interval when pollingInterval changes
 
   const getStatusColor = () => {
     switch (status) {
@@ -46,6 +80,10 @@ const ConnectionStatus = () => {
   };
 
   const getStatusText = () => {
+    if (rateLimited) {
+      return 'Rate Limited - Reduced Frequency';
+    }
+    
     switch (status) {
       case 'connected': return 'Database Connected';
       case 'checking': return 'Checking Connection...';
@@ -83,6 +121,13 @@ const ConnectionStatus = () => {
     }
   };
 
+  const handleManualCheck = () => {
+    // Allow manual checks but with throttling
+    if (status !== 'checking') {
+      checkConnection();
+    }
+  };
+
   return (
     <div 
       className="connection-status"
@@ -96,12 +141,13 @@ const ConnectionStatus = () => {
         color: getStatusColor(),
         fontSize: '12px',
         fontWeight: '500',
-        cursor: 'pointer',
+        cursor: status !== 'checking' ? 'pointer' : 'not-allowed',
         transition: 'all 0.2s ease',
         border: `1px solid ${getStatusColor()}20`,
+        opacity: status === 'checking' ? 0.7 : 1,
       }}
-      onClick={checkConnection}
-      title={`Click to refresh • Last check: ${lastCheck ? lastCheck.toLocaleTimeString() : 'Never'}${error ? ` • Error: ${error}` : ''}`}
+      onClick={handleManualCheck}
+      title={`Click to refresh • Last check: ${lastCheck ? lastCheck.toLocaleTimeString() : 'Never'}${error ? ` • Error: ${error}` : ''} • Check interval: ${pollingInterval/1000}s`}
     >
       <span style={{ color: getStatusColor() }}>
         {getStatusIcon()}
@@ -116,6 +162,15 @@ const ConnectionStatus = () => {
           marginLeft: '4px'
         }}>
           {lastCheck.toLocaleTimeString()}
+        </span>
+      )}
+      {rateLimited && (
+        <span style={{ 
+          color: '#ffc107', 
+          fontSize: '10px',
+          marginLeft: '4px'
+        }}>
+          (5min)
         </span>
       )}
     </div>

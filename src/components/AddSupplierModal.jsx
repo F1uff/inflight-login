@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const AddSupplierModal = ({ 
   addSupplierModalVisible, 
@@ -6,6 +6,22 @@ const AddSupplierModal = ({
   uploadedFiles, 
   handleFileUpload 
 }) => {
+  const [selectedCompanyType, setSelectedCompanyType] = useState('hotel');
+
+  const handleCompanyTypeChange = (e) => {
+    setSelectedCompanyType(e.target.value);
+  };
+
+  useEffect(() => {
+    const hotelFields = document.querySelectorAll('.hotel-specific-field');
+    
+    if (selectedCompanyType === 'hotel') {
+      hotelFields.forEach(field => field.style.display = 'block');
+    } else {
+      // For other types, hide hotel fields
+      hotelFields.forEach(field => field.style.display = 'none');
+    }
+  }, [selectedCompanyType]);
   if (!addSupplierModalVisible) return null;
 
   return (
@@ -24,11 +40,25 @@ const AddSupplierModal = ({
               <label className="section-label">NATURE OF BUSINESS *</label>
               <div className="business-type-grid">
                 <div className="radio-group">
-                  <input type="radio" id="hotel" name="companyType" value="hotel" />
+                  <input 
+                    type="radio" 
+                    id="hotel" 
+                    name="companyType" 
+                    value="hotel" 
+                    checked={selectedCompanyType === 'hotel'}
+                    onChange={handleCompanyTypeChange}
+                  />
                   <label htmlFor="hotel">HOTEL</label>
                 </div>
                 <div className="radio-group">
-                  <input type="radio" id="landTransport" name="companyType" value="landTransport" />
+                  <input 
+                    type="radio" 
+                    id="landTransport" 
+                    name="companyType" 
+                    value="landTransport" 
+                    checked={selectedCompanyType === 'landTransport'}
+                    onChange={handleCompanyTypeChange}
+                  />
                   <label htmlFor="landTransport">LAND TRANSPORT</label>
                 </div>
                 <div className="radio-group-with-input">
@@ -36,7 +66,7 @@ const AddSupplierModal = ({
                     <input type="radio" id="others" name="companyType" value="others" />
                     <label htmlFor="others">OTHERS</label>
                   </div>
-                  <input type="text" className="others-input-field" placeholder="" />
+                  <input type="text" id="others-specify-modal" name="othersSpecifyModal" className="others-input-field" placeholder="" />
                 </div>
                 
                 <div className="radio-group">
@@ -249,14 +279,15 @@ const AddSupplierModal = ({
                     <input type="text" />
                   </div>
                   <div className="form-group">
-                    <label>TYPE OF BREAKFAST</label>
-                    <input type="text" />
-                  </div>
-                  <div className="form-group">
                     <label>CREDIT TERMS</label>
                     <input type="text" />
                   </div>
-                  <div className="form-group">
+                  {/* Conditional fields based on company type */}
+                  <div className="form-group hotel-specific-field">
+                    <label>TYPE OF BREAKFAST</label>
+                    <input type="text" />
+                  </div>
+                  <div className="form-group hotel-specific-field">
                     <label>ROOM QUANTITY</label>
                     <input type="text" />
                   </div>

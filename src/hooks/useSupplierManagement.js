@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import apiService from '../services/api';
 
-export const useSupplierManagement = () => {
+export const useSupplierManagement = (onSupplierUpdated) => {
   const [editingSupplier, setEditingSupplier] = useState(null);
   const [supplierFormData, setSupplierFormData] = useState({});
   const [isAddingNew, setIsAddingNew] = useState(false);
@@ -15,10 +15,14 @@ export const useSupplierManagement = () => {
       companyAddress: supplier.company?.address || '',
       contactNumber: supplier.company?.phone || '',
       email: supplier.company?.email || '',
-      designation: '',
-      modeOfPayment: '',
-      creditTerms: '',
-      remarks: ''
+      companyRepresentative: supplier.representative || '',
+      designation: supplier.designation || '',
+      telNumber: supplier.telNumber || '',
+      breakfastType: supplier.breakfastType || '',
+      roomQuantity: supplier.roomQuantity || '',
+      modeOfPayment: supplier.modeOfPayment || '',
+      creditTerms: supplier.creditTerms || '',
+      remarks: supplier.remarks || ''
     });
   }, []);
 
@@ -84,11 +88,14 @@ export const useSupplierManagement = () => {
       } else {
         // Update existing supplier
         const updateData = {
-          companyName: supplierFormData.companyName,
-          companyAddress: supplierFormData.companyAddress,
+          companyRepresentative: supplierFormData.companyRepresentative,
           contactNumber: supplierFormData.contactNumber,
           email: supplierFormData.email,
           designation: supplierFormData.designation,
+          telNumber: supplierFormData.telNumber,
+          companyAddress: supplierFormData.companyAddress,
+          breakfastType: supplierFormData.breakfastType,
+          roomQuantity: supplierFormData.roomQuantity,
           modeOfPayment: supplierFormData.modeOfPayment,
           creditTerms: supplierFormData.creditTerms,
           remarks: supplierFormData.remarks
@@ -103,6 +110,11 @@ export const useSupplierManagement = () => {
         
         // Show success message
         alert('Supplier updated successfully!');
+        
+        // Trigger a callback to refresh the data (if provided)
+        if (onSupplierUpdated) {
+          onSupplierUpdated();
+        }
       }
     } catch (error) {
       console.error('Error saving supplier:', error);
@@ -110,7 +122,7 @@ export const useSupplierManagement = () => {
     } finally {
       setSavingSupplier(false);
     }
-  }, [isAddingNew, supplierFormData, editingSupplier, handleCancelEdit]);
+  }, [isAddingNew, supplierFormData, editingSupplier, handleCancelEdit, onSupplierUpdated]);
 
   return {
     editingSupplier,

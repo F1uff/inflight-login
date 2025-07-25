@@ -111,33 +111,8 @@ const monthlyData = [
 ];
 */
 
-// Recent notifications for the inbox section
-const notifications = [
-  { 
-    id: 1,
-    company: 'CXTP MULTI-TRANSPORT SERVICES INC.',
-    message: 'Requesting for accreditation.',
-    dateTime: '12-10-2022'
-  },
-  {
-    id: 2,
-    company: 'GRAB TRANSPORTATION',
-    message: 'Re-New Accreditation',
-    dateTime: '10-10-2022'
-  },
-  {
-    id: 3,
-    company: 'INFINIGHT MULTI-TRAVEL MANAGEMENT CORP.',
-    message: 'Accreditation Expiry',
-    dateTime: '09-22-2022'
-  },
-  {
-    id: 4,
-    company: 'RNS STYLE HOTEL CEBU',
-    message: 'Accreditation Report',
-    dateTime: '08-15-2022'
-  }
-];
+// Empty notifications array - will be populated from API
+const notifications = [];
 
 const Dashboard = () => {
   /* Uncomment these when implementing navigation and charts

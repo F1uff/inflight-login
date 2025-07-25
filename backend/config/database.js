@@ -1,240 +1,235 @@
-const sqlite3 = require('sqlite3').verbose();
 const { Pool } = require('pg');
-const fs = require('fs');
-const path = require('path');
 
-// Database configuration
+// PostgreSQL connection pool configuration with improved settings
 const config = {
-    type: process.env.DATABASE_TYPE || 'sqlite',
-    sqlite: {
-        path: process.env.DB_PATH || './data/admin_dashboard.db'
-    },
-    postgresql: {
-        host: process.env.PG_HOST || 'localhost',
-        port: parseInt(process.env.PG_PORT) || 5432,
-        database: process.env.PG_DATABASE || 'inflight_admin',
-        user: process.env.PG_USER || 'postgres',
-        password: process.env.PG_PASSWORD || '',
-        ssl: process.env.PG_SSL === 'true' ? { rejectUnauthorized: false } : false,
-        max: 20, // Maximum number of clients in the pool
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 2000,
-    }
+    host: process.env.PG_HOST || 'localhost',
+    port: parseInt(process.env.PG_PORT) || 5432,
+    database: process.env.PG_DATABASE || 'inflight_admin',
+    user: process.env.PG_USER || 'inflightit',
+    password: process.env.PG_PASSWORD || '',
+    ssl: process.env.PG_SSL === 'true' ? { rejectUnauthorized: false } : false,
+    
+    // Connection pool settings
+    max: parseInt(process.env.PG_MAX_CONNECTIONS) || 20,
+    min: parseInt(process.env.PG_MIN_CONNECTIONS) || 5,
+    idleTimeoutMillis: parseInt(process.env.PG_IDLE_TIMEOUT) || 30000,
+    connectionTimeoutMillis: parseInt(process.env.PG_CONNECTION_TIMEOUT) || 5000,
+    
+    // Connection validation and retry settings
+    statement_timeout: parseInt(process.env.PG_STATEMENT_TIMEOUT) || 30000,
+    query_timeout: parseInt(process.env.PG_QUERY_TIMEOUT) || 15000,
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 10000,
+    
+    // Application name for monitoring
+    application_name: process.env.APP_NAME || 'inflight-admin'
 };
 
-// PostgreSQL connection pool
 let pgPool = null;
+let poolStats = {
+    totalConnections: 0,
+    activeConnections: 0,
+    idleConnections: 0,
+    waitingClients: 0,
+    connectionErrors: 0,
+    queryErrors: 0,
+    lastConnectionError: null,
+    uptime: Date.now()
+};
 
-// SQLite connection
-let sqliteDb = null;
-
-/**
- * Initialize database connection based on configuration
- */
-async function initializeDatabase() {
-    console.log(`🔄 Initializing ${config.type.toUpperCase()} database...`);
+// Health check function
+async function performHealthCheck() {
+    if (!pgPool) return;
     
-    if (config.type === 'postgresql') {
-        return initializePostgreSQL();
-    } else {
-        return initializeSQLite();
+    try {
+        const client = await pgPool.connect();
+        await client.query('SELECT 1');
+        client.release();
+        
+        // Update pool stats
+        poolStats.idleConnections = pgPool.idleCount;
+        poolStats.waitingClients = pgPool.waitingCount;
+        
+        // Log pool status if there are issues
+        if (poolStats.waitingClients > 0) {
+            console.warn(`⚠️  Pool overloaded: ${poolStats.waitingClients} clients waiting`);
+        }
+        
+        if (poolStats.activeConnections > config.max * 0.8) {
+            console.warn(`⚠️  Pool near capacity: ${poolStats.activeConnections}/${config.max} active`);
+        }
+        
+    } catch (error) {
+        poolStats.connectionErrors++;
+        poolStats.lastConnectionError = error.message;
+        console.error('❌ Database health check failed:', error.message);
     }
 }
 
-/**
- * Initialize PostgreSQL connection
- */
-async function initializePostgreSQL() {
+async function initializeDatabase() {
+    console.log('🔄 Initializing PostgreSQL database...');
     try {
-        pgPool = new Pool(config.postgresql);
+        console.log('🔄 Connecting to PostgreSQL...');
+        pgPool = new Pool(config);
         
-        // Test connection
+        // Set up connection pool event listeners
+        pgPool.on('connect', (_client) => {
+            poolStats.totalConnections++;
+            console.log(`🔗 New client connected. Total: ${poolStats.totalConnections}`);
+        });
+        
+        pgPool.on('acquire', (_client) => {
+            poolStats.activeConnections++;
+        });
+        
+        pgPool.on('release', (_client) => {
+            poolStats.activeConnections--;
+        });
+        
+        pgPool.on('error', (err, _client) => {
+            poolStats.connectionErrors++;
+            poolStats.lastConnectionError = err.message;
+            console.error('❌ Unexpected database error:', err);
+        });
+        
+        pgPool.on('remove', (_client) => {
+            poolStats.totalConnections--;
+            console.log(`🔌 Client disconnected. Total: ${poolStats.totalConnections}`);
+        });
+        
+        // Test initial connection
         const client = await pgPool.connect();
-        const result = await client.query('SELECT NOW()');
+        await client.query('SELECT NOW()');
         client.release();
         
-        console.log('✅ PostgreSQL connected successfully');
-        console.log(`📊 Database: ${config.postgresql.database}`);
-        console.log(`🏠 Host: ${config.postgresql.host}:${config.postgresql.port}`);
+        console.log('✅ PostgreSQL connection successful');
+        console.log(`📊 Database: ${config.database}`);
+        console.log(`🏠 Host: ${config.host}:${config.port}`);
+        console.log(`🔗 Pool: ${config.min}-${config.max} connections`);
+        
+        // Set up periodic health checks
+        setInterval(performHealthCheck, 60000); // Every minute
         
         return pgPool;
     } catch (error) {
+        poolStats.connectionErrors++;
+        poolStats.lastConnectionError = error.message;
         console.error('❌ PostgreSQL connection failed:', error.message);
         throw error;
     }
 }
 
-/**
- * Initialize SQLite connection
- */
-async function initializeSQLite() {
-    return new Promise((resolve, reject) => {
-        try {
-            // Ensure data directory exists
-            const dataDir = path.dirname(config.sqlite.path);
-            if (!fs.existsSync(dataDir)) {
-                fs.mkdirSync(dataDir, { recursive: true });
-            }
-            
-            sqliteDb = new sqlite3.Database(config.sqlite.path, (err) => {
-                if (err) {
-                    console.error('❌ SQLite connection failed:', err.message);
-                    reject(err);
-                } else {
-                    console.log('✅ SQLite connected successfully');
-                    console.log(`📁 Database file: ${config.sqlite.path}`);
-                    resolve(sqliteDb);
-                }
-            });
-        } catch (error) {
-            console.error('❌ SQLite initialization failed:', error.message);
-            reject(error);
-        }
-    });
-}
-
-/**
- * Get database connection
- */
 function getConnection() {
-    if (config.type === 'postgresql') {
-        if (!pgPool) {
-            throw new Error('PostgreSQL pool not initialized');
-        }
-        return pgPool;
-    } else {
-        if (!sqliteDb) {
-            throw new Error('SQLite database not initialized');
-        }
-        return sqliteDb;
+    if (!pgPool) {
+        throw new Error('PostgreSQL pool not initialized');
     }
+    return pgPool;
 }
 
-/**
- * Execute query with proper database handling
- */
+// Legacy function for backward compatibility
+function getDatabase() {
+    return getConnection();
+}
+
 async function executeQuery(query, params = []) {
-    if (config.type === 'postgresql') {
-        const client = await pgPool.connect();
-        try {
-            const result = await client.query(query, params);
-            return result.rows;
-        } finally {
-            client.release();
-        }
-    } else {
-        return new Promise((resolve, reject) => {
-            sqliteDb.all(query, params, (err, rows) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(rows);
-                }
-            });
-        });
+    const client = await pgPool.connect();
+    try {
+        const result = await client.query(query, params);
+        return result.rows;
+    } catch (error) {
+        poolStats.queryErrors++;
+        console.error('❌ Query execution failed:', error.message);
+        throw error;
+    } finally {
+        client.release();
     }
 }
 
-/**
- * Execute single query with proper database handling
- */
 async function executeQuerySingle(query, params = []) {
-    if (config.type === 'postgresql') {
-        const client = await pgPool.connect();
-        try {
-            const result = await client.query(query, params);
-            return result.rows[0] || null;
-        } finally {
-            client.release();
-        }
-    } else {
-        return new Promise((resolve, reject) => {
-            sqliteDb.get(query, params, (err, row) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(row || null);
-                }
-            });
-        });
+    const client = await pgPool.connect();
+    try {
+        const result = await client.query(query, params);
+        return result.rows[0] || null;
+    } finally {
+        client.release();
     }
 }
 
-/**
- * Execute insert/update/delete with proper database handling
- */
 async function executeUpdate(query, params = []) {
-    if (config.type === 'postgresql') {
-        const client = await pgPool.connect();
-        try {
-            const result = await client.query(query, params);
-            return {
-                changes: result.rowCount,
-                lastID: result.rows[0]?.id || null
-            };
-        } finally {
-            client.release();
-        }
-    } else {
-        return new Promise((resolve, reject) => {
-            sqliteDb.run(query, params, function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve({
-                        changes: this.changes,
-                        lastID: this.lastID
-                    });
-                }
-            });
-        });
+    const client = await pgPool.connect();
+    try {
+        const result = await client.query(query, params);
+        return {
+            changes: result.rowCount,
+            lastID: result.rows[0]?.id || null
+        };
+    } finally {
+        client.release();
     }
 }
 
-/**
- * Close database connections
- */
 async function closeConnections() {
-    if (config.type === 'postgresql' && pgPool) {
+    if (pgPool) {
         await pgPool.end();
         pgPool = null;
         console.log('✅ PostgreSQL connections closed');
-    } else if (sqliteDb) {
-        return new Promise((resolve) => {
-            sqliteDb.close((err) => {
-                if (err) {
-                    console.error('❌ Error closing SQLite:', err);
-                } else {
-                    console.log('✅ SQLite connection closed');
-                }
-                sqliteDb = null;
-                resolve();
-            });
-        });
     }
 }
 
-/**
- * Get database type
- */
 function getDatabaseType() {
-    return config.type;
+    return 'postgresql';
 }
 
-/**
- * Get database configuration
- */
 function getDatabaseConfig() {
     return config;
 }
 
+// Get pool statistics for monitoring
+function getPoolStats() {
+    if (!pgPool) {
+        return { ...poolStats, status: 'disconnected' };
+    }
+    
+    return {
+        ...poolStats,
+        status: 'connected',
+        totalConnections: pgPool.totalCount,
+        idleConnections: pgPool.idleCount,
+        waitingClients: pgPool.waitingCount,
+        uptime: Date.now() - poolStats.uptime
+    };
+}
+
+// Graceful shutdown
+async function gracefulShutdown() {
+    console.log('🔄 Initiating graceful database shutdown...');
+    
+    if (pgPool) {
+        try {
+            await pgPool.end();
+            pgPool = null;
+            console.log('✅ Database connections closed gracefully');
+        } catch (error) {
+            console.error('❌ Error during database shutdown:', error.message);
+        }
+    }
+}
+
+// Handle process termination
+process.on('SIGINT', gracefulShutdown);
+process.on('SIGTERM', gracefulShutdown);
+
 module.exports = {
     initializeDatabase,
     getConnection,
+    getDatabase,
     executeQuery,
     executeQuerySingle,
     executeUpdate,
     closeConnections,
     getDatabaseType,
-    getDatabaseConfig
+    getDatabaseConfig,
+    getPoolStats,
+    gracefulShutdown,
+    performHealthCheck
 }; 

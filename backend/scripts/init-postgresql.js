@@ -24,16 +24,42 @@ async function initPostgreSQL() {
         const client = await pool.connect();
         console.log('✅ PostgreSQL connection successful');
         
-        console.log('📋 Creating database schema...');
-        const schemaPath = path.join(__dirname, 'postgresql-schema.sql');
-        const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+        // Check if tables already exist
+        const tableCheck = await client.query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_schema = 'public' 
+                AND table_name = 'suppliers'
+            );
+        `);
         
-        await client.query(schemaSql);
-        console.log('✅ Database schema created successfully');
+        const tablesExist = tableCheck.rows[0].exists;
         
-        console.log('📊 Inserting sample data...');
-        await insertSampleData(client);
-        console.log('✅ Sample data inserted successfully');
+        if (!tablesExist) {
+            console.log('📋 Creating database schema...');
+            const schemaPath = path.join(__dirname, 'postgresql-schema.sql');
+            const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+            
+            await client.query(schemaSql);
+            console.log('✅ Database schema created successfully');
+            
+            console.log('📊 Inserting sample data...');
+            await insertSampleData(client);
+            console.log('✅ Sample data inserted successfully');
+        } else {
+            console.log('📊 Database schema already exists, skipping creation');
+            console.log('📊 Checking for existing data...');
+            
+            // Check if we have any suppliers data
+            const supplierCount = await client.query('SELECT COUNT(*) FROM suppliers');
+            if (supplierCount.rows[0].count === '0') {
+                console.log('📊 No suppliers found, inserting sample data...');
+                await insertSampleData(client);
+                console.log('✅ Sample data inserted successfully');
+            } else {
+                console.log('📊 Existing data found, preserving current data');
+            }
+        }
         
         client.release();
         
@@ -95,29 +121,9 @@ async function insertSampleData(client) {
         const companyResult = await client.query('SELECT id FROM companies ORDER BY id LIMIT 3');
         const companyIds = companyResult.rows.map(row => row.id);
         
-        console.log('🚚 Inserting suppliers...');
-        const supplierData = [
-            [companyIds[0] || 1, 'HTL001', 'hotel', 4.5, 1250, 875000.00, 92.5, 'active'],
-            [companyIds[1] || 2, 'HTL002', 'hotel', 4.2, 980, 650000.00, 88.3, 'active'],
-            [companyIds[2] || 3, 'HTL003', 'hotel', 4.8, 1450, 1200000.00, 95.2, 'active'],
-            [companyIds[0] || 1, 'TRF001', 'transfer', 4.3, 850, 420000.00, 89.5, 'active'],
-            [companyIds[1] || 2, 'TRF002', 'transfer', 4.6, 1100, 680000.00, 91.2, 'active'],
-            [companyIds[2] || 3, 'AIR001', 'airline', 4.1, 2200, 1800000.00, 87.8, 'active'],
-            [companyIds[0] || 1, 'AIR002', 'airline', 4.4, 1950, 1650000.00, 90.1, 'active'],
-            [companyIds[1] || 2, 'TRV001', 'travel_operator', 4.7, 1600, 950000.00, 93.4, 'active'],
-            [companyIds[2] || 3, 'TRV002', 'travel_operator', 4.2, 1200, 720000.00, 88.9, 'active'],
-            [companyIds[0] || 1, 'TRV003', 'travel_operator', 4.5, 1350, 810000.00, 91.7, 'pending']
-        ];
-        
-        for (const supplier of supplierData) {
-            await client.query(`
-                INSERT INTO suppliers (
-                    company_id, supplier_code, supplier_type, overall_rating, 
-                    total_trips_completed, total_revenue_generated, on_time_percentage, account_status
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-                ON CONFLICT (supplier_code) DO NOTHING
-            `, supplier);
-        }
+        console.log('🚚 Skipping sample supplier data insertion...');
+        // Sample supplier data insertion removed to eliminate mockup portfolio counts
+        // The suppliers table will remain empty for real data integration
         
         console.log('💊 Inserting system health data...');
         await client.query(`
@@ -127,26 +133,104 @@ async function insertSampleData(client) {
             ) VALUES ($1, $2, $3, $4, $5)
         `, [95, 12.5, 145.2, 24, 0]);
         
+        // Insert sample users for drivers
+        console.log('👥 Inserting users...');
+        const users = [
+            ['john.doe@transport.com', 'hashed_password', 'driver', 'John', 'Doe', '+63-917-123-4567'],
+            ['jane.smith@transport.com', 'hashed_password', 'driver', 'Jane', 'Smith', '+63-918-765-4321'],
+            ['mike.johnson@transport.com', 'hashed_password', 'driver', 'Mike', 'Johnson', '+63-919-555-0123'],
+            ['sarah.wilson@transport.com', 'hashed_password', 'driver', 'Sarah', 'Wilson', '+63-920-444-5678'],
+            ['carlos.garcia@transport.com', 'hashed_password', 'driver', 'Carlos', 'Garcia', '+63-921-333-9999']
+        ];
+        
+        for (const user of users) {
+            await client.query(`
+                INSERT INTO users (email, password_hash, role, first_name, last_name, phone)
+                VALUES ($1, $2, $3, $4, $5, $6)
+                ON CONFLICT (email) DO NOTHING
+            `, user);
+        }
+        
+        // Get user and company IDs for relationships
+        const userResult = await client.query('SELECT id FROM users WHERE role = $1 ORDER BY id LIMIT 5', ['driver']);
+        const userIds = userResult.rows.map(row => row.id);
+        
+        console.log('🚗 Inserting drivers...');
+        const drivers = [
+            [companyIds[0] || 1, userIds[0] || 1, 'DL123456789', 'professional', 'Metro Manila, Philippines', 'pending', '{"nda_status": "Submitted"}'],
+            [companyIds[0] || 1, userIds[1] || 2, 'DL987654321', 'professional', 'Quezon City, Philippines', 'pending', '{"nda_status": "Pending"}'],
+            [companyIds[1] || 2, userIds[2] || 3, 'DL456789123', 'professional', 'Cebu City, Philippines', 'active', '{"nda_status": "Submitted"}'],
+            [companyIds[1] || 2, userIds[3] || 4, 'DL789123456', 'professional', 'Makati City, Philippines', 'active', '{"nda_status": "Submitted"}'],
+            [companyIds[2] || 3, userIds[4] || 5, 'DL321654987', 'professional', 'Davao City, Philippines', 'inactive', '{"nda_status": "Expired"}']
+        ];
+        
+        for (const driver of drivers) {
+            await client.query(`
+                INSERT INTO drivers (company_id, user_id, license_number, license_type, address, status, documents)
+                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                ON CONFLICT (license_number) DO NOTHING
+            `, driver);
+        }
+        
+        console.log('🚙 Inserting vehicles...');
+        const vehicles = [
+            [companyIds[0] || 1, 'ABC-1234', 'Toyota', 'Vios', 2022, 'White', 'sedan', '["air_conditioning", "gps", "dashcam"]', 'active'],
+            [companyIds[0] || 1, 'XYZ-5678', 'Honda', 'CR-V', 2021, 'Black', 'suv', '["air_conditioning", "gps"]', 'pending'],
+            [companyIds[1] || 2, 'DEF-9012', 'Nissan', 'Almera', 2023, 'Silver', 'sedan', '["air_conditioning", "gps", "dashcam", "child_seat"]', 'active'],
+            [companyIds[1] || 2, 'GHI-3456', 'Mitsubishi', 'Montero Sport', 2020, 'Blue', 'suv', '["air_conditioning", "gps"]', 'active'],
+            [companyIds[2] || 3, 'JKL-7890', 'Isuzu', 'D-Max', 2022, 'Red', 'truck', '["air_conditioning"]', 'maintenance'],
+            [companyIds[0] || 1, 'MNO-2468', 'Hyundai', 'Accent', 2021, 'Gray', 'sedan', '["air_conditioning", "gps"]', 'active'],
+            [companyIds[2] || 3, 'PQR-1357', 'Ford', 'Everest', 2023, 'Brown', 'suv', '["air_conditioning", "gps", "dashcam"]', 'active']
+        ];
+        
+        for (const vehicle of vehicles) {
+            await client.query(`
+                INSERT INTO vehicles (company_id, plate_number, make, model, year, color, vehicle_type, features, status)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                ON CONFLICT (plate_number) DO NOTHING
+            `, vehicle);
+        }
+        
+        // Get driver and vehicle IDs for booking assignments
+        const driverResult = await client.query('SELECT id FROM drivers ORDER BY id LIMIT 5');
+        const driverIds = driverResult.rows.map(row => row.id);
+        
+        const vehicleResult = await client.query('SELECT id FROM vehicles ORDER BY id LIMIT 7');
+        const vehicleIds = vehicleResult.rows.map(row => row.id);
+        
         console.log('📋 Inserting bookings...');
         const bookingStatuses = ['confirmed', 'in_progress', 'completed', 'cancelled'];
-        for (let i = 0; i < 20; i++) {
+        for (let i = 1; i <= 20; i++) {
             const date = new Date();
-            date.setHours(date.getHours() - Math.floor(Math.random() * 24));
+            date.setHours(date.getHours() - Math.floor(Math.random() * 48));
+            
+            // Some bookings get driver/vehicle assignments
+            const hasDriver = Math.random() > 0.4;
+            const hasVehicle = Math.random() > 0.3;
+            const driverId = hasDriver && driverIds.length > 0 ? driverIds[i % driverIds.length] : null;
+            const vehicleId = hasVehicle && vehicleIds.length > 0 ? vehicleIds[i % vehicleIds.length] : null;
             
             await client.query(`
                 INSERT INTO bookings (
-                    booking_reference, pickup_address, destination_address,
-                    pickup_datetime, total_amount, booking_status, payment_status
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+                    booking_reference, company_id, driver_id, vehicle_id,
+                    pickup_address, destination_address, pickup_datetime, 
+                    total_amount, booking_status, payment_status,
+                    contact_person_name, contact_person_phone
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
                 ON CONFLICT (booking_reference) DO NOTHING
             `, [
-                `BK${Date.now()}${i}`,
-                `Pickup Location ${i + 1}`,
-                `Destination ${i + 1}`,
+                `TV-${String(i).padStart(3, '0')}`,
+                companyIds[i % companyIds.length] || 1,
+                driverId,
+                vehicleId,
+                `Pickup Location ${i}`,
+                `Destination ${i}`,
                 date.toISOString(),
                 Math.round((Math.random() * 2000 + 500) * 100) / 100,
                 bookingStatuses[Math.floor(Math.random() * bookingStatuses.length)],
-                Math.random() > 0.3 ? 'paid' : 'pending'
+                Math.random() > 0.3 ? 'paid' : 'pending',
+                `Passenger ${i}`,
+                `+63-${String(Math.floor(Math.random() * 900000000 + 900000000))}`
             ]);
         }
         
