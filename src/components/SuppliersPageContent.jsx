@@ -773,6 +773,23 @@ const SuppliersPageContent = ({
                               />
                             </td>
                           );
+                        } else if (index === 4) { // Accreditation column
+                          return (
+                            <td key={index}>
+                              <select 
+                                value={supplierFormData.accreditation || ''}
+                                onChange={(e) => handleFormChange('accreditation', e.target.value)}
+                                className="accreditation-dropdown"
+                              >
+                                <option value="">Select accreditation</option>
+                                <option value="accredited_dir">Accredited (DIR)</option>
+                                <option value="accredited">Accredited</option>
+                                <option value="non_accredited_inn">Non-Accredited (Inn/Airbnb)</option>
+                                <option value="non_accredited">Non-Accredited</option>
+                                <option value="on_process">On Process</option>
+                              </select>
+                            </td>
+                          );
                         }
                       }
                       return <td key={index}>{data}</td>;

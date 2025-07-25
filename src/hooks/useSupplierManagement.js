@@ -22,7 +22,10 @@ export const useSupplierManagement = (onSupplierUpdated) => {
       roomQuantity: supplier.roomQuantity || '',
       modeOfPayment: supplier.modeOfPayment || '',
       creditTerms: supplier.creditTerms || '',
-      remarks: supplier.remarks || ''
+      remarks: supplier.remarks || '',
+      contractedRatesDate: supplier.contractedRatesDate || '',
+      corporateRatesDate: supplier.corporateRatesDate || '',
+      accreditation: supplier.accreditation || ''
     });
   }, []);
 
@@ -103,7 +106,10 @@ export const useSupplierManagement = (onSupplierUpdated) => {
           roomQuantity: supplierFormData.roomQuantity,
           modeOfPayment: supplierFormData.modeOfPayment,
           creditTerms: supplierFormData.creditTerms,
-          remarks: supplierFormData.remarks
+          remarks: supplierFormData.remarks,
+          contractedRatesDate: supplierFormData.contractedRatesDate,
+          corporateRatesDate: supplierFormData.corporateRatesDate,
+          accreditation: supplierFormData.accreditation
         };
 
         console.log('Updating supplier:', editingSupplier, updateData);

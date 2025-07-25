@@ -633,6 +633,24 @@ const AdminDashboard = () => {
     }
   };
 
+  // Helper function to format accreditation status
+  const formatAccreditation = (accreditation) => {
+    switch (accreditation) {
+      case 'accredited_dir':
+        return 'Accredited (DIR)';
+      case 'accredited':
+        return 'Accredited';
+      case 'non_accredited_inn':
+        return 'Non-Accredited (Inn/Airbnb)';
+      case 'non_accredited':
+        return 'Non-Accredited';
+      case 'on_process':
+        return 'On Process';
+      default:
+        return 'Select accreditation';
+    }
+  };
+
   const getTableRowData = (supplier) => {
     if (uiState.selectedSupplierType === 'hotels') {
       return [
@@ -640,7 +658,7 @@ const AdminDashboard = () => {
         supplier.company?.name || 'N/A',
         supplier.contractedRatesDate || 'Add Date', // contracted rates date
         supplier.corporateRatesDate || 'Add Date', // corporate rates date
-        supplier.accreditation || 'Select accreditation' // accreditation status
+        formatAccreditation(supplier.accreditation) // accreditation status
       ];
     } else {
       return [
