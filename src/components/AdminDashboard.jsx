@@ -724,6 +724,7 @@ const AdminDashboard = () => {
       }));
   };
 
+<<<<<<< Updated upstream
   // Handle search input changes
   const handleSearchChange = (section, value) => {
     setSearchTerms(prev => ({
@@ -735,6 +736,51 @@ const AdminDashboard = () => {
     setTimeout(() => {
       applyFilters(section);
     }, 300);
+=======
+  const getTableHeaders = () => {
+    if (uiState.selectedSupplierType === 'hotels') {
+      return ['', 'Location', 'Company Name', 'Contracted Rates', 'Corporate Rates', 'Accreditation', 'Status'];
+    } else {
+      return ['', 'Location', 'Company Name', 'Company Address', 'Tariff Rates', 'Validity', 'Remarks', 'Status'];
+    }
+  };
+
+  // Helper function to format accreditation status
+  const formatAccreditation = (accreditation) => {
+    switch (accreditation) {
+      case 'hotel_partners':
+        return 'Hotel Partners';
+      case 'accredited':
+        return 'Accredited';
+      case 'non_accredited':
+        return 'Non-Accredited';
+      case 'on_process':
+        return 'On Process';
+      default:
+        return 'Select accreditation';
+    }
+  };
+
+  const getTableRowData = (supplier) => {
+    if (uiState.selectedSupplierType === 'hotels') {
+      return [
+        supplier.location || supplier.company?.city || 'N/A',
+        supplier.company?.name || 'N/A',
+        supplier.contractedRatesDate || 'Add Date', // contracted rates date
+        supplier.corporateRatesDate || 'Add Date', // corporate rates date
+        formatAccreditation(supplier.accreditation) // accreditation status
+      ];
+    } else {
+      return [
+        supplier.location || supplier.company?.city || 'N/A',
+        supplier.company?.name || 'N/A',
+        supplier.company?.address || 'N/A',
+        'TBD', // tariff rates
+        'TBD', // validity
+        `Rating: ${supplier.rating}/5.0` || 'N/A'
+      ];
+    }
+>>>>>>> Stashed changes
   };
 
   // Filter data based on status
