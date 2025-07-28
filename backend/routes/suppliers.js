@@ -564,7 +564,12 @@ router.put('/:id', async (req, res) => {
             // Hotel-specific fields
             frontdeskPhone,
             frontdeskEmail,
-            securityDeposit
+            securityDeposit,
+            // New fields
+            location,
+            contractedRatesDate,
+            corporateRatesDate,
+            accreditation
         } = req.body;
 
         // Use new field name if available, fallback to old field name
@@ -623,8 +628,12 @@ router.put('/:id', async (req, res) => {
                 frontdesk_phone = $10,
                 frontdesk_email = $11,
                 security_deposit = $12,
+                location = $13,
+                contracted_rates_date = $14,
+                corporate_rates_date = $15,
+                accreditation = $16,
                 updated_at = CURRENT_TIMESTAMP
-            WHERE id = $13
+            WHERE id = $17
         `;
 
         await pool.query(updateQuery, [
@@ -640,6 +649,10 @@ router.put('/:id', async (req, res) => {
             frontdeskPhone,
             frontdeskEmail,
             securityDeposit,
+            location,
+            contractedRatesDate,
+            corporateRatesDate,
+            accreditation,
             supplierId
         ]);
 
@@ -681,6 +694,11 @@ router.put('/:id', async (req, res) => {
                 frontdeskPhone: supplier.frontdesk_phone,
                 frontdeskEmail: supplier.frontdesk_email,
                 securityDeposit: supplier.security_deposit,
+                location: supplier.location,
+                propertyName: supplier.property_name,
+                contractedRatesDate: supplier.contracted_rates_date,
+                corporateRatesDate: supplier.corporate_rates_date,
+                accreditation: supplier.accreditation,
                 accountStatus: supplier.account_status,
                 overallRating: supplier.overall_rating,
                 totalTripsCompleted: supplier.total_trips_completed,
