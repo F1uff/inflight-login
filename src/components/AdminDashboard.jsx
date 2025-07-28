@@ -244,7 +244,7 @@ const AdminDashboard = () => {
     // Map frontend filter values to backend supplier types
     const typeMapping = {
       'hotels': 'Hotels',
-      'land_transfer': 'Transfer'
+      'land_transfer': 'Land Transfer'
     };
     
     const backendType = typeMapping[uiState.selectedSupplierType] || uiState.selectedSupplierType;
