@@ -243,8 +243,8 @@ const AdminDashboard = () => {
     
     // Map frontend filter values to backend supplier types
     const typeMapping = {
-      'hotels': 'hotel',
-      'land_transfer': 'transfer'
+      'hotels': 'Hotels',
+      'land_transfer': 'Transfer'
     };
     
     const backendType = typeMapping[uiState.selectedSupplierType] || uiState.selectedSupplierType;
@@ -252,6 +252,12 @@ const AdminDashboard = () => {
     const filteredSuppliers = apiState.suppliersData.suppliers.filter(supplier => 
       supplier.supplierType === backendType
     );
+    
+    console.log('🔍 getCurrentSuppliersList - selectedSupplierType:', uiState.selectedSupplierType);
+    console.log('🔍 getCurrentSuppliersList - backendType:', backendType);
+    console.log('🔍 getCurrentSuppliersList - total suppliers:', apiState.suppliersData.suppliers.length);
+    console.log('🔍 getCurrentSuppliersList - filtered suppliers:', filteredSuppliers.length);
+    console.log('🔍 getCurrentSuppliersList - sample supplier types:', apiState.suppliersData.suppliers.slice(0, 5).map(s => s.supplierType));
     
     return filteredSuppliers;
   }, [apiState.suppliersData, uiState.selectedSupplierType]);
