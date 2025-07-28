@@ -104,6 +104,7 @@ router.get('/', async (req, res) => {
                 s.contracted_rates_date,
                 s.corporate_rates_date,
                 s.accreditation,
+                s.room_types,
                 c.name as company_name,
                 c.email as company_email,
                 c.phone as company_phone,
@@ -169,6 +170,7 @@ router.get('/', async (req, res) => {
                 contractedRatesDate: supplier.contracted_rates_date,
                 corporateRatesDate: supplier.corporate_rates_date,
                 accreditation: supplier.accreditation,
+                roomTypes: supplier.room_types,
                 createdAt: supplier.created_at,
                 updatedAt: supplier.updated_at
             })),
