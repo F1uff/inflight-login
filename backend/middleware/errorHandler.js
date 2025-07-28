@@ -156,37 +156,28 @@ class ErrorLogger {
         }
         
         // Update error statistics
-        try {
-            this.updateErrorStats(error);
-        } catch (statsError) {
-            console.error('Failed to update error statistics:', statsError.message);
-        }
+        this.updateErrorStats(error);
     }
     
     updateErrorStats(error) {
         if (!error) return;
         
-        try {
-            errorStats.total++;
-            errorStats.byType[error.errorType || 'UNKNOWN'] = (errorStats.byType[error.errorType || 'UNKNOWN'] || 0) + 1;
-            errorStats.bySeverity[error.severity || 'UNKNOWN'] = (errorStats.bySeverity[error.severity || 'UNKNOWN'] || 0) + 1;
-            errorStats.byStatusCode[error.statusCode || 500] = (errorStats.byStatusCode[error.statusCode || 500] || 0) + 1;
-            
-            // Keep only last 100 errors
-            errorStats.recentErrors.unshift({
-                timestamp: new Date().toISOString(),
-                type: error.errorType || 'UNKNOWN',
-                severity: error.severity || 'UNKNOWN',
-                statusCode: error.statusCode || 500,
-                message: error.message || 'Unknown error'
-            });
-            
-            if (errorStats.recentErrors.length > 100) {
-                errorStats.recentErrors.pop();
-            }
-        } catch (statsError) {
-            // Silently fail to prevent recursive errors
-            console.error('Error updating statistics:', statsError.message);
+        errorStats.total++;
+        errorStats.byType[error.errorType] = (errorStats.byType[error.errorType] || 0) + 1;
+        errorStats.bySeverity[error.severity] = (errorStats.bySeverity[error.severity] || 0) + 1;
+        errorStats.byStatusCode[error.statusCode] = (errorStats.byStatusCode[error.statusCode] || 0) + 1;
+        
+        // Keep only last 100 errors
+        errorStats.recentErrors.unshift({
+            timestamp: new Date().toISOString(),
+            type: error.errorType,
+            severity: error.severity,
+            statusCode: error.statusCode,
+            message: error.message
+        });
+        
+        if (errorStats.recentErrors.length > 100) {
+            errorStats.recentErrors.pop();
         }
     }
     
@@ -308,21 +299,16 @@ const notFoundHandler = (req, res) => {
 
 // Unhandled promise rejection handler
 const unhandledRejectionHandler = () => {
-    process.on('unhandledRejection', (reason, _promise) => {
-        try {
-            // Use console.error instead of custom logger to avoid recursive issues
-            console.error('🚨 [CRITICAL] Unhandled Promise Rejection:', {
-                timestamp: new Date().toISOString(),
-                reason: reason ? reason.toString() : 'Unknown reason',
-                stack: reason && reason.stack ? reason.stack : 'No stack trace available',
-                pid: process.pid
-            });
-        } catch (logError) {
-            // Fallback if even console.error fails
-            console.log('CRITICAL: Unhandled promise rejection occurred and logging failed');
-            console.log('Original reason:', reason);
-            console.log('Logging error:', logError.message);
-        }
+    process.on('unhandledRejection', (reason, promise) => {
+        const error = new AppError(
+            'Unhandled promise rejection',
+            500,
+            ERROR_TYPES.SYSTEM_ERROR,
+            ERROR_SEVERITY.CRITICAL,
+            { reason: reason.toString(), promise: promise.toString() }
+        );
+        
+        logger.error('Unhandled Promise Rejection', error);
         
         // Graceful shutdown
         setTimeout(() => {
@@ -334,21 +320,15 @@ const unhandledRejectionHandler = () => {
 // Uncaught exception handler
 const uncaughtExceptionHandler = () => {
     process.on('uncaughtException', (error) => {
-        try {
-            // Use console.error instead of custom logger to avoid recursive issues
-            console.error('🚨 [CRITICAL] Uncaught Exception:', {
-                timestamp: new Date().toISOString(),
-                name: error.name,
-                message: error.message,
-                stack: error.stack,
-                pid: process.pid
-            });
-        } catch (logError) {
-            // Fallback if even console.error fails
-            console.log('CRITICAL: Uncaught exception occurred and logging failed');
-            console.log('Original error:', error.message);
-            console.log('Logging error:', logError.message);
-        }
+        const appError = new AppError(
+            'Uncaught exception',
+            500,
+            ERROR_TYPES.SYSTEM_ERROR,
+            ERROR_SEVERITY.CRITICAL,
+            { originalError: error.message }
+        );
+        
+        logger.error('Uncaught Exception', appError);
         
         // Graceful shutdown
         setTimeout(() => {

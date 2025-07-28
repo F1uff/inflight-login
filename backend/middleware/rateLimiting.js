@@ -77,7 +77,7 @@ const rateLimitConfigs = {
     // Database modification endpoints - strict limits
     modification: {
         windowMs: 60 * 1000, // 1 minute
-        max: 100, // Increased from 20 to 100 modifications per minute for development
+        max: 20, // 20 modifications per minute
         message: {
             error: 'Too many modification requests. Please slow down.',
             code: 'MODIFICATION_RATE_LIMIT_EXCEEDED',

@@ -44,46 +44,30 @@ app.use(express.urlencoded({ extended: true }));
 
 // CORS configuration with security considerations
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        
-        const allowedOrigins = securityConfig.allowedOrigins.length > 0 
-            ? securityConfig.allowedOrigins 
-            : [
-                process.env.FRONTEND_URL || 'http://localhost:5173',
-                'http://localhost:5173',
-                'http://localhost:5174',
-                'http://localhost:5175',
-                'http://localhost:5176',
-                'http://localhost:5177',
-                'http://localhost:5178',
-                'http://localhost:5179',
-                'http://localhost:5180'
-            ];
-        
-        if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: securityConfig.allowedOrigins.length > 0 
+        ? securityConfig.allowedOrigins 
+        : [
+            process.env.FRONTEND_URL || 'http://localhost:5173',
+            'http://localhost:5173',
+            'http://localhost:5174',
+            'http://localhost:5175',
+            'http://localhost:5176',
+            'http://localhost:5177',
+            'http://localhost:5178',
+            'http://localhost:5179',
+            'http://localhost:5180'
+        ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
         'Content-Type', 
         'Authorization', 
         'X-CSRF-Token', 
         'X-Session-ID',
-        'X-Request-ID',
-        'Origin',
-        'Accept',
-        'X-Requested-With'
+        'X-Request-ID'
     ],
     exposedHeaders: ['X-Request-ID', 'X-Response-Time'],
-    maxAge: 86400, // 24 hours
-    preflightContinue: false,
-    optionsSuccessStatus: 204
+    maxAge: 86400 // 24 hours
 }));
 
 // Enhanced rate limiting system
@@ -92,13 +76,8 @@ const {
     getRateLimitStatus
 } = require('./middleware/rateLimiting');
 
-// Apply dynamic rate limiting based on request type (disabled in development)
-if (process.env.NODE_ENV === 'production') {
-    app.use(dynamicRateLimiter);
-    console.log('🔒 Rate limiting enabled (production mode)');
-} else {
-    console.log('🔓 Rate limiting disabled (development mode)');
-}
+// Apply dynamic rate limiting based on request type
+app.use(dynamicRateLimiter);
 
 // Performance monitoring middleware
 app.use(performanceMonitoring({
@@ -140,27 +119,6 @@ const userDashboardRoutes = require('./routes/user-dashboard');
 
 // API routes
 const apiPrefix = process.env.API_PREFIX || '/api/v1';
-
-// API base route for health check
-app.get(apiPrefix, (req, res) => {
-    res.json({
-        success: true,
-        message: 'Inflight Admin API is running',
-        version: '1.0.0',
-        timestamp: new Date().toISOString(),
-        endpoints: {
-            dashboard: `${apiPrefix}/dashboard`,
-            suppliers: `${apiPrefix}/suppliers`,
-            monitoring: `${apiPrefix}/monitoring`,
-            auth: `${apiPrefix}/auth`,
-            admin: `${apiPrefix}/admin`,
-            userDashboard: `${apiPrefix}/user-dashboard`,
-            health: '/health',
-            docs: '/api-docs'
-        }
-    });
-});
-
 app.use(`${apiPrefix}/dashboard`, dashboardRoutes);
 app.use(`${apiPrefix}/suppliers`, suppliersRoutes);
 app.use(`${apiPrefix}/monitoring`, monitoringRoutes);
@@ -169,50 +127,13 @@ app.use(`${apiPrefix}/admin`, adminRoutes);
 app.use(`${apiPrefix}/user-dashboard`, userDashboardRoutes);
 
 // Health check endpoint
-app.get('/health', async (req, res) => {
-    try {
-        const startTime = Date.now();
-        
-        // Check database connection
-        const { getConnection } = require('./config/database');
-        const pool = getConnection();
-        await pool.query('SELECT 1');
-        const dbResponseTime = Date.now() - startTime;
-        
-        // Get system metrics
-        const memUsage = process.memoryUsage();
-        const cpuUsage = process.cpuUsage();
-        
-        res.json({
-            status: 'OK',
-            timestamp: new Date().toISOString(),
-            uptime: process.uptime(),
-            environment: process.env.NODE_ENV || 'development',
-            database: {
-                status: 'connected',
-                responseTime: dbResponseTime
-            },
-            system: {
-                memory: {
-                    used: Math.round(memUsage.heapUsed / 1024 / 1024),
-                    total: Math.round(memUsage.heapTotal / 1024 / 1024),
-                    external: Math.round(memUsage.external / 1024 / 1024)
-                },
-                cpu: {
-                    user: Math.round(cpuUsage.user / 1000),
-                    system: Math.round(cpuUsage.system / 1000)
-                }
-            }
-        });
-    } catch (error) {
-        console.error('Health check failed:', error);
-        res.status(503).json({
-            status: 'ERROR',
-            timestamp: new Date().toISOString(),
-            error: 'Database connection failed',
-            details: error.message
-        });
-    }
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime(),
+        environment: process.env.NODE_ENV || 'development'
+    });
 });
 
 // Root endpoint
@@ -264,14 +185,8 @@ async function startServer() {
         // Initialize database connection first
         await initializeDatabase();
         
-        // Only run database setup if explicitly requested
-        if (process.env.INIT_DATABASE === 'true') {
-            console.log('🔄 Running database setup/migration...');
-            await initDatabase();
-            console.log('✅ Database setup completed');
-        } else {
-            console.log('📊 Using existing database (skip initialization)');
-        }
+        // Then run database setup/migration
+        await initDatabase();
         console.log('✅ Database initialized successfully');
         
         app.listen(PORT, () => {

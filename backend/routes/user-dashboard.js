@@ -594,7 +594,7 @@ router.post('/drivers', validateInput(validationSchemas.createDriver), asyncHand
     const documents = JSON.stringify({ nda_status: ndaStatus || 'Pending' });
     await pool.query(driverQuery, [company_id, userId, licenseNumber, address || null, 'pending', documents]);
 
-            // Send email with temporary password to user
+    // TODO: Send email with temporary password to user
     // In production, implement email service to send tempPassword to the user
 
     res.status(201).json({

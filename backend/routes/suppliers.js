@@ -352,6 +352,23 @@ router.get('/:id', async (req, res) => {
                 country: supplier.company_country,
                 verificationStatus: supplier.verification_status
             },
+            // Add missing fields
+            representative: supplier.representative_name,
+            designation: supplier.designation,
+            telNumber: supplier.tel_number,
+            breakfastType: supplier.breakfast_type,
+            roomQuantity: supplier.room_quantity,
+            modeOfPayment: supplier.mode_of_payment,
+            creditTerms: supplier.credit_terms,
+            remarks: supplier.remarks,
+            frontdeskPhone: supplier.frontdesk_phone,
+            frontdeskEmail: supplier.frontdesk_email,
+            securityDeposit: supplier.security_deposit,
+            location: supplier.location,
+            propertyName: supplier.property_name,
+            contractedRatesDate: supplier.contracted_rates_date,
+            corporateRatesDate: supplier.corporate_rates_date,
+            accreditation: supplier.accreditation,
             createdAt: supplier.created_at,
             updatedAt: supplier.updated_at
         };

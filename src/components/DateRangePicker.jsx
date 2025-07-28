@@ -33,25 +33,7 @@ const DateRangePicker = ({
   const [selectedStartDate, setSelectedStartDate] = useState(parseDate(startDate));
   const [selectedEndDate, setSelectedEndDate] = useState(parseDate(endDate));
   const [isSelectingEnd, setIsSelectingEnd] = useState(false);
-  const [hoveredDate, setHoveredDate] = useState(null);
   const dropdownRef = useRef(null);
-  const [dropdownPosition, setDropdownPosition] = useState({ left: '0', right: 'auto' });
-
-  // Calculate dropdown position to prevent cutoff
-  const calculateDropdownPosition = () => {
-    if (dropdownRef.current) {
-      const rect = dropdownRef.current.getBoundingClientRect();
-      const windowWidth = window.innerWidth;
-      const dropdownWidth = 400; // Approximate width of dropdown
-      
-      // If there's not enough space on the right, align to the right
-      if (rect.left + dropdownWidth > windowWidth - 20) {
-        setDropdownPosition({ left: 'auto', right: '0' });
-      } else {
-        setDropdownPosition({ left: '0', right: 'auto' });
-      }
-    }
-  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -59,32 +41,12 @@ const DateRangePicker = ({
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);
         setIsSelectingEnd(false);
-        setHoveredDate(null);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Calculate position when dropdown opens
-  useEffect(() => {
-    if (isOpen) {
-      calculateDropdownPosition();
-    }
-  }, [isOpen]);
-
-  // Handle window resize
-  useEffect(() => {
-    const handleResize = () => {
-      if (isOpen) {
-        calculateDropdownPosition();
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [isOpen]);
 
   // Format date for display
   const formatDate = (date) => {
@@ -162,8 +124,8 @@ const DateRangePicker = ({
     
     if (selectedEndDate && selectedEndDate instanceof Date) {
       return date >= selectedStartDate && date <= selectedEndDate;
-    } else if (isSelectingEnd && hoveredDate && date >= selectedStartDate && date <= hoveredDate) {
-      return true;
+    } else if (isSelectingEnd) {
+      return date >= selectedStartDate;
     }
     
     return date.getTime() === selectedStartDate.getTime();
@@ -191,53 +153,11 @@ const DateRangePicker = ({
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
   };
 
-  // Quick date selections
-  const quickSelect = (type) => {
-    const today = new Date();
-    let start, end;
-
-    switch (type) {
-      case 'today':
-        start = new Date(today);
-        end = new Date(today);
-        break;
-      case 'yesterday':
-        start = new Date(today.getTime() - 24 * 60 * 60 * 1000);
-        end = new Date(today.getTime() - 24 * 60 * 60 * 1000);
-        break;
-      case 'last7days':
-        start = new Date(today.getTime() - 6 * 24 * 60 * 60 * 1000);
-        end = new Date(today);
-        break;
-      case 'last30days':
-        start = new Date(today.getTime() - 29 * 24 * 60 * 60 * 1000);
-        end = new Date(today);
-        break;
-      case 'thisMonth':
-        start = new Date(today.getFullYear(), today.getMonth(), 1);
-        end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-        break;
-      case 'lastMonth':
-        start = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-        end = new Date(today.getFullYear(), today.getMonth(), 0);
-        break;
-      default:
-        return;
-    }
-
-    setSelectedStartDate(start);
-    setSelectedEndDate(end);
-    if (onDateChange) {
-      onDateChange(start, end);
-    }
-  };
-
   // Clear selection
   const clearSelection = () => {
     setSelectedStartDate(null);
     setSelectedEndDate(null);
     setIsSelectingEnd(false);
-    setHoveredDate(null);
     if (onDateChange) {
       onDateChange(null, null);
     }
@@ -250,7 +170,6 @@ const DateRangePicker = ({
     }
     setIsOpen(false);
     setIsSelectingEnd(false);
-    setHoveredDate(null);
   };
 
   const monthNames = [
@@ -302,170 +221,42 @@ const DateRangePicker = ({
         <div className="date-picker-dropdown" style={{ 
           position: 'absolute',
           top: '100%',
-          left: dropdownPosition.left,
-          right: dropdownPosition.right,
+          left: '0',
           zIndex: 9999,
           background: 'white',
           border: '1px solid #e0e0e0',
-          borderRadius: '6px',
-          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.12)',
-          padding: '8px',
-          minWidth: '280px',
-          maxWidth: '300px',
-          marginTop: '2px'
+          borderRadius: '8px',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+          padding: '16px',
+          minWidth: '320px',
+          marginTop: '4px'
         }}>
-          {/* Quick Selection Buttons */}
-          <div className="quick-selection" style={{
-            display: 'flex',
-            gap: '3px',
-            marginBottom: '8px',
-            flexWrap: 'wrap',
-            justifyContent: 'flex-start'
-          }}>
-            {[
-              { label: 'Today', type: 'today' },
-              { label: 'Yesterday', type: 'yesterday' },
-              { label: 'Last 7 days', type: 'last7days' },
-              { label: 'Last 30 days', type: 'last30days' },
-              { label: 'This month', type: 'thisMonth' },
-              { label: 'Last month', type: 'lastMonth' }
-            ].map(({ label, type }) => (
-              <button
-                key={type}
-                type="button"
-                onClick={() => quickSelect(type)}
-                style={{
-                  padding: '2px 4px',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '3px',
-                  background: 'white',
-                  color: '#333',
-                  fontSize: '9px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  whiteSpace: 'nowrap',
-                  flex: '0 0 auto'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = '#f8f9fa';
-                  e.target.style.borderColor = '#007bff';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'white';
-                  e.target.style.borderColor = '#e0e0e0';
-                }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          <div className="calendar-header" style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '8px',
-            padding: '0 2px'
-          }}>
-            <button 
-              type="button" 
-              onClick={previousMonth} 
-              className="nav-button"
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: '3px',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                color: '#666',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#f5f5f5';
-                e.target.style.color = '#007bff';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = 'none';
-                e.target.style.color = '#666';
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+          <div className="calendar-header">
+            <button type="button" onClick={previousMonth} className="nav-button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
             
-            <h3 className="month-year" style={{
-              fontSize: '12px',
-              fontWeight: '600',
-              color: '#333',
-              margin: '0'
-            }}>
+            <h3 className="month-year">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             
-            <button 
-              type="button" 
-              onClick={nextMonth} 
-              className="nav-button"
-              style={{
-                background: 'none',
-                border: 'none',
-                padding: '3px',
-                borderRadius: '3px',
-                cursor: 'pointer',
-                color: '#666',
-                transition: 'all 0.2s ease',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#f5f5f5';
-                e.target.style.color = '#007bff';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = 'none';
-                e.target.style.color = '#666';
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <button type="button" onClick={nextMonth} className="nav-button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
           </div>
 
           <div className="calendar-grid">
-            <div className="day-headers" style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
-              gap: '1px',
-              marginBottom: '6px'
-            }}>
+            <div className="day-headers">
               {dayNames.map(day => (
-                <div 
-                  key={day} 
-                  className="day-header"
-                  style={{
-                    textAlign: 'center',
-                    fontSize: '9px',
-                    fontWeight: '600',
-                    color: '#666',
-                    padding: '2px 1px'
-                  }}
-                >
-                  {day}
-                </div>
+                <div key={day} className="day-header">{day}</div>
               ))}
             </div>
             
-            <div className="days-grid" style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
-              gap: '1px'
-            }}>
+            <div className="days-grid">
               {getDaysInMonth(currentMonth).map((date, index) => (
                 <button
                   key={index}
@@ -480,48 +271,7 @@ const DateRangePicker = ({
                     date && date.toDateString() === new Date().toDateString() ? 'today' : ''
                   }`}
                   onClick={() => date && handleDateClick(date)}
-                  onMouseEnter={() => date && setHoveredDate(date)}
-                  onMouseLeave={() => setHoveredDate(null)}
                   disabled={!date}
-                  style={{
-                    width: '24px',
-                    height: '24px',
-                    border: 'none',
-                    borderRadius: '3px',
-                    background: 'transparent',
-                    cursor: date ? 'pointer' : 'default',
-                    fontSize: '10px',
-                    fontWeight: '500',
-                    color: '#333',
-                    transition: 'all 0.2s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    ...(date && isDateInRange(date) && {
-                      background: '#e3f2fd',
-                      color: '#1976d2'
-                    }),
-                    ...(date && isStartDate(date) && {
-                      background: '#007bff',
-                      color: 'white',
-                      fontWeight: '600'
-                    }),
-                    ...(date && isEndDate(date) && {
-                      background: '#007bff',
-                      color: 'white',
-                      fontWeight: '600'
-                    }),
-                    ...(date && date.toDateString() === new Date().toDateString() && {
-                      border: '1px solid #007bff',
-                      fontWeight: '600'
-                    }),
-                    ...(date && !isDateInRange(date) && !isStartDate(date) && !isEndDate(date) && {
-                      '&:hover': {
-                        background: '#f5f5f5'
-                      }
-                    })
-                  }}
                 >
                   {date ? date.getDate() : ''}
                 </button>
@@ -529,66 +279,12 @@ const DateRangePicker = ({
             </div>
           </div>
 
-          <div className="calendar-footer" style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: '8px',
-            paddingTop: '6px',
-            borderTop: '1px solid #e0e0e0'
-          }}>
-            <button 
-              type="button" 
-              onClick={clearSelection} 
-              className="clear-button"
-              style={{
-                padding: '3px 6px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '3px',
-                background: 'white',
-                color: '#666',
-                cursor: 'pointer',
-                fontSize: '9px',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.background = '#f8f9fa';
-                e.target.style.borderColor = '#dc3545';
-                e.target.style.color = '#dc3545';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.background = 'white';
-                e.target.style.borderColor = '#e0e0e0';
-                e.target.style.color = '#666';
-              }}
-            >
+          <div className="calendar-footer">
+            <button type="button" onClick={clearSelection} className="clear-button">
               Clear
             </button>
-            <div className="action-buttons" style={{
-              display: 'flex',
-              gap: '4px'
-            }}>
-              <button 
-                type="button" 
-                onClick={() => setIsOpen(false)} 
-                className="cancel-button"
-                style={{
-                  padding: '3px 6px',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '3px',
-                  background: 'white',
-                  color: '#666',
-                  cursor: 'pointer',
-                  fontSize: '9px',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.background = '#f8f9fa';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.background = 'white';
-                }}
-              >
+            <div className="action-buttons">
+              <button type="button" onClick={() => setIsOpen(false)} className="cancel-button">
                 Cancel
               </button>
               <button 
@@ -596,27 +292,6 @@ const DateRangePicker = ({
                 onClick={applySelection} 
                 className="apply-button"
                 disabled={!selectedStartDate}
-                style={{
-                  padding: '3px 6px',
-                  border: 'none',
-                  borderRadius: '3px',
-                  background: selectedStartDate ? '#007bff' : '#e0e0e0',
-                  color: selectedStartDate ? 'white' : '#999',
-                  cursor: selectedStartDate ? 'pointer' : 'not-allowed',
-                  fontSize: '9px',
-                  fontWeight: '500',
-                  transition: 'all 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  if (selectedStartDate) {
-                    e.target.style.background = '#0056b3';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (selectedStartDate) {
-                    e.target.style.background = '#007bff';
-                  }
-                }}
               >
                 Apply
               </button>

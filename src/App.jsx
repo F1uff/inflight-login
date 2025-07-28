@@ -1,7 +1,6 @@
 import React, { useState, lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import './App.css';
-import ErrorBoundary from './components/ErrorBoundary';
 
 // Images/logos used in the app
 import logo from './assets/inflight-menu-logo.png';
@@ -272,11 +271,9 @@ const App = () => {
   const basePath = import.meta.env.VITE_APP_BASE_PATH || '/serviceportal/static/inflight-login';
   
   return (
-    <ErrorBoundary>
-      <Router basename={basePath}>
-        <AppContent />
-      </Router>
-    </ErrorBoundary>
+    <Router basename={basePath}>
+      <AppContent />
+    </Router>
   );
 };
 

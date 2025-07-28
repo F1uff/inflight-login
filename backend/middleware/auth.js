@@ -15,7 +15,19 @@ async function authenticateToken(req, res, next) {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
         
-        // Remove development bypass - require proper authentication
+        // Development bypass for test-token
+        if (process.env.NODE_ENV === 'development' && token === 'test-token') {
+            // Create a mock user for development
+            req.user = {
+                userId: 1,
+                email: 'dev@test.com',
+                role: 'admin',
+                firstName: 'Dev',
+                lastName: 'User',
+                company_id: 1  // Add company_id for development
+            };
+            return next();
+        }
         
         if (!token) {
             throw new AuthenticationError('Access token required', { code: 'MISSING_TOKEN' });

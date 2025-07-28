@@ -88,7 +88,6 @@ class ApiService {
             if (import.meta.env.DEV && import.meta.env.VITE_DEBUG_API === 'true') {
                 console.log(`🌐 API Request [${requestId}]: ${config.method || 'GET'} ${url}`);
             }
-            console.log(`🌐 API Request [${requestId}]: ${config.method || 'GET'} ${url}`, config);
             
             const response = await fetch(url, config);
             clearTimeout(timeoutId);
@@ -222,19 +221,24 @@ class ApiService {
     }
 
     async createSupplier(supplierData) {
-        console.log('🔍 createSupplier called with data:', supplierData);
         // Clear suppliers cache after create
-        const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
-        cacheKeys.forEach(key => apiCache.cache.delete(key));
-        const result = await this.post('/suppliers', supplierData);
-        console.log('🔍 createSupplier result:', result);
-        return result;
+        try {
+            const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
+            cacheKeys.forEach(key => apiCache.cache.delete(key));
+        } catch (error) {
+            console.warn('Failed to clear cache:', error);
+        }
+        return this.post('/suppliers', supplierData);
     }
 
     async updateSupplier(id, supplierData) {
         // Clear suppliers cache after update
-        const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
-        cacheKeys.forEach(key => apiCache.cache.delete(key));
+        try {
+            const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
+            cacheKeys.forEach(key => apiCache.cache.delete(key));
+        } catch (error) {
+            console.warn('Failed to clear cache:', error);
+        }
         return this.put(`/suppliers/${id}`, supplierData);
     }
 

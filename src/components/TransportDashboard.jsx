@@ -104,11 +104,6 @@ const UserDashboard = () => {
     ownership: 'company'
   });
   
-  // File upload states
-  const [driverFiles, setDriverFiles] = useState({
-    ndaDocument: null
-  });
-  
   // Form submission states
   const [submitting, setSubmitting] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
@@ -510,9 +505,6 @@ const UserDashboard = () => {
       ndaStatus: 'Pending',
       driverType: 'regular'
     });
-    setDriverFiles({
-      ndaDocument: null
-    });
     setVehicleForm({
       plateNumber: '',
       make: '',
@@ -534,34 +526,10 @@ const UserDashboard = () => {
     setVehicleForm(prev => ({ ...prev, [field]: value }));
   };
 
-  // File upload handlers
-  const handleDriverFileChange = (fileType, file) => {
-    console.log('Driver file changed:', fileType, file ? file.name : 'No file');
-    setDriverFiles(prev => ({
-      ...prev,
-      [fileType]: file
-    }));
-  };
-
   // CRUD operations
   const handleSubmitDriver = async () => {
-    // Debug current form state
-    console.log('Driver form submission - Current form state:', driverForm);
-    console.log('Driver files state:', driverFiles);
-    
-    // Check all required fields
-    const missingFields = [];
-    
-    if (!driverForm.firstName?.trim()) missingFields.push('First Name');
-    if (!driverForm.lastName?.trim()) missingFields.push('Last Name');
-    if (!driverForm.email?.trim()) missingFields.push('Email Address');
-    if (!driverForm.phone?.trim()) missingFields.push('Phone Number');
-    if (!driverFiles.ndaDocument) missingFields.push('NDA Document');
-    
-    console.log('Missing fields:', missingFields);
-    
-    if (missingFields.length > 0) {
-      alert(`Please fill in all required fields: ${missingFields.join(', ')}`);
+    if (!driverForm.firstName || !driverForm.lastName || !driverForm.email || !driverForm.licenseNumber) {
+      alert('Please fill in all required fields');
       return;
     }
 
@@ -2212,7 +2180,9 @@ const UserDashboard = () => {
                                    }
                                    
                                    console.log('NDA file selected:', file.name);
-                                   handleDriverFileChange('ndaDocument', file);
+                                   // You would typically update state here to show the selected file
+                                   // For example:
+                                   // setSelectedNdaFile(file);
                                  }
                                }}
                                style={{ display: 'none' }} /* Hide the actual file input */
@@ -2225,11 +2195,6 @@ const UserDashboard = () => {
                              <div className="premium-nda-content">
                                <span className="premium-nda-text">Click to upload or drop PDF document here</span>
                                <span className="premium-nda-info">Max 5MB</span>
-                               {driverFiles.ndaDocument && (
-                                 <div className="premium-upload-success" style={{marginTop: '10px', color: '#28a745'}}>
-                                   ✓ {driverFiles.ndaDocument.name}
-                                 </div>
-                               )}
                              </div>
                            </div>
                          </div>
@@ -2294,19 +2259,6 @@ const UserDashboard = () => {
                         placeholder="e.g. +1234567890"
                         value={driverForm.phone}
                         onChange={(e) => handleDriverFormChange('phone', e.target.value)}
-                      />
-                    </div>
-                    
-                    <div className="premium-form-group">
-                      <label className="premium-form-label" htmlFor="driver-license-number">License Number</label>
-                      <input 
-                        type="text" 
-                        id="driver-license-number" 
-                        name="driverLicenseNumber"
-                        className="premium-form-input" 
-                        placeholder="e.g. N01-12-345678"
-                        value={driverForm.licenseNumber}
-                        onChange={(e) => handleDriverFormChange('licenseNumber', e.target.value)}
                       />
                     </div>
                     

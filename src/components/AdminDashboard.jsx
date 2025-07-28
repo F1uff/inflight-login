@@ -1087,6 +1087,18 @@ const AdminDashboard = () => {
         <DashboardSuppliersTable 
           expandedDashboardSupplier={uiState.expandedDashboardSupplier}
           toggleDashboardSupplierExpansion={toggleDashboardSupplierExpansion}
+          filteredData={dataState}
+          selectedStatus={uiState.selectedStatus}
+          searchTerms={dataState.searchTerms}
+          handleSearchChange={handleSearchChange}
+          filterByStatus={filterByStatus}
+          getStatusCounts={getStatusCounts}
+          getCurrentSuppliersList={getCurrentSuppliersList}
+          getTableHeaders={getTableHeaders}
+          getTableRowData={getTableRowData}
+          selectedSupplierType={uiState.selectedSupplierType}
+          handleSupplierTypeChange={handleSupplierTypeChange}
+          suppliersStats={suppliersStats}
         />
       </div>
     );
