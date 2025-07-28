@@ -136,41 +136,7 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Temporary migration endpoint
-app.get('/migrate-room-types', async (req, res) => {
-    try {
-        const pool = require('./config/database').getConnection();
-        
-        // Add room_types column
-        const alterTableQuery = `
-            ALTER TABLE suppliers 
-            ADD COLUMN IF NOT EXISTS room_types JSONB DEFAULT '["Standard Room", "Deluxe Room", "Suite"]'
-        `;
-        
-        await pool.query(alterTableQuery);
-        
-        // Update existing suppliers to have default room types
-        const updateQuery = `
-            UPDATE suppliers 
-            SET room_types = '["Standard Room", "Deluxe Room", "Suite"]'::jsonb 
-            WHERE room_types IS NULL
-        `;
-        
-        await pool.query(updateQuery);
-        
-        res.json({
-            success: true,
-            message: 'Room types migration applied successfully'
-        });
-        
-    } catch (error) {
-        console.error('Migration error:', error);
-        res.status(500).json({
-            error: 'Migration failed',
-            details: error.message
-        });
-    }
-});
+
 
 // Root endpoint
 app.get('/', (req, res) => {
