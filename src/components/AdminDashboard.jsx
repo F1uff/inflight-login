@@ -731,6 +731,11 @@ const AdminDashboard = () => {
       paymentMode: supplier.modeOfPayment || '',
       creditTerms: supplier.creditTerms || '',
       remarks: supplier.remarks || '',
+      // New fields
+      location: supplier.location || '',
+      contractedRatesDate: supplier.contractedRatesDate || '',
+      corporateRatesDate: supplier.corporateRatesDate || '',
+      accreditation: supplier.accreditation || '',
       // Rates structure
       rates: supplier.rates || {
         standard: { publish: '', contracted: '', corporate: '', selling: '' },
@@ -761,6 +766,11 @@ const AdminDashboard = () => {
       paymentMode: '',
       creditTerms: '',
       remarks: '',
+      // New fields
+      location: '',
+      contractedRatesDate: '',
+      corporateRatesDate: '',
+      accreditation: '',
       // Rates structure
       rates: {
         standard: { publish: '', contracted: '', corporate: '', selling: '' },
@@ -823,7 +833,8 @@ const AdminDashboard = () => {
           companyAddress: supplierFormData.companyAddress,
           contactNumber: supplierFormData.contactNumber,
           email: supplierFormData.email,
-          supplierType: uiState.selectedSupplierType === 'hotels' ? 'hotel' : 'transfer',
+          supplierType: uiState.selectedSupplierType,
+          location: supplierFormData.location || '',
           companyRepresentative: supplierFormData.companyRepresentative || '',
           designation: supplierFormData.designation || '',
           telNumber: supplierFormData.telNumber || '',
@@ -837,6 +848,10 @@ const AdminDashboard = () => {
           paymentMode: supplierFormData.paymentMode || '',
           creditTerms: supplierFormData.creditTerms || '',
           remarks: supplierFormData.remarks || '',
+          // New fields
+          contractedRatesDate: supplierFormData.contractedRatesDate || '',
+          corporateRatesDate: supplierFormData.corporateRatesDate || '',
+          accreditation: supplierFormData.accreditation || '',
           // Contract rates
           rates: supplierFormData.rates || {},
           selectedSeason: supplierFormData.selectedSeason || 'REGULAR',
@@ -859,6 +874,7 @@ const AdminDashboard = () => {
           designation: supplierFormData.designation,
           telNumber: supplierFormData.telNumber,
           companyAddress: supplierFormData.companyAddress,
+          location: supplierFormData.location,
           // Hotel-specific fields
           frontdeskPhone: supplierFormData.frontdeskPhone,
           frontdeskEmail: supplierFormData.frontdeskEmail,
@@ -869,6 +885,10 @@ const AdminDashboard = () => {
           paymentMode: supplierFormData.paymentMode,
           creditTerms: supplierFormData.creditTerms,
           remarks: supplierFormData.remarks,
+          // New fields
+          contractedRatesDate: supplierFormData.contractedRatesDate,
+          corporateRatesDate: supplierFormData.corporateRatesDate,
+          accreditation: supplierFormData.accreditation,
           // Contract rates
           rates: supplierFormData.rates || {},
           selectedSeason: supplierFormData.selectedSeason || 'REGULAR',

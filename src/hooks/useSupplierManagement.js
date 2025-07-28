@@ -105,6 +105,7 @@ export const useSupplierManagement = (onSupplierUpdated) => {
           designation: supplierFormData.designation,
           telNumber: supplierFormData.telNumber,
           companyAddress: supplierFormData.companyAddress,
+          location: supplierFormData.location,
           breakfastType: supplierFormData.breakfastType,
           roomQuantity: supplierFormData.roomQuantity,
           modeOfPayment: supplierFormData.modeOfPayment,
