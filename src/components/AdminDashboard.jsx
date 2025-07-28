@@ -633,6 +633,40 @@ const AdminDashboard = () => {
     }
   };
 
+  // Helper function to format dates from ISO to mm/dd/yyyy
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Add Date';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'Add Date';
+      
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const year = date.getFullYear();
+      
+      return `${month}/${day}/${year}`;
+    } catch (error) {
+      return 'Add Date';
+    }
+  };
+
+  // Helper function to convert ISO date to YYYY-MM-DD format for date inputs
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return '';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return '';
+      
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      
+      return `${year}-${month}-${day}`;
+    } catch (error) {
+      return '';
+    }
+  };
+
   // Helper function to format accreditation status
   const formatAccreditation = (accreditation) => {
     switch (accreditation) {
@@ -654,8 +688,8 @@ const AdminDashboard = () => {
       return [
         supplier.location || supplier.company?.city || 'N/A',
         supplier.company?.name || 'N/A',
-        supplier.contractedRatesDate || 'Add Date', // contracted rates date
-        supplier.corporateRatesDate || 'Add Date', // corporate rates date
+        formatDate(supplier.contractedRatesDate), // contracted rates date
+        formatDate(supplier.corporateRatesDate), // corporate rates date
         formatAccreditation(supplier.accreditation) // accreditation status
       ];
     } else {
@@ -731,8 +765,8 @@ const AdminDashboard = () => {
       remarks: supplier.remarks || '',
       // New fields
       location: supplier.location || '',
-      contractedRatesDate: supplier.contractedRatesDate || '',
-      corporateRatesDate: supplier.corporateRatesDate || '',
+      contractedRatesDate: formatDateForInput(supplier.contractedRatesDate),
+      corporateRatesDate: formatDateForInput(supplier.corporateRatesDate),
       accreditation: supplier.accreditation || '',
       // Rates structure
       rates: supplier.rates || {
