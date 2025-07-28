@@ -88,6 +88,7 @@ class ApiService {
             if (import.meta.env.DEV && import.meta.env.VITE_DEBUG_API === 'true') {
                 console.log(`🌐 API Request [${requestId}]: ${config.method || 'GET'} ${url}`);
             }
+            console.log(`🌐 API Request [${requestId}]: ${config.method || 'GET'} ${url}`, config);
             
             const response = await fetch(url, config);
             clearTimeout(timeoutId);
@@ -221,10 +222,13 @@ class ApiService {
     }
 
     async createSupplier(supplierData) {
+        console.log('🔍 createSupplier called with data:', supplierData);
         // Clear suppliers cache after create
         const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
         cacheKeys.forEach(key => apiCache.cache.delete(key));
-        return this.post('/suppliers', supplierData);
+        const result = await this.post('/suppliers', supplierData);
+        console.log('🔍 createSupplier result:', result);
+        return result;
     }
 
     async updateSupplier(id, supplierData) {
