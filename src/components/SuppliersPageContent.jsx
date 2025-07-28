@@ -69,7 +69,7 @@ const SuppliersPageContent = ({
             <div className="suppliers-stat-card accredited-prepaid">
               <div className="stat-label">
                 <span className="status-dot pending"></span>
-                ACCREDITED PREPAID
+                HOTEL PARTNERS
               </div>
               <div className="stat-value">{_STATUS_COUNTS.pending || 0}</div>
             </div>
