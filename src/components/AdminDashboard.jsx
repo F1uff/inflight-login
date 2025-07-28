@@ -785,10 +785,6 @@ const AdminDashboard = () => {
   };
 
   const handleFormChange = (field, value) => {
-    console.log('🔧 Form change:', field, '=', value);
-    if (field === 'accreditation') {
-      alert(`Accreditation changed to: ${value}`);
-    }
     setSupplierFormData(prev => {
       // Handle nested object properties like 'rates.standard.regular'
       if (field.includes('.')) {
@@ -819,10 +815,6 @@ const AdminDashboard = () => {
 
   const handleSaveSupplier = async () => {
     try {
-      console.log('🔧 Saving supplier with data:', supplierFormData);
-      console.log('🔧 Accreditation value:', supplierFormData.accreditation);
-      console.log('🔧 Editing supplier ID:', editingSupplier);
-      console.log('🔧 Is adding new:', isAddingNew);
       setSavingSupplier(true);
       
       if (isAddingNew) {
@@ -905,7 +897,6 @@ const AdminDashboard = () => {
           validityEnd: supplierFormData.validityEnd
         };
         
-        console.log('🔧 Sending updateData to API:', updateData);
         const response = await apiService.updateSupplier(editingSupplier, updateData);
         console.log('Supplier updated successfully:', response);
         alert('Supplier updated successfully!');
