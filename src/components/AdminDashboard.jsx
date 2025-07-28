@@ -281,6 +281,13 @@ const AdminDashboard = () => {
       case 'suppliers':
       case 'dashboard':
         filteredItems = getCurrentSuppliersList() || [];
+        console.log('🔍 applyFilters - initial filteredItems for', section, ':', filteredItems.length);
+        console.log('🔍 applyFilters - sample items:', filteredItems.slice(0, 2).map(item => ({ 
+          id: item.id, 
+          supplierType: item.supplierType, 
+          accountStatus: item.accountStatus,
+          company: item.company?.name 
+        })));
         break;
       case 'accounts':
         // accountsData is not defined in this component's state, so this will be empty
@@ -315,10 +322,12 @@ const AdminDashboard = () => {
     };
 
     const currentStatus = getStatusState(section);
+    console.log('🔍 applyFilters - section:', section, 'currentStatus:', currentStatus);
     if (currentStatus) {
       filteredItems = filteredItems.filter(item => {
         // Use accountStatus for suppliers and dashboard since that's the field in backend data
         const itemStatus = (section === 'suppliers' || section === 'dashboard') ? item.accountStatus : item.status;
+        console.log('🔍 applyFilters - itemStatus:', itemStatus, 'currentStatus:', currentStatus, 'match:', itemStatus === currentStatus);
         return itemStatus === currentStatus;
       });
     }
