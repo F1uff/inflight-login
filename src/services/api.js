@@ -221,10 +221,16 @@ class ApiService {
     }
 
     async createSupplier(supplierData) {
+        // Clear suppliers cache after create
+        const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
+        cacheKeys.forEach(key => apiCache.cache.delete(key));
         return this.post('/suppliers', supplierData);
     }
 
     async updateSupplier(id, supplierData) {
+        // Clear suppliers cache after update
+        const cacheKeys = Array.from(apiCache.cache.keys()).filter(key => key.startsWith('suppliers:'));
+        cacheKeys.forEach(key => apiCache.cache.delete(key));
         return this.put(`/suppliers/${id}`, supplierData);
     }
 

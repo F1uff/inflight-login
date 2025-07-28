@@ -908,7 +908,7 @@ const AdminDashboard = () => {
       handleCancelEdit();
       
       // Refresh suppliers data
-      const suppliersResponse = await apiService.getSuppliers({ limit: 100 }); // Increased limit to get more suppliers
+      const suppliersResponse = await apiService.getSuppliers({ limit: 100 }); // Cache should be cleared by updateSupplier
       setApiState(prev => ({ ...prev, suppliersData: suppliersResponse }));
       
       // Apply filters to update the displayed data immediately
