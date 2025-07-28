@@ -785,8 +785,7 @@ const AdminDashboard = () => {
       accreditation: supplier.accreditation || '',
       // Rates structure - now dynamic
       rates: supplier.rates || {},
-      roomTypes: supplier.roomTypes || ['Standard Room', 'Deluxe Room', 'Suite'],
-      seasons: supplier.seasons || ['Regular Season', 'Peak Season', 'Lean Season']
+      roomTypes: supplier.roomTypes || ['Standard Room', 'Deluxe Room', 'Suite']
     });
   };
 
@@ -818,8 +817,7 @@ const AdminDashboard = () => {
       accreditation: '',
       // Rates structure - now dynamic
       rates: {},
-      roomTypes: ['Standard Room', 'Deluxe Room', 'Suite'],
-      seasons: ['Regular Season', 'Peak Season', 'Lean Season']
+      roomTypes: ['Standard Room', 'Deluxe Room', 'Suite']
     });
   };
 
@@ -906,60 +904,6 @@ const AdminDashboard = () => {
     });
   };
 
-  // Add new season
-  const addSeason = () => {
-    setSupplierFormData(prev => ({
-      ...prev,
-      seasons: [...(prev.seasons || ['Regular Season', 'Peak Season', 'Lean Season']), `Season ${(prev.seasons?.length || 0) + 1}`]
-    }));
-  };
-
-  // Delete season
-  const deleteSeason = (index) => {
-    setSupplierFormData(prev => {
-      const newSeasons = [...(prev.seasons || [])];
-      const deletedSeason = newSeasons.splice(index, 1)[0];
-      
-      // Also remove the rates data for this season
-      const newRates = { ...prev.rates };
-      Object.keys(newRates).forEach(roomType => {
-        if (newRates[roomType][deletedSeason]) {
-          delete newRates[roomType][deletedSeason];
-        }
-      });
-      
-      return {
-        ...prev,
-        seasons: newSeasons,
-        rates: newRates
-      };
-    });
-  };
-
-  // Update season name
-  const updateSeasonName = (index, newName) => {
-    setSupplierFormData(prev => {
-      const newSeasons = [...(prev.seasons || [])];
-      const oldName = newSeasons[index];
-      newSeasons[index] = newName;
-      
-      // Update rates data to use new season name
-      const newRates = { ...prev.rates };
-      Object.keys(newRates).forEach(roomType => {
-        if (newRates[roomType][oldName]) {
-          newRates[roomType][newName] = newRates[roomType][oldName];
-          delete newRates[roomType][oldName];
-        }
-      });
-      
-      return {
-        ...prev,
-        seasons: newSeasons,
-        rates: newRates
-      };
-    });
-  };
-
   const handleSaveSupplier = async () => {
     try {
       setSavingSupplier(true);
@@ -997,8 +941,9 @@ const AdminDashboard = () => {
           contractedRatesDate: supplierFormData.contractedRatesDate || '',
           corporateRatesDate: supplierFormData.corporateRatesDate || '',
           accreditation: supplierFormData.accreditation || '',
-          // Contract rates
+          // Contract rates - now with dynamic room types
           rates: supplierFormData.rates || {},
+          roomTypes: supplierFormData.roomTypes || ['Standard Room', 'Deluxe Room', 'Suite'],
           selectedSeason: supplierFormData.selectedSeason || 'REGULAR',
           // Document and validity
           contractDocument: supplierFormData.contractDocument?.name || null,
@@ -1034,8 +979,9 @@ const AdminDashboard = () => {
           contractedRatesDate: supplierFormData.contractedRatesDate,
           corporateRatesDate: supplierFormData.corporateRatesDate,
           accreditation: supplierFormData.accreditation,
-          // Contract rates
+          // Contract rates - now with dynamic room types
           rates: supplierFormData.rates || {},
+          roomTypes: supplierFormData.roomTypes || ['Standard Room', 'Deluxe Room', 'Suite'],
           selectedSeason: supplierFormData.selectedSeason || 'REGULAR',
           // Document and validity
           contractDocument: supplierFormData.contractDocument?.name || null,
@@ -1177,9 +1123,6 @@ const AdminDashboard = () => {
           addRoomType={addRoomType}
           deleteRoomType={deleteRoomType}
           updateRoomTypeName={updateRoomTypeName}
-          addSeason={addSeason}
-          deleteSeason={deleteSeason}
-          updateSeasonName={updateSeasonName}
           openNotificationPage={openNotificationPage}
           openInboxModal={openInboxModal}
           closeInboxModal={closeInboxModal}

@@ -409,7 +409,9 @@ router.post('/', async (req, res) => {
             propertyName,
             contractedRatesDate,
             corporateRatesDate,
-            accreditation
+            accreditation,
+            // Dynamic room types
+            roomTypes
         } = req.body;
 
         // Use new field name if available, fallback to old field name
@@ -464,9 +466,10 @@ router.post('/', async (req, res) => {
                 contracted_rates_date,
                 corporate_rates_date,
                 accreditation,
+                room_types,
                 created_at, 
                 updated_at
-            ) VALUES ($1, $2, $3, 0.0, 0, 0.0, 0.0, 'pending', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ) VALUES ($1, $2, $3, 0.0, 0, 0.0, 0.0, 'pending', $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             RETURNING id
         `;
 
@@ -489,7 +492,8 @@ router.post('/', async (req, res) => {
             propertyName || companyName,  // Use propertyName or fallback to companyName
             contractedRatesDate,
             corporateRatesDate,
-            accreditation
+            accreditation,
+            JSON.stringify(roomTypes || ['Standard Room', 'Deluxe Room', 'Suite'])
         ]);
 
         const supplierId = supplierResult.rows[0].id;
@@ -537,6 +541,7 @@ router.post('/', async (req, res) => {
                 contractedRatesDate: supplier.contracted_rates_date,
                 corporateRatesDate: supplier.corporate_rates_date,
                 accreditation: supplier.accreditation,
+                roomTypes: supplier.room_types,
                 accountStatus: supplier.account_status,
                 overallRating: supplier.overall_rating,
                 totalTripsCompleted: supplier.total_trips_completed,
@@ -586,7 +591,9 @@ router.put('/:id', async (req, res) => {
             location,
             contractedRatesDate,
             corporateRatesDate,
-            accreditation
+            accreditation,
+            // Dynamic room types
+            roomTypes
         } = req.body;
 
         // Use new field name if available, fallback to old field name
@@ -649,8 +656,9 @@ router.put('/:id', async (req, res) => {
                 contracted_rates_date = $14,
                 corporate_rates_date = $15,
                 accreditation = $16,
+                room_types = $17,
                 updated_at = CURRENT_TIMESTAMP
-            WHERE id = $17
+            WHERE id = $18
         `;
 
         await pool.query(updateQuery, [
@@ -670,6 +678,7 @@ router.put('/:id', async (req, res) => {
             contractedRatesDate,
             corporateRatesDate,
             accreditation,
+            JSON.stringify(roomTypes || ['Standard Room', 'Deluxe Room', 'Suite']),
             supplierId
         ]);
 
@@ -716,6 +725,7 @@ router.put('/:id', async (req, res) => {
                 contractedRatesDate: supplier.contracted_rates_date,
                 corporateRatesDate: supplier.corporate_rates_date,
                 accreditation: supplier.accreditation,
+                roomTypes: supplier.room_types,
                 accountStatus: supplier.account_status,
                 overallRating: supplier.overall_rating,
                 totalTripsCompleted: supplier.total_trips_completed,
