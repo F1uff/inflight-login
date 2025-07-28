@@ -41,7 +41,10 @@ const SuppliersPageContent = ({
   getCurrentSuppliersList,
   addRoomType,
   deleteRoomType,
-  updateRoomTypeName
+  updateRoomTypeName,
+  addSeason,
+  deleteSeason,
+  updateSeasonName
 }) => {
   // Use filtered data for status counts to ensure filtering works correctly
   const suppliersList = filteredData?.suppliers || getCurrentSuppliersList() || [];
@@ -470,18 +473,42 @@ const SuppliersPageContent = ({
                           {/* Rates Table Section */}
                           <div className="rates-section">
                             <div className="rates-controls">
-                              <div className="seasons-dropdown">
-                                <select>
-                                  <option>SEASONS RATE</option>
-                                  <option>Regular Season</option>
-                                  <option>Peak Season</option>
-                                  <option>Lean Season</option>
-                              </select>
-                            </div>
+                              <div className="seasons-section">
+                                <div className="seasons-header">
+                                  <h4>SEASONS</h4>
+                                  <button 
+                                    type="button" 
+                                    className="add-season-btn"
+                                    onClick={addSeason}
+                                  >
+                                    + Add Season
+                                  </button>
+                                </div>
+                                <div className="seasons-list">
+                                  {(supplierFormData.seasons || ['Regular Season', 'Peak Season', 'Lean Season']).map((season, index) => (
+                                    <div key={index} className="season-item">
+                                      <input 
+                                        type="text" 
+                                        value={season}
+                                        onChange={(e) => updateSeasonName(index, e.target.value)}
+                                        className="season-name-input"
+                                      />
+                                      <button 
+                                        type="button" 
+                                        className="delete-season-btn"
+                                        onClick={() => deleteSeason(index)}
+                                        disabled={(supplierFormData.seasons || []).length <= 1}
+                                      >
+                                        ×
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
                               <button className="filters-btn">
                                 <span>Filters</span>
                               </button>
-                          </div>
+                            </div>
                             
                                                     <div className="rates-table-container">
                             <div className="rates-table-header">
@@ -979,13 +1006,37 @@ const SuppliersPageContent = ({
                             {/* Rates Table Section */}
                             <div className="rates-section">
                               <div className="rates-controls">
-                                <div className="seasons-dropdown">
-                                  <select>
-                                    <option>SEASONS RATE</option>
-                                    <option>Regular Season</option>
-                                    <option>Peak Season</option>
-                                    <option>Lean Season</option>
-                                  </select>
+                                <div className="seasons-section">
+                                  <div className="seasons-header">
+                                    <h4>SEASONS</h4>
+                                    <button 
+                                      type="button" 
+                                      className="add-season-btn"
+                                      onClick={addSeason}
+                                    >
+                                      + Add Season
+                                    </button>
+                                  </div>
+                                  <div className="seasons-list">
+                                    {(supplierFormData.seasons || ['Regular Season', 'Peak Season', 'Lean Season']).map((season, index) => (
+                                      <div key={index} className="season-item">
+                                        <input 
+                                          type="text" 
+                                          value={season}
+                                          onChange={(e) => updateSeasonName(index, e.target.value)}
+                                          className="season-name-input"
+                                        />
+                                        <button 
+                                          type="button" 
+                                          className="delete-season-btn"
+                                          onClick={() => deleteSeason(index)}
+                                          disabled={(supplierFormData.seasons || []).length <= 1}
+                                        >
+                                          ×
+                                        </button>
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
                                 <button className="filters-btn">
                                   <span>Filters</span>
