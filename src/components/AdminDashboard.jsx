@@ -783,12 +783,9 @@ const AdminDashboard = () => {
       contractedRatesDate: formatDateForInput(supplier.contractedRatesDate),
       corporateRatesDate: formatDateForInput(supplier.corporateRatesDate),
       accreditation: supplier.accreditation || '',
-      // Rates structure
-      rates: supplier.rates || {
-        standard: { publish: '', contracted: '', corporate: '', selling: '' },
-        deluxe: { publish: '', contracted: '', corporate: '', selling: '' },
-        suite: { publish: '', contracted: '', corporate: '', selling: '' }
-      }
+      // Rates structure - now dynamic
+      rates: supplier.rates || {},
+      roomTypes: supplier.roomTypes || ['Standard Room', 'Deluxe Room', 'Suite']
     });
   };
 
@@ -818,12 +815,9 @@ const AdminDashboard = () => {
       contractedRatesDate: '',
       corporateRatesDate: '',
       accreditation: '',
-      // Rates structure
-      rates: {
-        standard: { publish: '', contracted: '', corporate: '', selling: '' },
-        deluxe: { publish: '', contracted: '', corporate: '', selling: '' },
-        suite: { publish: '', contracted: '', corporate: '', selling: '' }
-      }
+      // Rates structure - now dynamic
+      rates: {},
+      roomTypes: ['Standard Room', 'Deluxe Room', 'Suite']
     });
   };
 
@@ -858,6 +852,54 @@ const AdminDashboard = () => {
       return {
         ...prev,
         [field]: value
+      };
+    });
+  };
+
+  // Add new room type
+  const addRoomType = () => {
+    setSupplierFormData(prev => ({
+      ...prev,
+      roomTypes: [...(prev.roomTypes || []), `Room Type ${(prev.roomTypes?.length || 0) + 1}`]
+    }));
+  };
+
+  // Delete room type
+  const deleteRoomType = (index) => {
+    setSupplierFormData(prev => {
+      const newRoomTypes = [...(prev.roomTypes || [])];
+      const deletedRoomType = newRoomTypes.splice(index, 1)[0];
+      
+      // Also remove the rates data for this room type
+      const newRates = { ...prev.rates };
+      delete newRates[deletedRoomType];
+      
+      return {
+        ...prev,
+        roomTypes: newRoomTypes,
+        rates: newRates
+      };
+    });
+  };
+
+  // Update room type name
+  const updateRoomTypeName = (index, newName) => {
+    setSupplierFormData(prev => {
+      const newRoomTypes = [...(prev.roomTypes || [])];
+      const oldName = newRoomTypes[index];
+      newRoomTypes[index] = newName;
+      
+      // Update rates data to use new name
+      const newRates = { ...prev.rates };
+      if (newRates[oldName]) {
+        newRates[newName] = newRates[oldName];
+        delete newRates[oldName];
+      }
+      
+      return {
+        ...prev,
+        roomTypes: newRoomTypes,
+        rates: newRates
       };
     });
   };
@@ -1076,6 +1118,9 @@ const AdminDashboard = () => {
           closeSidebar={closeSidebar}
           _openAddSupplierModal={_openAddSupplierModal}
           closeAddSupplierModal={closeAddSupplierModal}
+          addRoomType={addRoomType}
+          deleteRoomType={deleteRoomType}
+          updateRoomTypeName={updateRoomTypeName}
           openNotificationPage={openNotificationPage}
           openInboxModal={openInboxModal}
           closeInboxModal={closeInboxModal}

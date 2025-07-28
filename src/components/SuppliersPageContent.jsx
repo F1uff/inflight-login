@@ -38,7 +38,10 @@ const SuppliersPageContent = ({
   handleEditSupplier,
   getTableRowData,
   getStatusCounts,
-  getCurrentSuppliersList
+  getCurrentSuppliersList,
+  addRoomType,
+  deleteRoomType,
+  updateRoomTypeName
 }) => {
   // Use filtered data for status counts to ensure filtering works correctly
   const suppliersList = filteredData?.suppliers || getCurrentSuppliersList() || [];
@@ -480,126 +483,86 @@ const SuppliersPageContent = ({
                               </button>
                           </div>
                             
-                          <div className="rates-table-container">
-                              <table className="rates-table">
-                                <thead>
-                                  <tr>
-                                    <th>TYPE OF ROOM</th>
-                                    <th>PUBLISH RATES</th>
-                                    <th>CONTRACTED RATES</th>
-                                    <th>CORPORATE RATES</th>
-                                    <th>SELLING</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Standard Room</td>
+                                                    <div className="rates-table-container">
+                            <div className="rates-table-header">
+                              <h4>ROOM RATES</h4>
+                              <button 
+                                type="button" 
+                                className="add-room-btn"
+                                onClick={addRoomType}
+                              >
+                                + Add Room Type
+                              </button>
+                            </div>
+                            <table className="rates-table">
+                              <thead>
+                                <tr>
+                                  <th>TYPE OF ROOM</th>
+                                  <th>PUBLISH RATES</th>
+                                  <th>CONTRACTED RATES</th>
+                                  <th>CORPORATE RATES</th>
+                                  <th>SELLING</th>
+                                  <th>ACTIONS</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {(supplierFormData.roomTypes || ['Standard Room', 'Deluxe Room', 'Suite']).map((roomType, index) => (
+                                  <tr key={index}>
                                     <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.standard?.publish || ''}
-                                        onChange={(e) => handleFormChange('rates.standard.publish', e.target.value)}
-                                  />
-                                    </td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.standard?.contracted || ''}
-                                        onChange={(e) => handleFormChange('rates.standard.contracted', e.target.value)}
-                                  />
-                                    </td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.standard?.corporate || ''}
-                                        onChange={(e) => handleFormChange('rates.standard.corporate', e.target.value)}
-                                  />
-                                    </td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.standard?.selling || ''}
-                                        onChange={(e) => handleFormChange('rates.standard.selling', e.target.value)}
-                                  />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Deluxe Room</td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.deluxe?.publish || ''}
-                                        onChange={(e) => handleFormChange('rates.deluxe.publish', e.target.value)}
-                                  />
-                                    </td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.deluxe?.contracted || ''}
-                                        onChange={(e) => handleFormChange('rates.deluxe.contracted', e.target.value)}
-                                      />
-                                    </td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.deluxe?.corporate || ''}
-                                        onChange={(e) => handleFormChange('rates.deluxe.corporate', e.target.value)}
-                                  />
-                                    </td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.deluxe?.selling || ''}
-                                        onChange={(e) => handleFormChange('rates.deluxe.selling', e.target.value)}
-                                  />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>Suite</td>
-                                    <td>
-                                  <input 
-                                    type="text" 
-                                    placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.suite?.publish || ''}
-                                        onChange={(e) => handleFormChange('rates.suite.publish', e.target.value)}
+                                      <input 
+                                        type="text" 
+                                        value={roomType}
+                                        onChange={(e) => updateRoomTypeName(index, e.target.value)}
+                                        className="room-type-input"
                                       />
                                     </td>
                                     <td>
                                       <input 
                                         type="text" 
                                         placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.suite?.contracted || ''}
-                                        onChange={(e) => handleFormChange('rates.suite.contracted', e.target.value)}
+                                        value={supplierFormData.rates?.[roomType]?.publish || ''}
+                                        onChange={(e) => handleFormChange(`rates.${roomType}.publish`, e.target.value)}
                                       />
                                     </td>
                                     <td>
                                       <input 
                                         type="text" 
                                         placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.suite?.corporate || ''}
-                                        onChange={(e) => handleFormChange('rates.suite.corporate', e.target.value)}
+                                        value={supplierFormData.rates?.[roomType]?.contracted || ''}
+                                        onChange={(e) => handleFormChange(`rates.${roomType}.contracted`, e.target.value)}
                                       />
                                     </td>
                                     <td>
                                       <input 
                                         type="text" 
                                         placeholder="Php 0.00"
-                                        value={supplierFormData.rates?.suite?.selling || ''}
-                                        onChange={(e) => handleFormChange('rates.suite.selling', e.target.value)}
-                                  />
+                                        value={supplierFormData.rates?.[roomType]?.corporate || ''}
+                                        onChange={(e) => handleFormChange(`rates.${roomType}.corporate`, e.target.value)}
+                                      />
+                                    </td>
+                                    <td>
+                                      <input 
+                                        type="text" 
+                                        placeholder="Php 0.00"
+                                        value={supplierFormData.rates?.[roomType]?.selling || ''}
+                                        onChange={(e) => handleFormChange(`rates.${roomType}.selling`, e.target.value)}
+                                      />
+                                    </td>
+                                    <td>
+                                      <button 
+                                        type="button" 
+                                        className="delete-room-btn"
+                                        onClick={() => deleteRoomType(index)}
+                                        disabled={(supplierFormData.roomTypes || []).length <= 1}
+                                      >
+                                        ×
+                                      </button>
                                     </td>
                                   </tr>
-                                </tbody>
-                              </table>
-                                </div>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
                               </div>
                             </div>
                       ) : (

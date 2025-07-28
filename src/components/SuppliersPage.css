@@ -905,6 +905,79 @@
   cursor: not-allowed;
 }
 
+/* Dynamic rates table styles */
+.rates-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.rates-table-header h4 {
+  margin: 0;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.add-room-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-room-btn:hover {
+  background-color: #218838;
+}
+
+.room-type-input {
+  font-weight: 600;
+  color: #495057;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 8px;
+  width: 100%;
+  font-size: 14px;
+}
+
+.room-type-input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.delete-room-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.delete-room-btn:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.delete-room-btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
 /* Responsive design for hotel details */
 @media (max-width: 768px) {
   .hotel-details-section {
