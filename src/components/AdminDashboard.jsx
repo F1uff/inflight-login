@@ -787,6 +787,7 @@ const AdminDashboard = () => {
   };
 
   const handleFormChange = (field, value) => {
+    console.log('🔧 Form change:', field, '=', value);
     setSupplierFormData(prev => {
       // Handle nested object properties like 'rates.standard.regular'
       if (field.includes('.')) {
@@ -817,6 +818,7 @@ const AdminDashboard = () => {
 
   const handleSaveSupplier = async () => {
     try {
+      console.log('🔧 Saving supplier with data:', supplierFormData);
       setSavingSupplier(true);
       
       if (isAddingNew) {
