@@ -41,7 +41,10 @@ export const useSupplierManagement = (onSupplierUpdated) => {
       designation: '',
       modeOfPayment: '',
       creditTerms: '',
-      remarks: ''
+      remarks: '',
+      contractedRatesDate: '',
+      corporateRatesDate: '',
+      accreditation: ''
     });
   }, []);
 
@@ -70,7 +73,7 @@ export const useSupplierManagement = (onSupplierUpdated) => {
           companyAddress: supplierFormData.companyAddress,
           contactNumber: supplierFormData.contactNumber,
           email: supplierFormData.email,
-          supplierType: selectedSupplierType === 'hotels' ? 'hotel' : 'transport',
+          supplierType: selectedSupplierType,
           companyRepresentative: supplierFormData.companyRepresentative,
           designation: supplierFormData.designation,
           telNumber: supplierFormData.telNumber,

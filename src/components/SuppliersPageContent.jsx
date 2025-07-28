@@ -225,9 +225,8 @@ const SuppliersPageContent = ({
                         className="accreditation-dropdown"
                       >
                         <option value="">Select accreditation</option>
-                        <option value="accredited_dir">Accredited (DIR)</option>
+                        <option value="hotel_partners">Hotel Partners</option>
                         <option value="accredited">Accredited</option>
-                        <option value="non_accredited_inn">Non-Accredited (Inn/Airbnb)</option>
                         <option value="non_accredited">Non-Accredited</option>
                         <option value="on_process">On Process</option>
                       </select>
@@ -410,9 +409,8 @@ const SuppliersPageContent = ({
                                     onChange={(e) => handleFormChange('accreditation', e.target.value)}
                                   >
                                     <option value="">Select accreditation</option>
-                                    <option value="accredited_dir">Accredited (DIR)</option>
+                                    <option value="hotel_partners">Hotel Partners</option>
                                     <option value="accredited">Accredited</option>
-                                    <option value="non_accredited_inn">Non-Accredited (Inn/Airbnb)</option>
                                     <option value="non_accredited">Non-Accredited</option>
                                     <option value="on_process">On Process</option>
                                   </select>
@@ -814,9 +812,8 @@ const SuppliersPageContent = ({
                                 className="accreditation-dropdown"
                               >
                                 <option value="">Select accreditation</option>
-                                <option value="accredited_dir">Accredited (DIR)</option>
+                                <option value="hotel_partners">Hotel Partners</option>
                                 <option value="accredited">Accredited</option>
-                                <option value="non_accredited_inn">Non-Accredited (Inn/Airbnb)</option>
                                 <option value="non_accredited">Non-Accredited</option>
                                 <option value="on_process">On Process</option>
                               </select>
